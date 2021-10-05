@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class StatsPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _StatsPageState createState() => _StatsPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _StatsPageState extends State<StatsPage> {
+class _HomePageState extends State<HomePage> {
   int activeDay = 3;
 
   bool showAvg = false;
@@ -61,7 +61,7 @@ class _StatsPageState extends State<StatsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Stats",
+                        "Home",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

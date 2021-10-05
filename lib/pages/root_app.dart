@@ -1,8 +1,8 @@
 import 'package:budget_tracker_ui/pages/budget_page.dart';
-import 'package:budget_tracker_ui/pages/create_budge_page.dart';
-import 'package:budget_tracker_ui/pages/daily_page.dart';
+import 'package:budget_tracker_ui/pages/add_bank_account.dart';
+import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:budget_tracker_ui/pages/profile_page.dart';
-import 'package:budget_tracker_ui/pages/stats_page.dart';
+import 'package:budget_tracker_ui/pages/home_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -16,7 +16,7 @@ class RootApp extends StatefulWidget {
 class _RootAppState extends State<RootApp> {
   int pageIndex = 0;
   List<Widget> pages = [
-    StatsPage(),
+    HomePage(),
     DailyPage(),
     BudgetPage(),
     ProfilePage(),

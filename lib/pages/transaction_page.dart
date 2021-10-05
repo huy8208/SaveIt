@@ -42,7 +42,7 @@ class _DailyPageState extends State<DailyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Daily Transaction",
+                        "Transactions",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
