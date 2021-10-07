@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
-    );
+    );  
   }
 
   Widget getBody() {
