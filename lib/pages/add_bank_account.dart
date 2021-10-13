@@ -2,6 +2,9 @@ import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:budget_tracker_ui/plaid/request.dart';
+import 'package:get/get.dart';
+import 'package:plaid_flutter/plaid_flutter.dart';
 
 class CreatBudgetPage extends StatefulWidget {
   @override
@@ -9,9 +12,11 @@ class CreatBudgetPage extends StatefulWidget {
 }
 
 class _CreatBudgetPageState extends State<CreatBudgetPage> {
+  late PlaidRequestController plaidrequestcontroller;
   @override
   void initState() {
     super.initState();
+    plaidrequestcontroller = Get.put(PlaidRequestController());
   }
 
   int activeCategory = 0;
@@ -58,7 +63,15 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                       ),
                       Row(
                         children: [
-                          Icon(FontAwesomeIcons.search)
+                          Icon(FontAwesomeIcons.search),
+                          Obx(
+                            () => ElevatedButton(
+                              onPressed: plaidrequestcontroller.openPlaidOAth,
+                              child: plaidrequestcontroller.isLoading.value
+                                  ? CircularProgressIndicator()
+                                  : Text('Add Bank'),
+                            ),
+                          ),
                         ], //Need to re-check
                       )
                     ],

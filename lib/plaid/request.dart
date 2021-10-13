@@ -2,7 +2,9 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:http/http.dart';
 import 'env.dart' as environment;
 import 'package:plaid_flutter/plaid_flutter.dart';
 
@@ -19,24 +21,46 @@ final body = jsonEncode(<String, dynamic>{
 
 class LinkToken {
   final String expiration;
-  final String linkToken;
+  final String tokenURL;
   final String requestId;
 
   LinkToken(
       {required this.expiration,
-      required this.linkToken,
+      required this.tokenURL,
       required this.requestId});
 
   factory LinkToken.fromJson(Map<String, dynamic> json) {
     return LinkToken(
       expiration: json['expiration'],
-      linkToken: json['link_token'],
+      tokenURL: json['link_token'],
       requestId: json['request_id'],
     );
   }
+}
+
+class PlaidRequestController extends GetxController {
+  RxBool isLoading = false.obs;
+  RxBool hasError = false.obs;
+
+  late LinkToken linktoken;
+  void openPlaidOAth() async {
+    linktoken = await createLinkToken();
+    LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
+      token: linktoken.tokenURL,
+    );
+
+    late PlaidLink plaidLinkToken = PlaidLink(
+      configuration: linkTokenConfiguration,
+      onSuccess: _onSuccessCallback,
+      onEvent: _onEventCallback,
+      onExit: _onExitCallback,
+    );
+    plaidLinkToken.open();
+  }
 
   Future<LinkToken> createLinkToken() async {
-    final response = await http.post(
+    // isLoading(true);
+    final response = await post(
       Uri.parse(environment.CREATE_LINK_TOKEN_URL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -44,26 +68,12 @@ class LinkToken {
       body: body,
     );
     if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
+      isLoading(false);
       return LinkToken.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load linkToken');
     }
   }
-}
-
-class OAuth {
-  late PlaidLink _plaidLinkToken = PlaidLink(
-    configuration: linkTokenConfiguration,
-    onSuccess: _onSuccessCallback,
-    onEvent: _onEventCallback,
-    onExit: _onExitCallback,
-  );
-
-  LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
-    token: "GENERATED_LINK_TOKEN",
-  );
 
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
