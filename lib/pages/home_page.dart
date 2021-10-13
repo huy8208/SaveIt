@@ -3,8 +3,8 @@ import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:budget_tracker_ui/widget/chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
-    );  
+    );
   }
 
   Widget getBody() {
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(AntDesign.search1)
+                      Icon(FontAwesomeIcons.search) //need to recheck
                     ],
                   ),
                   SizedBox(

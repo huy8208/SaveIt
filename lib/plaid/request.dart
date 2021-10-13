@@ -54,18 +54,16 @@ class LinkToken {
 }
 
 class OAuth {
-  late PlaidLink _plaidLinkToken;
-    LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
-      token: "GENERATED_LINK_TOKEN",
-    );
+  late PlaidLink _plaidLinkToken = PlaidLink(
+    configuration: linkTokenConfiguration,
+    onSuccess: _onSuccessCallback,
+    onEvent: _onEventCallback,
+    onExit: _onExitCallback,
+  );
 
-    _plaidLinkToken = PlaidLink(
-      configuration: linkTokenConfiguration,
-      onSuccess: _onSuccessCallback,
-      onEvent: _onEventCallback,
-      onExit: _onExitCallback,
-    );
-  
+  LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
+    token: "GENERATED_LINK_TOKEN",
+  );
 
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
@@ -82,9 +80,4 @@ class OAuth {
       print("onExit error: ${error.description()}");
     }
   }
-
-  open(){
-   return _plaidLinkToken.open();
-  }
-
 }

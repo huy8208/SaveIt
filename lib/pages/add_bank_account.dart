@@ -1,7 +1,7 @@
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CreatBudgetPage extends StatefulWidget {
   @override
@@ -9,6 +9,11 @@ class CreatBudgetPage extends StatefulWidget {
 }
 
 class _CreatBudgetPageState extends State<CreatBudgetPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   int activeCategory = 0;
   TextEditingController _budgetName =
       TextEditingController(text: "Grocery Budget");
@@ -52,7 +57,9 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                             color: black),
                       ),
                       Row(
-                        children: [Icon(AntDesign.search1)],
+                        children: [
+                          Icon(FontAwesomeIcons.search)
+                        ], //Need to re-check
                       )
                     ],
                   ),

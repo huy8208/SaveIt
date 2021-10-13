@@ -2,7 +2,7 @@ import 'package:budget_tracker_ui/json/daily_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DailyPage extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _DailyPageState extends State<DailyPage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(AntDesign.search1)
+                      Icon(FontAwesomeIcons.search)
                     ],
                   ),
                   SizedBox(

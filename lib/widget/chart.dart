@@ -20,8 +20,8 @@ LineChartData mainData() {
       bottomTitles: SideTitles(
         showTitles: true,
         reservedSize: 22,
-        getTextStyles: (value) =>
-            const TextStyle(color: Color(0xff68737d), fontSize: 12),
+        // getTextStyles: (value) =>
+        //     const TextStyle(color: Color(0xff68737d), fontSize: 12),
         getTitles: (value) {
           switch (value.toInt()) {
             case 2:
@@ -37,10 +37,10 @@ LineChartData mainData() {
       ),
       leftTitles: SideTitles(
         showTitles: true,
-        getTextStyles: (value) => const TextStyle(
-          color: Color(0xff67727d),
-          fontSize: 12,
-        ),
+        // getTextStyles: (value) => const TextStyle(
+        //   color: Color(0xff67727d),
+        //   fontSize: 12,
+        // ),
         getTitles: (value) {
           switch (value.toInt()) {
             case 1:

@@ -5,8 +5,8 @@ import 'package:budget_tracker_ui/pages/profile_page.dart';
 import 'package:budget_tracker_ui/pages/home_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RootApp extends StatefulWidget {
   @override
@@ -63,10 +63,10 @@ class _RootAppState extends State<RootApp> {
 
   Widget getFooter() {
     List<IconData> iconItems = [
-      Ionicons.ios_home,
-      Ionicons.ios_stats,
-      Ionicons.md_wallet,
-      Ionicons.ios_person,
+      FontAwesomeIcons.home,
+      FontAwesomeIcons.moneyBillAlt,
+      FontAwesomeIcons.wallet,
+      FontAwesomeIcons.userAlt
     ];
 
     return AnimatedBottomNavigationBar(
