@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/plaid/request.dart';
 import 'package:get/get.dart';
-import 'package:plaid_flutter/plaid_flutter.dart';
 
 class CreatBudgetPage extends StatefulWidget {
   @override
@@ -64,13 +63,9 @@ class _CreatBudgetPageState extends State<CreatBudgetPage> {
                       Row(
                         children: [
                           Icon(FontAwesomeIcons.search),
-                          Obx(
-                            () => ElevatedButton(
-                              onPressed: plaidrequestcontroller.openPlaidOAth,
-                              child: plaidrequestcontroller.isLoading.value
-                                  ? CircularProgressIndicator()
-                                  : Text('Add Bank'),
-                            ),
+                          ElevatedButton(
+                            onPressed: plaidrequestcontroller.openPlaidOAth,
+                            child: Text('Add Bank'),
                           ),
                         ], //Need to re-check
                       )

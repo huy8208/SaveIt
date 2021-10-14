@@ -39,8 +39,8 @@ class LinkToken {
 }
 
 class PlaidRequestController extends GetxController {
-  RxBool isLoading = false.obs;
-  RxBool hasError = false.obs;
+  // RxBool isLoading = false.obs;
+  // RxBool hasError = false.obs;
 
   late LinkToken linktoken;
   void openPlaidOAth() async {
@@ -68,7 +68,7 @@ class PlaidRequestController extends GetxController {
       body: body,
     );
     if (response.statusCode == 200) {
-      isLoading(false);
+      // isLoading(false);
       return LinkToken.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load linkToken');
