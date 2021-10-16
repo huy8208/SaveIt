@@ -4,12 +4,12 @@ import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class DailyPage extends StatefulWidget {
+class TransactionPage extends StatefulWidget {
   @override
-  _DailyPageState createState() => _DailyPageState();
+  _TransactionPageState createState() => _TransactionPageState();
 }
 
-class _DailyPageState extends State<DailyPage> {
+class _TransactionPageState extends State<TransactionPage> {
   int activeDay = 3;
   @override
   Widget build(BuildContext context) {
@@ -228,6 +228,10 @@ class _DailyPageState extends State<DailyPage> {
                 ),
               ],
             ),
+          ),
+          Container(
+            child: Text("Transactions"),
+            color: Colors.blue[50],
           )
         ],
       ),

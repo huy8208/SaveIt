@@ -17,10 +17,10 @@ class _RootAppState extends State<RootApp> {
   int pageIndex = 0;
   List<Widget> pages = [
     HomePage(),
-    DailyPage(),
+    TransactionPage(),
     BudgetPage(),
     ProfilePage(),
-    CreatBudgetPage()
+    AddBankAccountPage()
   ];
 
   @override

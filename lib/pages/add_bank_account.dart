@@ -5,12 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/plaid/request.dart';
 import 'package:get/get.dart';
 
-class CreatBudgetPage extends StatefulWidget {
+class AddBankAccountPage extends StatefulWidget {
   @override
-  _CreatBudgetPageState createState() => _CreatBudgetPageState();
+  _AddBankAccountPageState createState() => _AddBankAccountPageState();
 }
 
-class _CreatBudgetPageState extends State<CreatBudgetPage> {
+class _AddBankAccountPageState extends State<AddBankAccountPage> {
   late PlaidRequestController plaidrequestcontroller;
   @override
   void initState() {
