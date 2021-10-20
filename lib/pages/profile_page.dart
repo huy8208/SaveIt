@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(FontAwesomeIcons.solidHeart) //recheck
+                      Icon(FontAwesomeIcons.cog) //recheck
                     ],
                   ),
                   SizedBox(
@@ -81,6 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   width: 85,
                                   height: 85,
                                   decoration: BoxDecoration(
+                                   // borderRadius: BorderRadius.circular(10),
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: NetworkImage(
@@ -122,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 25,
                   ),
-                  Container(
+/*                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: primary,
@@ -178,7 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                  )
+                  ) */
                 ],
               ),
             ),
@@ -228,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 20,
                 ),
                 Text(
-                  "Date of birth",
+                  "Password",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 13,

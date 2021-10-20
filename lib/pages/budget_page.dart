@@ -51,14 +51,39 @@ class _BudgetPageState extends State<BudgetPage> {
                       ),
                       Row(
                         children: [
-                          Icon(
+                         /*  Icon(
                             Icons.add,
                             size: 25,
                           ),
                           SizedBox(
                             width: 20,
                           ),
-                          Icon(FontAwesomeIcons.search)
+                          Icon(FontAwesomeIcons.search) */
+
+                            IconButton(
+                              onPressed: () {
+                                print("press");
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                size: 25,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                print("press");
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.search,
+                                size: 25,
+                              ),
+                            )
+                            
+            //params
+
                         ],
                       )
                     ],
