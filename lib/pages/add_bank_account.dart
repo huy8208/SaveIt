@@ -54,7 +54,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Create budget",
+                        "Create Budget",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "budget name",
+                  "Budget Name",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
@@ -195,7 +195,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Enter budget",
+                            "Enter Budget",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,
