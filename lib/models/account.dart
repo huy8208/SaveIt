@@ -160,3 +160,59 @@ class Item {
         "webhook": webhook,
       };
 }
+
+class Numbers {
+  Numbers({
+    required this.ach,
+    required this.bacs,
+    required this.eft,
+    required this.international,
+  });
+
+  List<Ach> ach;
+  List<dynamic> bacs;
+  List<dynamic> eft;
+  List<dynamic> international;
+
+  factory Numbers.fromJson(Map<String, dynamic> json) => Numbers(
+        ach: List<Ach>.from(json["ach"].map((x) => Ach.fromJson(x))),
+        bacs: List<dynamic>.from(json["bacs"].map((x) => x)),
+        eft: List<dynamic>.from(json["eft"].map((x) => x)),
+        international: List<dynamic>.from(json["international"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ach": List<dynamic>.from(ach.map((x) => x.toJson())),
+        "bacs": List<dynamic>.from(bacs.map((x) => x)),
+        "eft": List<dynamic>.from(eft.map((x) => x)),
+        "international": List<dynamic>.from(international.map((x) => x)),
+      };
+}
+
+class Ach {
+  Ach({
+    required this.account,
+    required this.accountId,
+    required this.routing,
+    required this.wireRouting,
+  });
+
+  String account;
+  String accountId;
+  String routing;
+  String wireRouting;
+
+  factory Ach.fromJson(Map<String, dynamic> json) => Ach(
+        account: json["account"],
+        accountId: json["account_id"],
+        routing: json["routing"],
+        wireRouting: json["wire_routing"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "account": account,
+        "account_id": accountId,
+        "routing": routing,
+        "wire_routing": wireRouting,
+      };
+}
