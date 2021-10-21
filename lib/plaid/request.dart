@@ -2,21 +2,22 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:budget_tracker_ui/models/account.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart';
-import 'env.dart' as environment;
+import 'env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 final body = jsonEncode(<String, dynamic>{
-  "client_id": environment.CLIENT_ID,
-  "secret": environment.SECRET_KEY,
+  "client_id": CLIENT_ID,
+  "secret": SECRET_KEY,
   "client_name": "HUY HELLO",
   "country_codes": ["US"],
   "language": "en",
   "user": {"client_user_id": "test_123"},
   "products": ["auth"],
-  "redirect_uri": environment.REDIRECT_URL
+  "redirect_uri": REDIRECT_URL
 });
 
 class LinkToken {
@@ -42,11 +43,12 @@ class PlaidRequestController extends GetxController {
   // RxBool isLoading = false.obs;
   // RxBool hasError = false.obs;
 
-  late LinkToken linktoken;
+  late LinkToken linkToken;
+  late String accessToken;
   void openPlaidOAth() async {
-    linktoken = await createLinkToken();
+    linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
-      token: linktoken.tokenURL,
+      token: linkToken.tokenURL,
     );
 
     late PlaidLink plaidLinkToken = PlaidLink(
@@ -61,7 +63,7 @@ class PlaidRequestController extends GetxController {
   Future<LinkToken> createLinkToken() async {
     // isLoading(true);
     final response = await post(
-      Uri.parse(environment.CREATE_LINK_TOKEN_URL),
+      Uri.parse(CREATE_LINK_TOKEN_URL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -75,8 +77,33 @@ class PlaidRequestController extends GetxController {
     }
   }
 
-  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
+  Future<String> getAccessToken(String accessToken) async {
+    final response = await post(Uri.parse(EXCHANGE_TOKEN_URL),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "client_id": CLIENT_ID,
+          "secret": SECRET_KEY,
+          "public_token": accessToken
+        }));
+
+    if (response.statusCode == 200) {
+      // isLoading(false);
+      return jsonDecode(response.body)["access_token"];
+    } else {
+      throw Exception('Failed to exchange Access Token');
+    }
+  }
+
+  // Future<Account> createOrGetAccount(String publicToken) async{
+  //   final response = await
+  // }
+
+  void _onSuccessCallback(
+      String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    accessToken = await getAccessToken(publicToken);
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {
