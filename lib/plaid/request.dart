@@ -45,6 +45,7 @@ class PlaidRequestController extends GetxController {
 
   late LinkToken linkToken;
   late String accessToken;
+  late Account bankAccount;
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
@@ -82,12 +83,11 @@ class PlaidRequestController extends GetxController {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{
+        body: jsonEncode(<String, String>{
           "client_id": CLIENT_ID,
           "secret": SECRET_KEY,
           "public_token": accessToken
         }));
-
     if (response.statusCode == 200) {
       // isLoading(false);
       return jsonDecode(response.body)["access_token"];
@@ -96,14 +96,32 @@ class PlaidRequestController extends GetxController {
     }
   }
 
-  // Future<Account> createOrGetAccount(String publicToken) async{
-  //   final response = await
-  // }
+  Future<Account> getBankAccount(String accessToken) async {
+    final response = await post(Uri.parse(RETRIEVE_AUTH_URL),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "client_id": CLIENT_ID,
+          "secret": SECRET_KEY,
+          "access_token": accessToken
+        }));
+    if (response.statusCode == 200) {
+      // isLoading(false);
+      // print(jsonDecode(response.body));
+      return accountFromJson(response.body);
+    } else {
+      throw Exception('Failed to exchange Access Token');
+    }
+  }
 
   void _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    print("Try to exchange link token .....");
     accessToken = await getAccessToken(publicToken);
+    bankAccount = await getBankAccount(accessToken);
+    print(bankAccount.accounts);
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {

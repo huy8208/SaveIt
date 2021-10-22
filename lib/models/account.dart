@@ -8,36 +8,36 @@ Account accountFromJson(String str) => Account.fromJson(json.decode(str));
 
 String accountToJson(Account data) => json.encode(data.toJson());
 
+// To parse this JSON data, do
+//
+//     final account = accountFromJson(jsonString);
+
 class Account {
   Account({
     required this.accounts,
     required this.item,
+    required this.numbers,
     required this.requestId,
-    required this.totalTransactions,
-    required this.transactions,
   });
 
   List<AccountElement> accounts;
   Item item;
-  String requestId;
-  int totalTransactions;
-  List<dynamic> transactions;
+  Numbers numbers;
+  String? requestId;
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
         accounts: List<AccountElement>.from(
             json["accounts"].map((x) => AccountElement.fromJson(x))),
         item: Item.fromJson(json["item"]),
+        numbers: Numbers.fromJson(json["numbers"]),
         requestId: json["request_id"],
-        totalTransactions: json["total_transactions"],
-        transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "accounts": List<dynamic>.from(accounts.map((x) => x.toJson())),
         "item": item.toJson(),
+        "numbers": numbers.toJson(),
         "request_id": requestId,
-        "total_transactions": totalTransactions,
-        "transactions": List<dynamic>.from(transactions.map((x) => x)),
       };
 }
 
@@ -52,13 +52,13 @@ class AccountElement {
     required this.type,
   });
 
-  String accountId;
+  String? accountId;
   Balances balances;
-  String mask;
-  String name;
-  String officialName;
-  String subtype;
-  String type;
+  String? mask;
+  String? name;
+  String? officialName;
+  String? subtype;
+  String? type;
 
   factory AccountElement.fromJson(Map<String, dynamic> json) => AccountElement(
         accountId: json["account_id"],
@@ -91,10 +91,10 @@ class Balances {
     required this.unofficialCurrencyCode,
   });
 
-  int available;
-  double current;
-  String isoCurrencyCode;
-  int limit;
+  int? available;
+  double? current;
+  String? isoCurrencyCode;
+  int? limit;
   dynamic unofficialCurrencyCode;
 
   factory Balances.fromJson(Map<String, dynamic> json) => Balances(
@@ -130,10 +130,10 @@ class Item {
   List<String> billedProducts;
   dynamic consentExpirationTime;
   dynamic error;
-  String institutionId;
-  String itemId;
-  String updateType;
-  String webhook;
+  String? institutionId;
+  String? itemId;
+  String? updateType;
+  String? webhook;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         availableProducts:
@@ -197,10 +197,10 @@ class Ach {
     required this.wireRouting,
   });
 
-  String account;
-  String accountId;
-  String routing;
-  String wireRouting;
+  String? account;
+  String? accountId;
+  String? routing;
+  String? wireRouting;
 
   factory Ach.fromJson(Map<String, dynamic> json) => Ach(
         account: json["account"],

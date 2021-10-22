@@ -6,3 +6,4 @@ const String SECRET_KEY = "6eb2dbc233730b3e2d3d9f6e2a542e";
 const String CLIENT_ID = "612f0fa4fec85e001080fd92";
 const String EXCHANGE_TOKEN_URL =
     'https://sandbox.plaid.com/item/public_token/exchange';
+const String RETRIEVE_AUTH_URL = 'https://sandbox.plaid.com/auth/get';
