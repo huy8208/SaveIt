@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:budget_tracker_ui/models/account.dart';
+import 'package:budget_tracker_ui/models/transaction.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart';
@@ -46,6 +47,8 @@ class PlaidRequestController extends GetxController {
   late LinkToken linkToken;
   late String accessToken;
   late Account bankAccount;
+  RxList transaction = [].obs;
+
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
@@ -115,13 +118,17 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  void createBankAccount() async {
+    bankAccount = await getBankAccount(accessToken);
+  }
+
   void _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
     print("Try to exchange link token .....");
     accessToken = await getAccessToken(publicToken);
     bankAccount = await getBankAccount(accessToken);
-    print(bankAccount.accounts);
+    transaction.assignAll(testData);
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {
