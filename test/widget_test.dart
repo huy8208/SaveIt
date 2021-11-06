@@ -27,7 +27,7 @@ void main() {
           "current": 0,
           "iso_currency_code": "USD",
           "limit": 6400,
-          "unofficial_currency_code": "usd"
+          "unofficial_currency_code": null
         },
         "mask": "0362",
         "name": "CREDIT CARD",
@@ -41,12 +41,12 @@ void main() {
           "available": 4390.25,
           "current": 4390.25,
           "iso_currency_code": "USD",
-          "limit": 555,
-          "unofficial_currency_code": "UDS"
+          "limit": null,
+          "unofficial_currency_code": null
         },
         "mask": "5755",
         "name": "CHASE SAVINGS",
-        "official_name": "YES",
+        "official_name": null,
         "subtype": "savings",
         "type": "depository"
       },
@@ -56,12 +56,12 @@ void main() {
           "available": 3243.51,
           "current": 3243.51,
           "iso_currency_code": "USD",
-          "limit": 555,
-          "unofficial_currency_code": "UDS"
+          "limit": null,
+          "unofficial_currency_code": null
         },
         "mask": "7971",
         "name": "TOTAL CHECKING",
-        "official_name": "APPLE",
+        "official_name": null,
         "subtype": "checking",
         "type": "depository"
       }

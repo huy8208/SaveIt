@@ -16,14 +16,14 @@ class Account {
     required this.numbers,
     required this.requestId,
     required this.totalTransactions,
-    required this.transactions,
+    this.transactions,
   });
 
   List<AccountElement> accounts;
   Item item;
   Numbers numbers;
-  String requestId;
-  int totalTransactions;
+  String? requestId;
+  int? totalTransactions;
   List<Transaction?>? transactions;
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
@@ -33,8 +33,10 @@ class Account {
         numbers: Numbers.fromJson(json["numbers"]),
         requestId: json["request_id"],
         totalTransactions: json["total_transactions"],
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
+        transactions: json["transactions"] == null
+            ? null
+            : List<Transaction>.from(
+                json["transactions"].map((x) => Transaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,9 +45,8 @@ class Account {
         "numbers": numbers.toJson(),
         "request_id": requestId,
         "total_transactions": totalTransactions,
-        "transactions": transactions == null
-            ? null
-            : List<dynamic>.from(transactions!.map((x) => null ?? x!.toJson())),
+        "transactions":
+            List<dynamic>.from(transactions!.map((x) => x!.toJson())),
       };
 }
 
@@ -62,11 +63,11 @@ class AccountElement {
 
   String? accountId;
   Balances balances;
-  String mask;
-  String name;
-  String officialName;
-  String subtype;
-  String type;
+  String? mask;
+  String? name;
+  String? officialName;
+  String? subtype;
+  String? type;
 
   factory AccountElement.fromJson(Map<String, dynamic> json) => AccountElement(
         accountId: json["account_id"],
@@ -124,30 +125,32 @@ class Balances {
 
 class Item {
   Item({
-    required this.availableProducts,
-    required this.billedProducts,
-    required this.consentExpirationTime,
-    required this.error,
-    required this.institutionId,
-    required this.itemId,
-    required this.updateType,
-    required this.webhook,
+    this.availableProducts,
+    this.billedProducts,
+    this.consentExpirationTime,
+    this.error,
+    this.institutionId,
+    this.itemId,
+    this.updateType,
+    this.webhook,
   });
 
-  List<String> availableProducts;
-  List<String> billedProducts;
+  List<String>? availableProducts;
+  List<String>? billedProducts;
   dynamic consentExpirationTime;
   dynamic error;
-  String institutionId;
-  String itemId;
-  String updateType;
-  String webhook;
+  String? institutionId;
+  String? itemId;
+  String? updateType;
+  String? webhook;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-        availableProducts:
-            List<String>.from(json["available_products"].map((x) => x)),
-        billedProducts:
-            List<String>.from(json["billed_products"].map((x) => x)),
+        availableProducts: json["available_products"] == null
+            ? null
+            : List<String>.from(json["available_products"].map((x) => x)),
+        billedProducts: json["billed_products"] == null
+            ? null
+            : List<String>.from(json["billed_products"].map((x) => x)),
         consentExpirationTime: json["consent_expiration_time"],
         error: json["error"],
         institutionId: json["institution_id"],
@@ -157,9 +160,12 @@ class Item {
       );
 
   Map<String, dynamic> toJson() => {
-        "available_products":
-            List<dynamic>.from(availableProducts.map((x) => x)),
-        "billed_products": List<dynamic>.from(billedProducts.map((x) => x)),
+        "available_products": availableProducts == null
+            ? null
+            : List<dynamic>.from(availableProducts!.map((x) => x)),
+        "billed_products": billedProducts == null
+            ? null
+            : List<dynamic>.from(billedProducts!.map((x) => x)),
         "consent_expiration_time": consentExpirationTime,
         "error": error,
         "institution_id": institutionId,
@@ -177,23 +183,35 @@ class Numbers {
     required this.international,
   });
 
-  List<Ach> ach;
-  List<dynamic> bacs;
-  List<dynamic> eft;
-  List<dynamic> international;
+  List<Ach>? ach;
+  List<dynamic>? bacs;
+  List<dynamic>? eft;
+  List<dynamic>? international;
 
   factory Numbers.fromJson(Map<String, dynamic> json) => Numbers(
-        ach: List<Ach>.from(json["ach"].map((x) => Ach.fromJson(x))),
-        bacs: List<dynamic>.from(json["bacs"].map((x) => x)),
-        eft: List<dynamic>.from(json["eft"].map((x) => x)),
-        international: List<dynamic>.from(json["international"].map((x) => x)),
+        ach: json["ach"] == null
+            ? null
+            : List<Ach>.from(json["ach"].map((x) => Ach.fromJson(x))),
+        bacs: json["bacs"] == null
+            ? null
+            : List<dynamic>.from(json["bacs"].map((x) => x)),
+        eft: json["eft"] == null
+            ? null
+            : List<dynamic>.from(json["eft"].map((x) => x)),
+        international: json["international"] == null
+            ? null
+            : List<dynamic>.from(json["international"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "ach": List<dynamic>.from(ach.map((x) => x.toJson())),
-        "bacs": List<dynamic>.from(bacs.map((x) => x)),
-        "eft": List<dynamic>.from(eft.map((x) => x)),
-        "international": List<dynamic>.from(international.map((x) => x)),
+        "ach": ach == null
+            ? null
+            : List<dynamic>.from(ach!.map((x) => x.toJson())),
+        "bacs": bacs == null ? null : List<dynamic>.from(bacs!.map((x) => x)),
+        "eft": eft == null ? null : List<dynamic>.from(eft!.map((x) => x)),
+        "international": international == null
+            ? null
+            : List<dynamic>.from(international!.map((x) => x)),
       };
 }
 
@@ -227,29 +245,29 @@ class Ach {
 
 class Transaction {
   Transaction({
-    required this.accountId,
-    required this.accountOwner,
-    required this.amount,
-    required this.authorizedDate,
-    required this.authorizedDatetime,
-    required this.category,
-    required this.categoryId,
-    required this.checkNumber,
-    required this.date,
-    required this.datetime,
-    required this.isoCurrencyCode,
-    required this.location,
-    required this.merchantName,
-    required this.name,
-    required this.paymentChannel,
-    required this.paymentMeta,
-    required this.pending,
-    required this.pendingTransactionId,
-    required this.personalFinanceCategory,
-    required this.transactionCode,
-    required this.transactionId,
-    required this.transactionType,
-    required this.unofficialCurrencyCode,
+    this.accountId,
+    this.accountOwner,
+    this.amount,
+    this.authorizedDate,
+    this.authorizedDatetime,
+    this.category,
+    this.categoryId,
+    this.checkNumber,
+    this.date,
+    this.datetime,
+    this.isoCurrencyCode,
+    this.location,
+    this.merchantName,
+    this.name,
+    this.paymentChannel,
+    this.paymentMeta,
+    this.pending,
+    this.pendingTransactionId,
+    this.personalFinanceCategory,
+    this.transactionCode,
+    this.transactionId,
+    this.transactionType,
+    this.unofficialCurrencyCode,
   });
 
   String? accountId;
@@ -257,7 +275,7 @@ class Transaction {
   double? amount;
   DateTime? authorizedDate;
   dynamic authorizedDatetime;
-  List<String> category;
+  List<String>? category;
   String? categoryId;
   dynamic checkNumber;
   DateTime? date;
@@ -284,7 +302,9 @@ class Transaction {
             ? null
             : DateTime.parse(json["authorized_date"]),
         authorizedDatetime: json["authorized_datetime"],
-        category: List<String>.from(json["category"].map((x) => x)),
+        category: json["category"] == null
+            ? null
+            : List<String>.from(json["category"].map((x) => x)),
         categoryId: json["category_id"],
         checkNumber: json["check_number"],
         date: DateTime.parse(json["date"]),
@@ -313,7 +333,9 @@ class Transaction {
             ? null
             : "${authorizedDate!.year.toString().padLeft(4, '0')}-${authorizedDate!.month.toString().padLeft(2, '0')}-${authorizedDate!.day.toString().padLeft(2, '0')}",
         "authorized_datetime": authorizedDatetime,
-        "category": List<dynamic>.from(category.map((x) => x)),
+        "category": category == null
+            ? null
+            : List<dynamic>.from(category!.map((x) => x)),
         "category_id": categoryId,
         "check_number": checkNumber,
         "date":
@@ -337,14 +359,14 @@ class Transaction {
 
 class Location {
   Location({
-    required this.address,
-    required this.city,
-    required this.country,
-    required this.lat,
-    required this.lon,
-    required this.postalCode,
-    required this.region,
-    required this.storeNumber,
+    this.address,
+    this.city,
+    this.country,
+    this.lat,
+    this.lon,
+    this.postalCode,
+    this.region,
+    this.storeNumber,
   });
 
   dynamic address;
