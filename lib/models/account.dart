@@ -16,7 +16,7 @@ class Account {
     required this.numbers,
     required this.requestId,
     required this.totalTransactions,
-    this.transactions,
+    required this.transactions,
   });
 
   List<AccountElement> accounts;
@@ -125,14 +125,14 @@ class Balances {
 
 class Item {
   Item({
-    this.availableProducts,
-    this.billedProducts,
-    this.consentExpirationTime,
-    this.error,
-    this.institutionId,
-    this.itemId,
-    this.updateType,
-    this.webhook,
+    required this.availableProducts,
+    required this.billedProducts,
+    required this.consentExpirationTime,
+    required this.error,
+    required this.institutionId,
+    required this.itemId,
+    required this.updateType,
+    required this.webhook,
   });
 
   List<String>? availableProducts;
@@ -245,29 +245,29 @@ class Ach {
 
 class Transaction {
   Transaction({
-    this.accountId,
-    this.accountOwner,
-    this.amount,
-    this.authorizedDate,
-    this.authorizedDatetime,
-    this.category,
-    this.categoryId,
-    this.checkNumber,
-    this.date,
-    this.datetime,
-    this.isoCurrencyCode,
-    this.location,
-    this.merchantName,
-    this.name,
-    this.paymentChannel,
-    this.paymentMeta,
-    this.pending,
-    this.pendingTransactionId,
-    this.personalFinanceCategory,
-    this.transactionCode,
-    this.transactionId,
-    this.transactionType,
-    this.unofficialCurrencyCode,
+    required this.accountId,
+    required this.accountOwner,
+    required this.amount,
+    required this.authorizedDate,
+    required this.authorizedDatetime,
+    required this.category,
+    required this.categoryId,
+    required this.checkNumber,
+    required this.date,
+    required this.datetime,
+    required this.isoCurrencyCode,
+    required this.location,
+    required this.merchantName,
+    required this.name,
+    required this.paymentChannel,
+    required this.paymentMeta,
+    required this.pending,
+    required this.pendingTransactionId,
+    required this.personalFinanceCategory,
+    required this.transactionCode,
+    required this.transactionId,
+    required this.transactionType,
+    required this.unofficialCurrencyCode,
   });
 
   String? accountId;
@@ -359,14 +359,14 @@ class Transaction {
 
 class Location {
   Location({
-    this.address,
-    this.city,
-    this.country,
-    this.lat,
-    this.lon,
-    this.postalCode,
-    this.region,
-    this.storeNumber,
+    required this.address,
+    required this.city,
+    required this.country,
+    required this.lat,
+    required this.lon,
+    required this.postalCode,
+    required this.region,
+    required this.storeNumber,
   });
 
   dynamic address;
@@ -403,14 +403,14 @@ class Location {
 
 class PaymentMeta {
   PaymentMeta({
-    this.byOrderOf,
-    this.payee,
-    this.payer,
-    this.paymentMethod,
-    this.paymentProcessor,
-    this.ppdId,
-    this.reason,
-    this.referenceNumber,
+    required this.byOrderOf,
+    required this.payee,
+    required this.payer,
+    required this.paymentMethod,
+    required this.paymentProcessor,
+    required this.ppdId,
+    required this.reason,
+    required this.referenceNumber,
   });
 
   dynamic byOrderOf;
