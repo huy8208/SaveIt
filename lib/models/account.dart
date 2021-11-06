@@ -3,14 +3,11 @@
 //     final account = accountFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:core';
 
 Account accountFromJson(String str) => Account.fromJson(json.decode(str));
 
 String accountToJson(Account data) => json.encode(data.toJson());
-
-// To parse this JSON data, do
-//
-//     final account = accountFromJson(jsonString);
 
 class Account {
   Account({
@@ -18,12 +15,16 @@ class Account {
     required this.item,
     required this.numbers,
     required this.requestId,
+    required this.totalTransactions,
+    required this.transactions,
   });
 
   List<AccountElement> accounts;
   Item item;
   Numbers numbers;
-  String? requestId;
+  String requestId;
+  int totalTransactions;
+  List<Transaction?>? transactions;
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
         accounts: List<AccountElement>.from(
@@ -31,6 +32,9 @@ class Account {
         item: Item.fromJson(json["item"]),
         numbers: Numbers.fromJson(json["numbers"]),
         requestId: json["request_id"],
+        totalTransactions: json["total_transactions"],
+        transactions: List<Transaction>.from(
+            json["transactions"].map((x) => Transaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +42,10 @@ class Account {
         "item": item.toJson(),
         "numbers": numbers.toJson(),
         "request_id": requestId,
+        "total_transactions": totalTransactions,
+        "transactions": transactions == null
+            ? null
+            : List<dynamic>.from(transactions!.map((x) => null ?? x!.toJson())),
       };
 }
 
@@ -54,11 +62,11 @@ class AccountElement {
 
   String? accountId;
   Balances balances;
-  String? mask;
-  String? name;
-  String? officialName;
-  String? subtype;
-  String? type;
+  String mask;
+  String name;
+  String officialName;
+  String subtype;
+  String type;
 
   factory AccountElement.fromJson(Map<String, dynamic> json) => AccountElement(
         accountId: json["account_id"],
@@ -91,14 +99,14 @@ class Balances {
     required this.unofficialCurrencyCode,
   });
 
-  int? available;
+  double? available;
   double? current;
   String? isoCurrencyCode;
   int? limit;
   dynamic unofficialCurrencyCode;
 
   factory Balances.fromJson(Map<String, dynamic> json) => Balances(
-        available: json["available"] == null ? null : json["available"],
+        available: json["available"].toDouble(),
         current: json["current"].toDouble(),
         isoCurrencyCode: json["iso_currency_code"],
         limit: json["limit"] == null ? null : json["limit"],
@@ -106,7 +114,7 @@ class Balances {
       );
 
   Map<String, dynamic> toJson() => {
-        "available": available == null ? null : available,
+        "available": available,
         "current": current,
         "iso_currency_code": isoCurrencyCode,
         "limit": limit == null ? null : limit,
@@ -130,10 +138,10 @@ class Item {
   List<String> billedProducts;
   dynamic consentExpirationTime;
   dynamic error;
-  String? institutionId;
-  String? itemId;
-  String? updateType;
-  String? webhook;
+  String institutionId;
+  String itemId;
+  String updateType;
+  String webhook;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         availableProducts:
@@ -200,7 +208,7 @@ class Ach {
   String? account;
   String? accountId;
   String? routing;
-  String? wireRouting;
+  dynamic wireRouting;
 
   factory Ach.fromJson(Map<String, dynamic> json) => Ach(
         account: json["account"],
@@ -214,5 +222,203 @@ class Ach {
         "account_id": accountId,
         "routing": routing,
         "wire_routing": wireRouting,
+      };
+}
+
+class Transaction {
+  Transaction({
+    required this.accountId,
+    required this.accountOwner,
+    required this.amount,
+    required this.authorizedDate,
+    required this.authorizedDatetime,
+    required this.category,
+    required this.categoryId,
+    required this.checkNumber,
+    required this.date,
+    required this.datetime,
+    required this.isoCurrencyCode,
+    required this.location,
+    required this.merchantName,
+    required this.name,
+    required this.paymentChannel,
+    required this.paymentMeta,
+    required this.pending,
+    required this.pendingTransactionId,
+    required this.personalFinanceCategory,
+    required this.transactionCode,
+    required this.transactionId,
+    required this.transactionType,
+    required this.unofficialCurrencyCode,
+  });
+
+  String? accountId;
+  dynamic accountOwner;
+  double? amount;
+  DateTime? authorizedDate;
+  dynamic authorizedDatetime;
+  List<String> category;
+  String? categoryId;
+  dynamic checkNumber;
+  DateTime? date;
+  dynamic datetime;
+  String? isoCurrencyCode;
+  Location? location;
+  String? merchantName;
+  String? name;
+  String? paymentChannel;
+  PaymentMeta? paymentMeta;
+  bool? pending;
+  dynamic pendingTransactionId;
+  dynamic personalFinanceCategory;
+  dynamic transactionCode;
+  String? transactionId;
+  String? transactionType;
+  dynamic unofficialCurrencyCode;
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+        accountId: json["account_id"],
+        accountOwner: json["account_owner"],
+        amount: json["amount"].toDouble(),
+        authorizedDate: json["authorized_date"] == null
+            ? null
+            : DateTime.parse(json["authorized_date"]),
+        authorizedDatetime: json["authorized_datetime"],
+        category: List<String>.from(json["category"].map((x) => x)),
+        categoryId: json["category_id"],
+        checkNumber: json["check_number"],
+        date: DateTime.parse(json["date"]),
+        datetime: json["datetime"],
+        isoCurrencyCode: json["iso_currency_code"],
+        location: Location.fromJson(json["location"]),
+        merchantName:
+            json["merchant_name"] == null ? null : json["merchant_name"],
+        name: json["name"],
+        paymentChannel: json["payment_channel"],
+        paymentMeta: PaymentMeta.fromJson(json["payment_meta"]),
+        pending: json["pending"],
+        pendingTransactionId: json["pending_transaction_id"],
+        personalFinanceCategory: json["personal_finance_category"],
+        transactionCode: json["transaction_code"],
+        transactionId: json["transaction_id"],
+        transactionType: json["transaction_type"],
+        unofficialCurrencyCode: json["unofficial_currency_code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "account_id": accountId,
+        "account_owner": accountOwner,
+        "amount": amount,
+        "authorized_date": authorizedDate == null
+            ? null
+            : "${authorizedDate!.year.toString().padLeft(4, '0')}-${authorizedDate!.month.toString().padLeft(2, '0')}-${authorizedDate!.day.toString().padLeft(2, '0')}",
+        "authorized_datetime": authorizedDatetime,
+        "category": List<dynamic>.from(category.map((x) => x)),
+        "category_id": categoryId,
+        "check_number": checkNumber,
+        "date":
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "datetime": datetime,
+        "iso_currency_code": isoCurrencyCode,
+        "location": location!.toJson(),
+        "merchant_name": merchantName == null ? null : merchantName,
+        "name": name,
+        "payment_channel": paymentChannel,
+        "payment_meta": paymentMeta!.toJson(),
+        "pending": pending,
+        "pending_transaction_id": pendingTransactionId,
+        "personal_finance_category": personalFinanceCategory,
+        "transaction_code": transactionCode,
+        "transaction_id": transactionId,
+        "transaction_type": transactionType,
+        "unofficial_currency_code": unofficialCurrencyCode,
+      };
+}
+
+class Location {
+  Location({
+    required this.address,
+    required this.city,
+    required this.country,
+    required this.lat,
+    required this.lon,
+    required this.postalCode,
+    required this.region,
+    required this.storeNumber,
+  });
+
+  dynamic address;
+  String? city;
+  dynamic country;
+  double? lat;
+  double? lon;
+  dynamic postalCode;
+  String? region;
+  String? storeNumber;
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+        address: json["address"],
+        city: json["city"] == null ? null : json["city"],
+        country: json["country"],
+        lat: json["lat"] == null ? null : json["lat"].toDouble(),
+        lon: json["lon"] == null ? null : json["lon"].toDouble(),
+        postalCode: json["postal_code"],
+        region: json["region"] == null ? null : json["region"],
+        storeNumber: json["store_number"] == null ? null : json["store_number"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "city": city == null ? null : city,
+        "country": country,
+        "lat": lat == null ? null : lat,
+        "lon": lon == null ? null : lon,
+        "postal_code": postalCode,
+        "region": region == null ? null : region,
+        "store_number": storeNumber == null ? null : storeNumber,
+      };
+}
+
+class PaymentMeta {
+  PaymentMeta({
+    this.byOrderOf,
+    this.payee,
+    this.payer,
+    this.paymentMethod,
+    this.paymentProcessor,
+    this.ppdId,
+    this.reason,
+    this.referenceNumber,
+  });
+
+  dynamic byOrderOf;
+  dynamic payee;
+  dynamic payer;
+  dynamic paymentMethod;
+  dynamic paymentProcessor;
+  dynamic ppdId;
+  dynamic reason;
+  dynamic referenceNumber;
+
+  factory PaymentMeta.fromJson(Map<String, dynamic> json) => PaymentMeta(
+        byOrderOf: json["by_order_of"],
+        payee: json["payee"],
+        payer: json["payer"],
+        paymentMethod: json["payment_method"],
+        paymentProcessor: json["payment_processor"],
+        ppdId: json["ppd_id"],
+        reason: json["reason"],
+        referenceNumber: json["reference_number"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "by_order_of": byOrderOf,
+        "payee": payee,
+        "payer": payer,
+        "payment_method": paymentMethod,
+        "payment_processor": paymentProcessor,
+        "ppd_id": ppdId,
+        "reason": reason,
+        "reference_number": referenceNumber,
       };
 }

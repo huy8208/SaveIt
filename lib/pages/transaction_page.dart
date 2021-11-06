@@ -16,12 +16,10 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   int activeDay = 3;
   bool hasBankAccount = true;
-  late PlaidRequestController plaidrequestcontroller;
 
   @override
   void initState() {
     super.initState();
-    plaidrequestcontroller = Get.put(PlaidRequestController());
   }
 
   @override

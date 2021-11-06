@@ -1,414 +1,541 @@
-// // // This is a basic Flutter widget test.
-// // //
-// // // To perform an interaction with a widget in your test, use the WidgetTester
-// // // utility that Flutter provides. For example, you can send tap and scroll
-// // // gestures. You can also use WidgetTester to find child widgets in the widget
-// // // tree, read text, and verify that the values of widget properties are correct.
-
-// // import 'package:flutter/material.dart';
-// // import 'package:flutter_test/flutter_test.dart';
-
-// // import 'package:budget_tracker_ui/main.dart';
-
-// // To parse this JSON data, do
+// // This is a basic Flutter widget test.
 // //
-// //     final account = accountFromJson(jsonString);
+// // To perform an interaction with a widget in your test, use the WidgetTester
+// // utility that Flutter provides. For example, you can send tap and scroll
+// // gestures. You can also use WidgetTester to find child widgets in the widget
+// // tree, read text, and verify that the values of widget properties are correct.
 
-// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_test/flutter_test.dart';
 
-// Account accountFromJson(String str) => Account.fromJson(json.decode(str));
+// import 'package:budget_tracker_ui/main.dart';
 
-// String accountToJson(Account data) => json.encode(data.toJson());
+// To parse this JSON data, do
+//
+//     final account = accountFromJson(jsonString);
 
-// // To parse this JSON data, do
-// //
-// //     final account = accountFromJson(jsonString);
+import 'dart:convert';
+import 'package:budget_tracker_ui/models/account.dart';
 
-// class Account {
-//   Account({
-//     required this.accounts,
-//     required this.item,
-//     required this.numbers,
-//     required this.requestId,
-//   });
+Account accountFromJson(String str) => Account.fromJson(json.decode(str));
 
-//   List<AccountElement> accounts;
-//   Item item;
-//   Numbers numbers;
-//   String? requestId;
+String accountToJson(Account data) => json.encode(data.toJson());
 
-//   factory Account.fromJson(Map<String, dynamic> json) => Account(
-//         accounts: List<AccountElement>.from(
-//             json["accounts"].map((x) => AccountElement.fromJson(x))),
-//         item: Item.fromJson(json["item"]),
-//         numbers: Numbers.fromJson(json["numbers"]),
-//         requestId: json["request_id"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "accounts": List<dynamic>.from(accounts.map((x) => x.toJson())),
-//         "item": item.toJson(),
-//         "numbers": numbers.toJson(),
-//         "request_id": requestId,
-//       };
-// }
-
-// class AccountElement {
-//   AccountElement({
-//     required this.accountId,
-//     required this.balances,
-//     required this.mask,
-//     required this.name,
-//     required this.officialName,
-//     required this.subtype,
-//     required this.type,
-//   });
-
-//   String? accountId;
-//   Balances balances;
-//   String? mask;
-//   String? name;
-//   String? officialName;
-//   String? subtype;
-//   String? type;
-
-//   factory AccountElement.fromJson(Map<String, dynamic> json) => AccountElement(
-//         accountId: json["account_id"],
-//         balances: Balances.fromJson(json["balances"]),
-//         mask: json["mask"],
-//         name: json["name"],
-//         officialName:
-//             json["official_name"] == null ? null : json["official_name"],
-//         subtype: json["subtype"],
-//         type: json["type"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "account_id": accountId,
-//         "balances": balances.toJson(),
-//         "mask": mask,
-//         "name": name,
-//         "official_name": officialName == null ? null : officialName,
-//         "subtype": subtype,
-//         "type": type,
-//       };
-// }
-
-// class Balances {
-//   Balances({
-//     required this.available,
-//     required this.current,
-//     required this.isoCurrencyCode,
-//     required this.limit,
-//     required this.unofficialCurrencyCode,
-//   });
-
-//   int? available;
-//   double? current;
-//   String? isoCurrencyCode;
-//   int? limit;
-//   dynamic unofficialCurrencyCode;
-
-//   factory Balances.fromJson(Map<String, dynamic> json) => Balances(
-//         available: json["available"] == null ? null : json["available"],
-//         current: json["current"].toDouble(),
-//         isoCurrencyCode: json["iso_currency_code"],
-//         limit: json["limit"] == null ? null : json["limit"],
-//         unofficialCurrencyCode: json["unofficial_currency_code"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "available": available == null ? null : available,
-//         "current": current,
-//         "iso_currency_code": isoCurrencyCode,
-//         "limit": limit == null ? null : limit,
-//         "unofficial_currency_code": unofficialCurrencyCode,
-//       };
-// }
-
-// class Item {
-//   Item({
-//     required this.availableProducts,
-//     required this.billedProducts,
-//     required this.consentExpirationTime,
-//     required this.error,
-//     required this.institutionId,
-//     required this.itemId,
-//     required this.updateType,
-//     required this.webhook,
-//   });
-
-//   List<String> availableProducts;
-//   List<String> billedProducts;
-//   dynamic consentExpirationTime;
-//   dynamic error;
-//   String? institutionId;
-//   String? itemId;
-//   String? updateType;
-//   String? webhook;
-
-//   factory Item.fromJson(Map<String, dynamic> json) => Item(
-//         availableProducts:
-//             List<String>.from(json["available_products"].map((x) => x)),
-//         billedProducts:
-//             List<String>.from(json["billed_products"].map((x) => x)),
-//         consentExpirationTime: json["consent_expiration_time"],
-//         error: json["error"],
-//         institutionId: json["institution_id"],
-//         itemId: json["item_id"],
-//         updateType: json["update_type"],
-//         webhook: json["webhook"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "available_products":
-//             List<dynamic>.from(availableProducts.map((x) => x)),
-//         "billed_products": List<dynamic>.from(billedProducts.map((x) => x)),
-//         "consent_expiration_time": consentExpirationTime,
-//         "error": error,
-//         "institution_id": institutionId,
-//         "item_id": itemId,
-//         "update_type": updateType,
-//         "webhook": webhook,
-//       };
-// }
-
-// class Numbers {
-//   Numbers({
-//     required this.ach,
-//     required this.bacs,
-//     required this.eft,
-//     required this.international,
-//   });
-
-//   List<Ach> ach;
-//   List<dynamic> bacs;
-//   List<dynamic> eft;
-//   List<dynamic> international;
-
-//   factory Numbers.fromJson(Map<String, dynamic> json) => Numbers(
-//         ach: List<Ach>.from(json["ach"].map((x) => Ach.fromJson(x))),
-//         bacs: List<dynamic>.from(json["bacs"].map((x) => x)),
-//         eft: List<dynamic>.from(json["eft"].map((x) => x)),
-//         international: List<dynamic>.from(json["international"].map((x) => x)),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "ach": List<dynamic>.from(ach.map((x) => x.toJson())),
-//         "bacs": List<dynamic>.from(bacs.map((x) => x)),
-//         "eft": List<dynamic>.from(eft.map((x) => x)),
-//         "international": List<dynamic>.from(international.map((x) => x)),
-//       };
-// }
-
-// class Ach {
-//   Ach({
-//     required this.account,
-//     required this.accountId,
-//     required this.routing,
-//     required this.wireRouting,
-//   });
-
-//   String? account;
-//   String? accountId;
-//   String? routing;
-//   String? wireRouting;
-
-//   factory Ach.fromJson(Map<String, dynamic> json) => Ach(
-//         account: json["account"],
-//         accountId: json["account_id"],
-//         routing: json["routing"],
-//         wireRouting: json["wire_routing"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "account": account,
-//         "account_id": accountId,
-//         "routing": routing,
-//         "wire_routing": wireRouting,
-//       };
-// }
-
-// void main() {
-//   var jsonob = jsonEncode({
-//     "accounts": [
-//       {
-//         "account_id": "XAA16qGy3MfzDamvlz9jiggq6WL94NHdyLDdE",
-//         "balances": {
-//           "available": 100,
-//           "current": 110,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "0000",
-//         "name": "Plaid Checking",
-//         "official_name": "Plaid Gold Standard 0% Interest Checking",
-//         "subtype": "checking",
-//         "type": "depository"
-//       },
-//       {
-//         "account_id": "DkkR6pqPEWc9zoPM59qDseejvwX96BFvnJZvJ",
-//         "balances": {
-//           "available": 200,
-//           "current": 210,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "1111",
-//         "name": "Plaid Saving",
-//         "official_name": "Plaid Silver Standard 0.1% Interest Saving",
-//         "subtype": "savings",
-//         "type": "depository"
-//       },
-//       {
-//         "account_id": "VEE16VLbzQF1V3nk51QLSkkJXmWgnbTWREDWZ",
-//         "balances": {
-//           "available": null,
-//           "current": 1000,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "2222",
-//         "name": "Plaid CD",
-//         "official_name": "Plaid Bronze Standard 0.2% Interest CD",
-//         "subtype": "cd",
-//         "type": "depository"
-//       },
-//       {
-//         "account_id": "wkkAwylW6pc9JnQkV9jpsbbPK5v8x6frLmQrz",
-//         "balances": {
-//           "available": null,
-//           "current": 410,
-//           "iso_currency_code": "USD",
-//           "limit": 2000,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "3333",
-//         "name": "Plaid Credit Card",
-//         "official_name": "Plaid Diamond 12.5% APR Interest Credit Card",
-//         "subtype": "credit card",
-//         "type": "credit"
-//       },
-//       {
-//         "account_id": "5AAxR3bvXNfzDBkrEzNwiddZqkbzemCZg86Zy",
-//         "balances": {
-//           "available": 43200,
-//           "current": 43200,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "4444",
-//         "name": "Plaid Money Market",
-//         "official_name": "Plaid Platinum Standard 1.85% Interest Money Market",
-//         "subtype": "money market",
-//         "type": "depository"
-//       },
-//       {
-//         "account_id": "Jjja6AxMyzCLK7MA5LkdTjjXA4kzrBudZknd6",
-//         "balances": {
-//           "available": null,
-//           "current": 320.76,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "5555",
-//         "name": "Plaid IRA",
-//         "official_name": null,
-//         "subtype": "ira",
-//         "type": "investment"
-//       },
-//       {
-//         "account_id": "kNNbPLD7RatBPVeo1B39UGGmQ57gqbhWwomW5",
-//         "balances": {
-//           "available": null,
-//           "current": 23631.9805,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "6666",
-//         "name": "Plaid 401k",
-//         "official_name": null,
-//         "subtype": "401k",
-//         "type": "investment"
-//       },
-//       {
-//         "account_id": "lPPWjpDeR4C6aM9Vl634i55ql3BeArCZJRMZV",
-//         "balances": {
-//           "available": null,
-//           "current": 65262,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "7777",
-//         "name": "Plaid Student Loan",
-//         "official_name": null,
-//         "subtype": "student",
-//         "type": "loan"
-//       },
-//       {
-//         "account_id": "qZZXMWDL6eiB5gN7nBMeUzzbeKjQoqfdoRQdq",
-//         "balances": {
-//           "available": null,
-//           "current": 56302.06,
-//           "iso_currency_code": "USD",
-//           "limit": null,
-//           "unofficial_currency_code": null
-//         },
-//         "mask": "8888",
-//         "name": "Plaid Mortgage",
-//         "official_name": null,
-//         "subtype": "mortgage",
-//         "type": "loan"
-//       }
-//     ],
-//     "item": {
-//       "available_products": [
-//         "assets",
-//         "balance",
-//         "credit_details",
-//         "identity",
-//         "income",
-//         "investments",
-//         "liabilities",
-//         "transactions"
-//       ],
-//       "billed_products": ["auth"],
-//       "consent_expiration_time": null,
-//       "error": null,
-//       "institution_id": "ins_3",
-//       "item_id": "wkkAwylW6pc9JnQkV9jpsbb1Z734KLFr4lZyd",
-//       "update_type": "background",
-//       "webhook": ""
-//     },
-//     "numbers": {
-//       "ach": [
-//         {
-//           "account": "1111222233330000",
-//           "account_id": "XAA16qGy3MfzDamvlz9jiggq6WL94NHdyLDdE",
-//           "routing": "011401533",
-//           "wire_routing": "021000021"
-//         },
-//         {
-//           "account": "1111222233331111",
-//           "account_id": "DkkR6pqPEWc9zoPM59qDseejvwX96BFvnJZvJ",
-//           "routing": "011401533",
-//           "wire_routing": "021000021"
-//         }
-//       ],
-//       "bacs": [],
-//       "eft": [],
-//       "international": []
-//     },
-//     "request_id": "nBVpGax4pCU5b6N"
-//   });
-//   Account yes = accountFromJson(jsonob);
-//   print(yes.accounts);
-//   // print(jsonDecode(jsonob));
-// }
+void main() {
+  var jsonob = jsonEncode({
+    "accounts": [
+      {
+        "account_id": "aZ76VpEgYLiqN4kv85agipYMX6bNr0tZzmQk5",
+        "balances": {
+          "available": 6400,
+          "current": 0,
+          "iso_currency_code": "USD",
+          "limit": 6400,
+          "unofficial_currency_code": null
+        },
+        "mask": "0362",
+        "name": "CREDIT CARD",
+        "official_name": "Amazon Prime Rewards Visa Signature",
+        "subtype": "credit card",
+        "type": "credit"
+      },
+      {
+        "account_id": "4MDx8yak13uvjNDyP1mXHxX1np567YfkZvV58",
+        "balances": {
+          "available": 4390.25,
+          "current": 4390.25,
+          "iso_currency_code": "USD",
+          "limit": null,
+          "unofficial_currency_code": null
+        },
+        "mask": "5755",
+        "name": "CHASE SAVINGS",
+        "official_name": null,
+        "subtype": "savings",
+        "type": "depository"
+      },
+      {
+        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+        "balances": {
+          "available": 3243.51,
+          "current": 3243.51,
+          "iso_currency_code": "USD",
+          "limit": null,
+          "unofficial_currency_code": null
+        },
+        "mask": "7971",
+        "name": "TOTAL CHECKING",
+        "official_name": null,
+        "subtype": "checking",
+        "type": "depository"
+      }
+    ],
+    "item": {
+      "available_products": ["balance"],
+      "billed_products": ["auth", "transactions"],
+      "consent_expiration_time": null,
+      "error": null,
+      "institution_id": "ins_3",
+      "item_id": "yxj1reMQy8iBvEyn7Pk8t6qmno0aXJUp1XQaX",
+      "update_type": "background",
+      "webhook": ""
+    },
+    "numbers": {
+      "ach": [
+        {
+          "account": "3797535755",
+          "account_id": "4MDx8yak13uvjNDyP1mXHxX1np567YfkZvV58",
+          "routing": "322271627",
+          "wire_routing": null
+        },
+        {
+          "account": "530557971",
+          "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+          "routing": "322271627",
+          "wire_routing": null
+        }
+      ],
+      "bacs": [],
+      "eft": [],
+      "international": []
+    },
+    "request_id": "MjEj27uH6ORDzGF",
+    "total_transactions": 135,
+    "transactions": [
+      {
+        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+        "account_owner": null,
+        "amount": 121.77,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Payment", "Credit Card"],
+        "category_id": "16001000",
+        "check_number": null,
+        "date": "2021-10-01",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": null,
+        "name": "APPLECARD GSBANK PAYMENT 1396962 WEB ID: 9999999999",
+        "payment_channel": "other",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "1Mwraqj36PuKxzRy768wuXjkokVYqyCmY46D1",
+        "transaction_type": "special",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+        "account_owner": null,
+        "amount": 29.05,
+        "authorized_date": "2021-09-27",
+        "authorized_datetime": null,
+        "category": ["Shops", "Warehouses and Wholesale Stores"],
+        "category_id": "19051000",
+        "check_number": null,
+        "date": "2021-09-27",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": "San Jose",
+          "country": null,
+          "lat": 37.253214,
+          "lon": -121.879999,
+          "postal_code": null,
+          "region": "CA",
+          "store_number": "0148"
+        },
+        "merchant_name": "Costco",
+        "name": "Costco",
+        "payment_channel": "in store",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "QqbgvV8KYXuRL6pBg1okC4jOEOeXqmfE9dPRy",
+        "transaction_type": "place",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "4MDx8yak13uvjNDyP1mXHxX1np567YfkZvV58",
+        "account_owner": null,
+        "amount": -0.11,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Interest", "Interest Earned"],
+        "category_id": "15001000",
+        "check_number": null,
+        "date": "2021-09-24",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": null,
+        "name": "INTEREST PAYMENT",
+        "payment_channel": "other",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "L68M3VrP9jSE6gjnMmRkiBM15Embzzf0JxD9X",
+        "transaction_type": "special",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+        "account_owner": null,
+        "amount": 68.25,
+        "authorized_date": "2021-09-23",
+        "authorized_datetime": null,
+        "category": ["Shops", "Warehouses and Wholesale Stores"],
+        "category_id": "19051000",
+        "check_number": null,
+        "date": "2021-09-23",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": "San Jose",
+          "country": null,
+          "lat": 37.253214,
+          "lon": -121.879999,
+          "postal_code": null,
+          "region": "CA",
+          "store_number": "0848"
+        },
+        "merchant_name": "Costco",
+        "name": "Costco",
+        "payment_channel": "in store",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "7zq6oA80BkcrZ3XvbMoYUY4ZkKVLNNFQ8kAwv",
+        "transaction_type": "place",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
+        "account_owner": null,
+        "amount": 32.36,
+        "authorized_date": "2021-09-22",
+        "authorized_datetime": null,
+        "category": ["Shops", "Warehouses and Wholesale Stores"],
+        "category_id": "19051000",
+        "check_number": null,
+        "date": "2021-09-22",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": "San Jose",
+          "country": null,
+          "lat": 37.253214,
+          "lon": -121.879999,
+          "postal_code": null,
+          "region": "CA",
+          "store_number": "0848"
+        },
+        "merchant_name": "Costco",
+        "name": "Costco",
+        "payment_channel": "in store",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "9M3Dg05ryvuaQ8oRwy4Miq7j3rpBJJhd68oV1",
+        "transaction_type": "place",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "4MDx8yak13uvjNDyP1mXHxX1np567YfkZvV58",
+        "account_owner": null,
+        "amount": 4900,
+        "authorized_date": "2021-09-15",
+        "authorized_datetime": null,
+        "category": ["Transfer", "Debit"],
+        "category_id": "21006000",
+        "check_number": null,
+        "date": "2021-09-15",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": null,
+        "name":
+            "Online Realtime Transfer to BOF Saving 1546 transaction#: 12593864826 reference#: 9593864826RX 09/15",
+        "payment_channel": "other",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "DM80wb37JBuO80XxVJ4ETRMveOprqqFZX6pJm",
+        "transaction_type": "special",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "aZ76VpEgYLiqN4kv85agipYMX6bNr0tZzmQk5",
+        "account_owner": null,
+        "amount": 50.26,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Shops", "Digital Purchase"],
+        "category_id": "19019000",
+        "check_number": null,
+        "date": "2021-09-12",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": "Amazon",
+        "name": "Amazon",
+        "payment_channel": "online",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "BR4An5qbaPTLP4EvbMYoi7wpxQQ8mrf9vLapq",
+        "transaction_type": "digital",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "aZ76VpEgYLiqN4kv85agipYMX6bNr0tZzmQk5",
+        "account_owner": null,
+        "amount": 31.7,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Shops", "Digital Purchase"],
+        "category_id": "19019000",
+        "check_number": null,
+        "date": "2021-09-12",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": "Amazon",
+        "name": "Amazon.com*2G9KU2JR0",
+        "payment_channel": "online",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "3eLaJ34KDBfAOdwnvEMasDjvyRRNL7HKPxJ5M",
+        "transaction_type": "digital",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "4MDx8yak13uvjNDyP1mXHxX1np567YfkZvV58",
+        "account_owner": null,
+        "amount": 326.51,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Payment", "Credit Card"],
+        "category_id": "16001000",
+        "check_number": null,
+        "date": "2021-09-07",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": null,
+        "name": "CITI CARD ONLINE PAYMENT 420530150245364 WEB ID: CITICTP",
+        "payment_channel": "other",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "1Mwraqj36PuKxzRy768wuXV6e3vBnnHmY4Q3J",
+        "transaction_type": "special",
+        "unofficial_currency_code": null
+      },
+      {
+        "account_id": "aZ76VpEgYLiqN4kv85agipYMX6bNr0tZzmQk5",
+        "account_owner": null,
+        "amount": 14.21,
+        "authorized_date": null,
+        "authorized_datetime": null,
+        "category": ["Shops", "Digital Purchase"],
+        "category_id": "19019000",
+        "check_number": null,
+        "date": "2021-09-06",
+        "datetime": null,
+        "iso_currency_code": "USD",
+        "location": {
+          "address": null,
+          "city": null,
+          "country": null,
+          "lat": null,
+          "lon": null,
+          "postal_code": null,
+          "region": null,
+          "store_number": null
+        },
+        "merchant_name": "Amazon",
+        "name": "Amazon",
+        "payment_channel": "online",
+        "payment_meta": {
+          "by_order_of": null,
+          "payee": null,
+          "payer": null,
+          "payment_method": null,
+          "payment_processor": null,
+          "ppd_id": null,
+          "reason": null,
+          "reference_number": null
+        },
+        "pending": false,
+        "pending_transaction_id": null,
+        "personal_finance_category": null,
+        "transaction_code": null,
+        "transaction_id": "yxj1reMQy8iBvEyn7Pk8tODjB55rb7iORM7Vk",
+        "transaction_type": "digital",
+        "unofficial_currency_code": null
+      }
+    ]
+  });
+  Account yes = accountFromJson(jsonob);
+  print(yes.accounts);
+  // print(jsonDecode(jsonob));
+}
