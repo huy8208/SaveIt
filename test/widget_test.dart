@@ -97,51 +97,6 @@ void main() {
     },
     "request_id": "MjEj27uH6ORDzGF",
     "total_transactions": 135,
-    "transactions": [
-      {
-        "account_id": "rm3ayeMYL8FnqxLVpAdRh68Dw73mL9IBnzQ4b",
-        "account_owner": null,
-        "amount": 121.77,
-        "authorized_date": null,
-        "authorized_datetime": null,
-        "category": ["Payment", "Credit Card"],
-        "category_id": "16001000",
-        "check_number": null,
-        "date": "2021-10-01",
-        "datetime": null,
-        "iso_currency_code": "USD",
-        "location": {
-          "address": null,
-          "city": null,
-          "country": null,
-          "lat": null,
-          "lon": null,
-          "postal_code": null,
-          "region": null,
-          "store_number": null
-        },
-        "merchant_name": null,
-        "name": "APPLECARD GSBANK PAYMENT 1396962 WEB ID: 9999999999",
-        "payment_channel": "other",
-        "payment_meta": {
-          "by_order_of": null,
-          "payee": null,
-          "payer": null,
-          "payment_method": null,
-          "payment_processor": null,
-          "ppd_id": null,
-          "reason": null,
-          "reference_number": null
-        },
-        "pending": false,
-        "pending_transaction_id": null,
-        "personal_finance_category": null,
-        "transaction_code": null,
-        "transaction_id": "1Mwraqj36PuKxzRy768wuXjkokVYqyCmY46D1",
-        "transaction_type": "special",
-        "unofficial_currency_code": null
-      }
-    ]
   });
   Account account = accountFromJson(jsonob);
   print(account.getTransactionAt(0));

@@ -20,19 +20,31 @@ class Account {
   });
 
   List<AccountElement> accounts;
-  Item item;
-  Numbers numbers;
+  Item? item;
+  Numbers? numbers;
   String? requestId;
   int? totalTransactions;
   List<Transaction?>? transactions;
 
+  Transaction? getTransactionAt(int index) {
+    if (this.transactions != null &&
+        (0 <= index && index < this.transactions!.length)) {
+      return this.transactions![index];
+    } else {
+      return null;
+    }
+  }
+
   factory Account.fromJson(Map<String, dynamic> json) => Account(
         accounts: List<AccountElement>.from(
             json["accounts"].map((x) => AccountElement.fromJson(x))),
-        item: Item.fromJson(json["item"]),
-        numbers: Numbers.fromJson(json["numbers"]),
-        requestId: json["request_id"],
-        totalTransactions: json["total_transactions"],
+        item: json["item"] == null ? null : Item.fromJson(json["item"]),
+        numbers:
+            json["numbers"] == null ? null : Numbers.fromJson(json["numbers"]),
+        requestId: json["request_id"] == null ? null : json["request_id"],
+        totalTransactions: json["total_transactions"] == null
+            ? null
+            : json["total_transactions"],
         transactions: json["transactions"] == null
             ? null
             : List<Transaction>.from(
@@ -41,8 +53,8 @@ class Account {
 
   Map<String, dynamic> toJson() => {
         "accounts": List<dynamic>.from(accounts.map((x) => x.toJson())),
-        "item": item.toJson(),
-        "numbers": numbers.toJson(),
+        "item": item == null ? null : item!.toJson(),
+        "numbers": numbers == null ? null : numbers!.toJson(),
         "request_id": requestId,
         "total_transactions": totalTransactions,
         "transactions":
