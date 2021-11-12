@@ -32,15 +32,7 @@ class _TransactionPageState extends State<TransactionPage> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SafeArea(
-      child: SingleChildScrollView(
-        child: hasBankAccount
-            ? TransactionWidget()
-            : Container(
-                child:
-                    Text("Please authenticate your bank accounts with plaid."),
-                color: Colors.blue[50],
-              ),
-      ),
+      child: SingleChildScrollView(child: TransactionWidget()),
     );
   }
 }
@@ -67,9 +59,11 @@ class _TransactionWidgetState extends State<TransactionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          children: plaidrequestcontroller.transactionList!,
-        ));
+    return Obx(() => plaidrequestcontroller.transactionList!.isEmpty
+        ? Center(child: Text("Please add bank account"))
+        : Column(
+            children: plaidrequestcontroller.transactionList!,
+          ));
   }
 }
 
@@ -82,7 +76,7 @@ class TransactionsWithBankTitle extends StatelessWidget {
   final Account bankAccount;
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         BankTitle(nameOfBank: "Bank Of America"),
         ...(bankAccount.transactions!
@@ -91,8 +85,9 @@ class TransactionsWithBankTitle extends StatelessWidget {
                 description: items.name!,
                 category: "category",
                 price: 50.0,
-                date: items.authorizedDate.toString()))
-            .toList())
+                date: "10-20-2020"))
+            .toList()
+            .take(5))
       ],
     );
   }
@@ -166,7 +161,11 @@ class TransactionItem extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(description),
+              Text(
+                description,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
               Text(category),
             ],
           ),

@@ -136,7 +136,6 @@ class PlaidRequestController extends GetxController {
     if (response.statusCode == 200) {
       return accountFromJson(response.body);
     } else {
-      print(response.body);
       throw Exception('Failed to get Transactions!');
     }
   }
@@ -156,11 +155,14 @@ class PlaidRequestController extends GetxController {
     var currentDate = formatter.format(DateTime.now());
     var bankAccountWithTransactions =
         await getTransaction(accessToken, oneMonthAgo, currentDate);
-
     transactionList!.add(
         TransactionsWithBankTitle(bankAccount: bankAccountWithTransactions));
+  }
 
-    print("hererererere:  ${bankAccountWithTransactions.transactions}");
+  void addBankAccount(RxList<Widget> list, Account bankAccount) {
+    if (list.isEmpty) {
+      Get.defaultDialog(title: "You have 0 transaction for this bank account.");
+    }
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {
