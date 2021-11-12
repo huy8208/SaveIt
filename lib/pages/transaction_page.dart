@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/plaid/request.dart';
 import 'package:get/get.dart';
-import 'package:budget_tracker_ui/models/transaction.dart';
 
 class TransactionPage extends StatefulWidget {
   @override
@@ -62,49 +61,70 @@ class _TransactionWidgetState extends State<TransactionWidget> {
   @override
   void initState() {
     super.initState();
+    // Initialize Plaid Controller.
     plaidrequestcontroller = Get.put(PlaidRequestController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Obx(() => Column(
+          children: plaidrequestcontroller.transactionList!,
+        ));
+  }
+}
+
+class TransactionsWithBankTitle extends StatelessWidget {
+  const TransactionsWithBankTitle({
+    Key? key,
+    required this.bankAccount,
+  }) : super(key: key);
+
+  final Account bankAccount;
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
       children: [
-        InkWell(
-          onTap: () {},
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            height: 32,
-            width: double.infinity,
-            child: Align(
-              child: Text("Bank of America"),
-              alignment: Alignment.centerLeft,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 2,
-              ),
-            ),
+        BankTitle(nameOfBank: "Bank Of America"),
+        ...(bankAccount.transactions!
+            .map((items) => TransactionItem(
+                icon: FontAwesomeIcons.addressBook,
+                description: items.name!,
+                category: "category",
+                price: 50.0,
+                date: items.authorizedDate.toString()))
+            .toList())
+      ],
+    );
+  }
+}
+
+class BankTitle extends StatelessWidget {
+  const BankTitle({
+    Key? key,
+    required String nameOfBank,
+  }) : super(key: key);
+
+  final String nameOfBank = "None";
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        height: 32,
+        width: double.infinity,
+        child: Align(
+          child: Text("$nameOfBank"),
+          alignment: Alignment.centerLeft,
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 2,
           ),
         ),
-        Obx(
-          () => Column(
-              children: plaidrequestcontroller.transaction
-                  .map((items) => TransactionItem(
-                      icon: items.icon,
-                      description: items.description,
-                      category: items.category,
-                      price: items.price,
-                      date: items.date))
-                  .toList()),
-        ),
-        ElevatedButton(
-            onPressed: () {
-              plaidrequestcontroller.transaction
-                  .remove(plaidrequestcontroller.transaction.first);
-            },
-            child: Text("PRESS ME!"))
-      ],
+      ),
     );
   }
 }
@@ -122,7 +142,7 @@ class TransactionItem extends StatelessWidget {
   final IconData icon;
   final String description;
   final String category;
-  final String price;
+  final double price;
   final String date;
 
   @override
@@ -154,7 +174,7 @@ class TransactionItem extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(price),
+              Text("yoyoyo"),
               Text(date),
             ],
           ),

@@ -7,3 +7,11 @@ const String CLIENT_ID = "612f0fa4fec85e001080fd92";
 const String EXCHANGE_TOKEN_URL =
     'https://sandbox.plaid.com/item/public_token/exchange';
 const String RETRIEVE_AUTH_URL = 'https://sandbox.plaid.com/auth/get';
+
+const String RETRIEVE_TRANSACTIONS_URL =
+    'https://sandbox.plaid.com/transactions/get';
+
+// Development
+// const String
+const String RETRIEVE_TRANSACTIONS_URL_DEV =
+    'https://development.plaid.com/transactions/get';

@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:core';
+import 'package:get/get.dart';
 
 Account accountFromJson(String str) => Account.fromJson(json.decode(str));
 
@@ -24,12 +25,12 @@ class Account {
   Numbers? numbers;
   String? requestId;
   int? totalTransactions;
-  List<Transaction?>? transactions;
+  List<Transaction>? transactions;
 
   Transaction? getTransactionAt(int index) {
     if (this.transactions != null &&
         (0 <= index && index < this.transactions!.length)) {
-      return this.transactions![index];
+      return this.transactions!.elementAt(index);
     } else {
       return null;
     }
@@ -57,8 +58,9 @@ class Account {
         "numbers": numbers == null ? null : numbers!.toJson(),
         "request_id": requestId,
         "total_transactions": totalTransactions,
-        "transactions":
-            List<dynamic>.from(transactions!.map((x) => x!.toJson())),
+        "transactions": transactions == null
+            ? null
+            : List<dynamic>.from(transactions!.map((x) => x.toJson())),
       };
 }
 
@@ -119,8 +121,9 @@ class Balances {
   dynamic unofficialCurrencyCode;
 
   factory Balances.fromJson(Map<String, dynamic> json) => Balances(
-        available: json["available"].toDouble(),
-        current: json["current"].toDouble(),
+        available:
+            json["available"] == null ? null : json["available"].toDouble(),
+        current: json["current"] == null ? null : json["current"].toDouble(),
         isoCurrencyCode: json["iso_currency_code"],
         limit: json["limit"] == null ? null : json["limit"],
         unofficialCurrencyCode: json["unofficial_currency_code"],
@@ -309,7 +312,7 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         accountId: json["account_id"],
         accountOwner: json["account_owner"],
-        amount: json["amount"].toDouble(),
+        amount: json["amount"] == null ? null : json["amount"].toDouble(),
         authorizedDate: json["authorized_date"] == null
             ? null
             : DateTime.parse(json["authorized_date"]),
@@ -367,6 +370,11 @@ class Transaction {
         "transaction_type": transactionType,
         "unofficial_currency_code": unofficialCurrencyCode,
       };
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "Pay to $name with \$$amount on $authorizedDate \n";
+  }
 }
 
 class Location {
