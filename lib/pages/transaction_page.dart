@@ -23,18 +23,18 @@ class _TransactionPageState extends State<TransactionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: grey.withOpacity(0.05),
-      body: getBody(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: grey.withOpacity(0.05),
+        body: SingleChildScrollView(child: TransactionWidget()),
+      ),
     );
   }
 
-  Widget getBody() {
-    var size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: SingleChildScrollView(child: TransactionWidget()),
-    );
-  }
+//   Widget getBody() {
+//     var size = MediaQuery.of(context).size;
+//     return SingleChildScrollView(child: TransactionWidget());
+//   }
 }
 
 class TransactionWidget extends StatefulWidget {
@@ -59,10 +59,10 @@ class _TransactionWidgetState extends State<TransactionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => plaidrequestcontroller.transactionList!.isEmpty
+    return Obx(() => plaidrequestcontroller.listOfBankAccounts!.isEmpty
         ? Center(child: Text("Please add bank account"))
         : Column(
-            children: plaidrequestcontroller.transactionList!,
+            children: plaidrequestcontroller.listOfBankAccounts!,
           ));
   }
 }
@@ -148,34 +148,45 @@ class TransactionItem extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white60,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(icon),
+          Flexible(flex: 1, child: Icon(icon)),
           SizedBox(
             width: 10,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                description,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              Text(category),
-            ],
+          Expanded(
+            flex: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  description,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  category,
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
           Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("yoyoyo"),
-              Text(date),
-            ],
+          Flexible(
+            flex: 2,
+            child: FittedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text("Amount"),
+                  Text(date),
+                ],
+              ),
+            ),
           ),
         ],
       ),

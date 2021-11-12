@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -50,7 +51,7 @@ class PlaidRequestController extends GetxController {
   late LinkToken linkToken;
   late String accessToken;
   late Account bankAccount;
-  RxList<Widget>? transactionList = <Widget>[].obs;
+  RxList<Widget>? listOfBankAccounts = <Widget>[].obs;
 
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
@@ -143,20 +144,22 @@ class PlaidRequestController extends GetxController {
   void _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
-    print("Try to exchange link token .....");
-    var accessToken = await getAccessToken(publicToken);
-    // var bankAccount = await getBankAccount(accessToken);
-
-    print(accessToken);
     // Initialize DateTime variables
     DateFormat formatter = DateFormat('yyyy-MM-dd');
     final oneMonthAgo =
         formatter.format(DateTime.now().subtract(const Duration(days: 31)));
     var currentDate = formatter.format(DateTime.now());
-    var bankAccountWithTransactions =
-        await getTransaction(accessToken, oneMonthAgo, currentDate);
-    transactionList!.add(
-        TransactionsWithBankTitle(bankAccount: bankAccountWithTransactions));
+
+    await getAccessToken(publicToken).then((accessToken) {
+      getTransaction(accessToken, oneMonthAgo, currentDate).then((bankAccount) {
+        listOfBankAccounts!
+            .add(TransactionsWithBankTitle(bankAccount: bankAccount));
+      }).catchError((onError) {
+        Get.defaultDialog(
+          title: "Error",
+        );
+      });
+    });
   }
 
   void addBankAccount(RxList<Widget> list, Account bankAccount) {
