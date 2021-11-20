@@ -80,8 +80,10 @@ class TransactionsWithBankTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BankTitle(
-            nameOfBank: Get.find<PlaidRequestController>().bankName.value),
+        Obx(
+          () => BankTitle(
+              nameOfBank: Get.find<PlaidRequestController>().bankName.value),
+        ),
         ...(bankAccount.transactions!
             .map((items) => TransactionItem(
                 icon: FontAwesomeIcons.addressBook,
@@ -100,10 +102,10 @@ class TransactionsWithBankTitle extends StatelessWidget {
 class BankTitle extends StatelessWidget {
   BankTitle({
     Key? key,
-    required String? nameOfBank,
+    required String nameOfBank,
   }) : super(key: key);
 
-  final nameOfBank = null;
+  var nameOfBank;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,7 @@ class BankTitle extends StatelessWidget {
         height: 32,
         width: double.infinity,
         child: Align(
-          child: nameOfBank == null ? Text("") : Text("$nameOfBank"),
+          child: Text("$nameOfBank"),
           alignment: Alignment.centerLeft,
         ),
         decoration: BoxDecoration(

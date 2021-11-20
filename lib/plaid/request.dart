@@ -159,7 +159,7 @@ class PlaidRequestController extends GetxController {
       var accessToken = await getAccessToken(publicToken);
       bankAccount = await getTransaction(accessToken, oneMonthAgo, currentDate);
       bankName.value = metadata.institution.name;
-
+      print(bankName.value);
       //TO-DO: SAVE TO LOCAL STORAGE
       listOfBankAccounts
           .add(TransactionsWithBankTitle(bankAccount: bankAccount));
