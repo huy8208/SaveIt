@@ -11,6 +11,9 @@ const String RETRIEVE_AUTH_URL = 'https://sandbox.plaid.com/auth/get';
 const String RETRIEVE_TRANSACTIONS_URL =
     'https://sandbox.plaid.com/transactions/get';
 
+const String SEARCH_INSTITUTION_BY_ID =
+    'https://sandbox.plaid.com/institutions/get_by_id';
+
 // Development
 // const String
 const String RETRIEVE_TRANSACTIONS_URL_DEV =

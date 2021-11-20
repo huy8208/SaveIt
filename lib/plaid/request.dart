@@ -51,7 +51,8 @@ class PlaidRequestController extends GetxController {
   late LinkToken linkToken;
   late String accessToken;
   late Account bankAccount;
-  RxList<Widget>? listOfBankAccounts = <Widget>[].obs;
+  RxList<Widget> listOfBankAccounts = <Widget>[].obs;
+  var bankName = "".obs;
 
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
@@ -117,6 +118,7 @@ class PlaidRequestController extends GetxController {
       // isLoading(false);
       return accountFromJson(response.body);
     } else {
+      print(response.body);
       throw Exception('Failed to get Bank Account!');
     }
   }
@@ -137,6 +139,7 @@ class PlaidRequestController extends GetxController {
     if (response.statusCode == 200) {
       return accountFromJson(response.body);
     } else {
+      print(response.body);
       throw Exception('Failed to get Transactions!');
     }
   }
@@ -150,16 +153,20 @@ class PlaidRequestController extends GetxController {
         formatter.format(DateTime.now().subtract(const Duration(days: 31)));
     var currentDate = formatter.format(DateTime.now());
 
-    await getAccessToken(publicToken).then((accessToken) {
-      getTransaction(accessToken, oneMonthAgo, currentDate).then((bankAccount) {
-        listOfBankAccounts!
-            .add(TransactionsWithBankTitle(bankAccount: bankAccount));
-      }).catchError((onError) {
-        Get.defaultDialog(
-          title: "Error",
-        );
-      });
-    });
+    //TO-DO: NEED TO HANDLE ERROR HERE IF CONNECTION TROUBLES
+
+    try {
+      var accessToken = await getAccessToken(publicToken);
+      bankAccount = await getTransaction(accessToken, oneMonthAgo, currentDate);
+      bankName.value = metadata.institution.name;
+
+      //TO-DO: SAVE TO LOCAL STORAGE
+      listOfBankAccounts
+          .add(TransactionsWithBankTitle(bankAccount: bankAccount));
+    } catch (e) {
+      print(e);
+      Get.defaultDialog(title: "Error! Could not fetch transactions!");
+    }
   }
 
   void addBankAccount(RxList<Widget> list, Account bankAccount) {

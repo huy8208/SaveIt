@@ -21,7 +21,7 @@ class Account {
   });
 
   List<AccountElement> accounts;
-  Item? item;
+  Item item;
   Numbers? numbers;
   String? requestId;
   int? totalTransactions;
@@ -39,7 +39,7 @@ class Account {
   factory Account.fromJson(Map<String, dynamic> json) => Account(
         accounts: List<AccountElement>.from(
             json["accounts"].map((x) => AccountElement.fromJson(x))),
-        item: json["item"] == null ? null : Item.fromJson(json["item"]),
+        item: Item.fromJson(json["item"]),
         numbers:
             json["numbers"] == null ? null : Numbers.fromJson(json["numbers"]),
         requestId: json["request_id"] == null ? null : json["request_id"],
@@ -54,7 +54,7 @@ class Account {
 
   Map<String, dynamic> toJson() => {
         "accounts": List<dynamic>.from(accounts.map((x) => x.toJson())),
-        "item": item == null ? null : item!.toJson(),
+        "item": item.toJson(),
         "numbers": numbers == null ? null : numbers!.toJson(),
         "request_id": requestId,
         "total_transactions": totalTransactions,
@@ -145,6 +145,7 @@ class Item {
     required this.consentExpirationTime,
     required this.error,
     required this.institutionId,
+    this.institutionName,
     required this.itemId,
     required this.updateType,
     required this.webhook,
@@ -154,7 +155,8 @@ class Item {
   List<String>? billedProducts;
   dynamic consentExpirationTime;
   dynamic error;
-  String? institutionId;
+  String institutionId;
+  String? institutionName;
   String? itemId;
   String? updateType;
   String? webhook;
@@ -184,6 +186,8 @@ class Item {
         "consent_expiration_time": consentExpirationTime,
         "error": error,
         "institution_id": institutionId,
+        "institution_name_added":
+            institutionName == null ? null : institutionName,
         "item_id": itemId,
         "update_type": updateType,
         "webhook": webhook,
@@ -287,10 +291,10 @@ class Transaction {
 
   String? accountId;
   dynamic accountOwner;
-  double? amount;
+  double amount;
   DateTime? authorizedDate;
   dynamic authorizedDatetime;
-  List<String>? category;
+  List<String> category;
   String? categoryId;
   dynamic checkNumber;
   DateTime? date;
@@ -312,14 +316,12 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         accountId: json["account_id"],
         accountOwner: json["account_owner"],
-        amount: json["amount"] == null ? null : json["amount"].toDouble(),
+        amount: json["amount"].toDouble(),
         authorizedDate: json["authorized_date"] == null
             ? null
             : DateTime.parse(json["authorized_date"]),
         authorizedDatetime: json["authorized_datetime"],
-        category: json["category"] == null
-            ? null
-            : List<String>.from(json["category"].map((x) => x)),
+        category: List<String>.from(json["category"].map((x) => x)),
         categoryId: json["category_id"],
         checkNumber: json["check_number"],
         date: DateTime.parse(json["date"]),
@@ -348,9 +350,7 @@ class Transaction {
             ? null
             : "${authorizedDate!.year.toString().padLeft(4, '0')}-${authorizedDate!.month.toString().padLeft(2, '0')}-${authorizedDate!.day.toString().padLeft(2, '0')}",
         "authorized_datetime": authorizedDatetime,
-        "category": category == null
-            ? null
-            : List<dynamic>.from(category!.map((x) => x)),
+        "category": List<dynamic>.from(category.map((x) => x)),
         "category_id": categoryId,
         "check_number": checkNumber,
         "date":
@@ -462,5 +462,88 @@ class PaymentMeta {
         "ppd_id": ppdId,
         "reason": reason,
         "reference_number": referenceNumber,
+      };
+}
+
+Institution institutionFromJson(String str) =>
+    Institution.fromJson(json.decode(str));
+
+String institutionToJson(Institution data) => json.encode(data.toJson());
+
+class Institution {
+  Institution({
+    this.institution,
+    this.requestId,
+  });
+
+  InstitutionClass? institution;
+  String? requestId;
+
+  factory Institution.fromJson(Map<String, dynamic> json) => Institution(
+        institution: json["institution"] == null
+            ? null
+            : InstitutionClass.fromJson(json["institution"]),
+        requestId: json["request_id"] == null ? null : json["request_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "institution": institution == null ? null : institution!.toJson(),
+        "request_id": requestId == null ? null : requestId,
+      };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "this is institution name: $institution.name";
+  }
+}
+
+class InstitutionClass {
+  InstitutionClass({
+    required this.countryCodes,
+    required this.institutionId,
+    required this.name,
+    required this.oauth,
+    required this.products,
+    required this.routingNumbers,
+  });
+
+  List<String>? countryCodes;
+  String institutionId;
+  String? name;
+  bool? oauth;
+  List<String>? products;
+  List<String>? routingNumbers;
+
+  factory InstitutionClass.fromJson(Map<String, dynamic> json) =>
+      InstitutionClass(
+        countryCodes: json["country_codes"] == null
+            ? null
+            : List<String>.from(json["country_codes"].map((x) => x)),
+        institutionId:
+            json["institution_id"] == null ? null : json["institution_id"],
+        name: json["name"] == null ? null : json["name"],
+        oauth: json["oauth"] == null ? null : json["oauth"],
+        products: json["products"] == null
+            ? null
+            : List<String>.from(json["products"].map((x) => x)),
+        routingNumbers: json["routing_numbers"] == null
+            ? null
+            : List<String>.from(json["routing_numbers"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "country_codes": countryCodes == null
+            ? null
+            : List<dynamic>.from(countryCodes!.map((x) => x)),
+        "institution_id": institutionId,
+        "name": name == null ? null : name,
+        "oauth": oauth == null ? null : oauth,
+        "products": products == null
+            ? null
+            : List<dynamic>.from(products!.map((x) => x)),
+        "routing_numbers": routingNumbers == null
+            ? null
+            : List<dynamic>.from(routingNumbers!.map((x) => x)),
       };
 }

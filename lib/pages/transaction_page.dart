@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/plaid/request.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TransactionPage extends StatefulWidget {
   @override
@@ -15,9 +16,12 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   int activeDay = 3;
   bool hasBankAccount = true;
+  late PlaidRequestController plaidrequestcontroller;
 
   @override
   void initState() {
+    // Initialize Plaid Controller.
+    plaidrequestcontroller = Get.put(PlaidRequestController());
     super.initState();
   }
 
@@ -48,22 +52,20 @@ class TransactionWidget extends StatefulWidget {
 
 class _TransactionWidgetState extends State<TransactionWidget> {
   late Account bankAccount;
-  late PlaidRequestController plaidrequestcontroller;
 
   @override
   void initState() {
     super.initState();
-    // Initialize Plaid Controller.
-    plaidrequestcontroller = Get.put(PlaidRequestController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => plaidrequestcontroller.listOfBankAccounts!.isEmpty
-        ? Center(child: Text("Please add bank account"))
-        : Column(
-            children: plaidrequestcontroller.listOfBankAccounts!,
-          ));
+    return Obx(
+        () => Get.find<PlaidRequestController>().listOfBankAccounts.isEmpty
+            ? Center(child: Text("Please add bank account"))
+            : Column(
+                children: Get.find<PlaidRequestController>().listOfBankAccounts,
+              ));
   }
 }
 
@@ -78,28 +80,30 @@ class TransactionsWithBankTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BankTitle(nameOfBank: "Bank Of America"),
+        BankTitle(
+            nameOfBank: Get.find<PlaidRequestController>().bankName.value),
         ...(bankAccount.transactions!
             .map((items) => TransactionItem(
                 icon: FontAwesomeIcons.addressBook,
                 description: items.name!,
-                category: "category",
-                price: 50.0,
-                date: "10-20-2020"))
-            .toList()
-            .take(5))
+                category: items.category[0],
+                amount: items.amount,
+                date: items.authorizedDate == null
+                    ? ""
+                    : DateFormat('MM-dd-yyyy').format(items.authorizedDate!)))
+            .toList())
       ],
     );
   }
 }
 
 class BankTitle extends StatelessWidget {
-  const BankTitle({
+  BankTitle({
     Key? key,
-    required String nameOfBank,
+    required String? nameOfBank,
   }) : super(key: key);
 
-  final String nameOfBank = "None";
+  final nameOfBank = null;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +114,7 @@ class BankTitle extends StatelessWidget {
         height: 32,
         width: double.infinity,
         child: Align(
-          child: Text("$nameOfBank"),
+          child: nameOfBank == null ? Text("") : Text("$nameOfBank"),
           alignment: Alignment.centerLeft,
         ),
         decoration: BoxDecoration(
@@ -130,14 +134,14 @@ class TransactionItem extends StatelessWidget {
     required this.icon,
     required this.description,
     required this.category,
-    required this.price,
+    required this.amount,
     required this.date,
   }) : super(key: key);
 
   final IconData icon;
   final String description;
   final String category;
-  final double price;
+  final double amount;
   final String date;
 
   @override
@@ -182,7 +186,7 @@ class TransactionItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("Amount"),
+                  Text("\$" + amount.toString()),
                   Text(date),
                 ],
               ),
