@@ -1,0 +1,22 @@
+{
+    "budgets": [
+       
+        {
+                "name": "Automobile",
+                 "price": 3000,
+                 "label_percentage": "70%",
+                 "percentage": 0.7,
+                 "color": "red",
+                 "total":5000
+        },
+        
+        {
+            "name": "Automobile",
+             "price": 3000,
+             "label_percentage": "70%",
+             "percentage": 0.7,
+             "color": "red",
+             "total":5000
+    }
+    ]
+}
