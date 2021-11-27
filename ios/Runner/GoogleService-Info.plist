@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>397674686664-jp7jmllhnis6u31vk5t7gqv42c7js118.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.397674686664-jp7jmllhnis6u31vk5t7gqv42c7js118</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAMlKIdJpzzHHvR80dr-At-jaSjilLHxsQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>397674686664</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.budgetTrackerUi</string>
+	<key>PROJECT_ID</key>
+	<string>save-it-3985a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>save-it-3985a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:397674686664:ios:348d0b6c399f64d0181dfd</string>
+</dict>
+</plist>
