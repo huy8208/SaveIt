@@ -100,12 +100,12 @@ class TransactionsWithBankTitle extends StatelessWidget {
 }
 
 class BankTitle extends StatelessWidget {
-  BankTitle({
+  const BankTitle({
     Key? key,
-    required String nameOfBank,
+    required String this.nameOfBank,
   }) : super(key: key);
 
-  var nameOfBank;
+  final String nameOfBank;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class BankTitle extends StatelessWidget {
         height: 32,
         width: double.infinity,
         child: Align(
-          child: Text("$nameOfBank"),
+          child: Text(nameOfBank),
           alignment: Alignment.centerLeft,
         ),
         decoration: BoxDecoration(
