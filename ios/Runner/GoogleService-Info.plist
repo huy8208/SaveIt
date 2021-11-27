@@ -1,1 +1,9 @@
-<!-- Copy GoogleService-Info.plist content into this file -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd%22%3E
+<plist version="1.0">
+<dict>
+
+ADD REQUIRED PROJECT KEYS HERE
+
+</dict>
+</plist>
