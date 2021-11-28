@@ -7,46 +7,8 @@ class SignInPage extends StatelessWidget {
   SignInPage({Key? key, required this.onSignIn}) : super(key: key);
 
   final void Function(User) onSignIn;
-
-  Future<void> signInAnonymously() async {
-    try {
-      final userCredentials = await FirebaseAuth.instance.signInAnonymously();
-      onSignIn(userCredentials.user!);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> signIn(String email, String password) async {
-    try {
-      final userCredentials = await FirebaseAuth.instance.signInWithCredential(
-          EmailAuthProvider.credential(email: email, password: password));
-      onSignIn(userCredentials.user!);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> register(String email, String password) async {
-    try {
-      final userCredentials =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      onSignIn(userCredentials.user!);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-
-  // void _submit() {
-  //   print(
-  //       'email: ${_emailController.text}, password: ${_passwordController.text}');
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,28 +20,22 @@ class SignInPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // EmailSignInForm(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
-              children: _buildChildren(),
+              children: _buildChildren(context),
             ),
-          ),
-          ElevatedButton(
-            child: Text('Test Sign in'),
-            onPressed: () {
-              signInAnonymously();
-            },
           ),
         ],
       ),
     );
   }
 
-  List<Widget> _buildChildren() {
+  List<Widget> _buildChildren(BuildContext context) {
     return [
+      SizedBox(height: 80.0),
       TextField(
         controller: _emailController,
         decoration: InputDecoration(
@@ -95,19 +51,74 @@ class SignInPage extends StatelessWidget {
         ),
         obscureText: true,
       ),
-      SizedBox(height: 20.0),
+      SizedBox(height: 50.0),
       ElevatedButton(
         child: Text('Sign in'),
         onPressed: () {
-          signIn(_emailController.text, _passwordController.text);
+          signIn(_emailController.text, _passwordController.text, context);
         },
       ),
+      SizedBox(height: 10.0),
       ElevatedButton(
         child: Text('Register'),
         onPressed: () {
-          register(_emailController.text, _passwordController.text);
+          register(_emailController.text, _passwordController.text, context);
         },
       )
     ];
+  }
+
+  Future<void> signIn(
+      String email, String password, BuildContext context) async {
+    try {
+      final userCredentials = await FirebaseAuth.instance.signInWithCredential(
+          EmailAuthProvider.credential(email: email, password: password));
+      onSignIn(userCredentials.user!);
+    } catch (e) {
+      print(e.toString());
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Could not sign in'),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> register(
+      String email, String password, BuildContext context) async {
+    try {
+      final userCredentials =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      onSignIn(userCredentials.user!);
+    } catch (e) {
+      print(e.toString());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Could not register account'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            );
+          });
+    }
   }
 }
