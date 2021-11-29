@@ -1,70 +1,62 @@
+// To parse this JSON data, do
+//
+//     final budget = budgetFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:core';
-import 'package:get/get.dart';
 
-class budget {
-  List<Budgets> budgets;
+Budget budgetFromJson(String str) => Budget.fromJson(json.decode(str));
 
-  budget({this.budgets});
+String budgetToJson(Budget data) => json.encode(data.toJson());
 
-  budget.fromJson(Map<String, dynamic> json) {
-    if (json['budgets'] != null) {
-      budgets = new List<Budgets>();
-      json['budgets'].forEach((v) {
-        budgets.add(new Budgets.fromJson(v));
-      });
-    }
-  }
+class Budget {
+  Budget({
+    required this.budgets,
+  });
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.budgets != null) {
-      data['budgets'] = this.budgets.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  List<BudgetElement> budgets;
 
-  void main(){
-    
-    Budgets budgets = Budgets.fromJson(jsonDecode(budget));
-    print(budgets);
-  }
+  factory Budget.fromJson(Map<String, dynamic> json) => Budget(
+        budgets: List<BudgetElement>.from(
+            json["budgets"].map((x) => BudgetElement.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "budgets": List<dynamic>.from(budgets.map((x) => x.toJson())),
+      };
 }
 
-class Budgets {
+class BudgetElement {
+  BudgetElement({
+    required this.name,
+    required this.price,
+    required this.labelPercentage,
+    required this.percentage,
+    required this.color,
+    required this.total,
+  });
+
   String name;
-  double price;
+  int price;
   String labelPercentage;
   double percentage;
   String color;
   int total;
 
-  Budgets(
-      {this.name,
-      this.price,
-      this.labelPercentage,
-      this.percentage,
-      this.color,
-      this.total});
+  factory BudgetElement.fromJson(Map<String, dynamic> json) => BudgetElement(
+        name: json["name"],
+        price: json["price"],
+        labelPercentage: json["label_percentage"],
+        percentage: json["percentage"].toDouble(),
+        color: json["color"],
+        total: json["total"],
+      );
 
-  Budgets.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    price = json['price'];
-    labelPercentage = json['label_percentage'];
-    percentage = json['percentage'];
-    color = json['color'];
-    total = json['total'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['price'] = this.price;
-    data['label_percentage'] = this.labelPercentage;
-    data['percentage'] = this.percentage;
-    data['color'] = this.color;
-    data['total'] = this.total;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "price": price,
+        "label_percentage": labelPercentage,
+        "percentage": percentage,
+        "color": color,
+        "total": total,
+      };
 }
