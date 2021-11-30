@@ -9,6 +9,7 @@ class SignInPage extends StatelessWidget {
   final void Function(User) onSignIn;
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
+  static final userCredentials = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
