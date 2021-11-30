@@ -1,4 +1,3 @@
-
 import 'package:budget_tracker_ui/json/budget_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
@@ -22,10 +21,10 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-String priceToString(int index1){
-  var price =  budget_json[index1]['price'].toString();
-  return price;
-}
+  String priceToString(int index1) {
+    var price = budget_json[index1]['price'].toString();
+    return price;
+  }
 
   Widget getBody() {
     var size = MediaQuery.of(context).size;
