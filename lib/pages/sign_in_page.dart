@@ -9,7 +9,7 @@ class SignInPage extends StatelessWidget {
   final void Function(User) onSignIn;
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  static final userCredentials = FirebaseAuth.instance;
+  static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +69,26 @@ class SignInPage extends StatelessWidget {
     ];
   }
 
+  static Future signOut() async {
+    return await _userCredentials.signOut();
+  }
+
+  Future<String> getCurrentUID() async {
+    return await (_userCredentials.currentUser)!.uid;
+  }
+
+  static getCurrentUser() async {
+    return await (_userCredentials.currentUser!);
+  }
+
+  static ChangePassword(newPassword) async {
+    return await (_userCredentials.currentUser!.updatePassword(newPassword));
+  }
+
   Future<void> signIn(
       String email, String password, BuildContext context) async {
     try {
-      final userCredentials = await FirebaseAuth.instance.signInWithCredential(
+      final userCredentials = await _userCredentials.signInWithCredential(
           EmailAuthProvider.credential(email: email, password: password));
       onSignIn(userCredentials.user!);
     } catch (e) {
@@ -99,7 +115,7 @@ class SignInPage extends StatelessWidget {
       String email, String password, BuildContext context) async {
     try {
       final userCredentials =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await _userCredentials.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );

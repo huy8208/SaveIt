@@ -1,11 +1,14 @@
 import 'package:budget_tracker_ui/models/notification.dart';
+import 'package:budget_tracker_ui/pages/root_app.dart';
+import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
-import 'package:budget_tracker_ui/models/notification.dart';
+
+import 'landing_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -13,11 +16,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController _email =
-      TextEditingController(text: "abbie_wilson@gmail.com");
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
-  TextEditingController password = TextEditingController(text: "123456");
   bool notiToggle = false;
+  bool passChangedBool = false;
   int notifyOptions = 1;
 
   @override
@@ -25,6 +26,57 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     Notifications.initizlize();
     listenNotification();
+  }
+
+  passwordDialog(BuildContext context) {
+    TextEditingController password = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Change Password'),
+            content: TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                  hintText: "Enter Password", border: InputBorder.none),
+              controller: password,
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  //elevation: 5.0,
+                  child: Text('Submit'),
+                  onPressed: () async {
+                    try {
+                      await SignInPage.ChangePassword(password.text);
+                      Navigator.of(context).pop();
+                      passChangedBool = true;
+                    } catch (e) {
+                      print(e.toString());
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Could not Change Password'),
+                              content: Text(e.toString()),
+                              actions: [
+                                TextButton(
+                                    child: Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    }),
+                              ],
+                            );
+                          });
+                    }
+                    if (passChangedBool) {
+                      SnackBar passChange =
+                          SnackBar(content: Text('Password Changed'));
+                      ScaffoldMessenger.of(context).showSnackBar(passChange);
+                    }
+                  })
+            ],
+          );
+        });
   }
 
   void listenNotification() =>
@@ -72,8 +124,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: black),
                       ),
                       IconButton(
-                        onPressed: () {
-                          print("press");
+                        onPressed: () async {
+                          await SignInPage.signOut();
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => SignInPage(
+                                      onSignIn: (User) {},
+                                    )),
+                            (Route route) => false,
+                          );
                         },
                         icon: Icon(
                           FontAwesomeIcons.signOutAlt,
@@ -157,12 +216,19 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 13,
                       color: Color(0xff67727d)),
                 ),
-                TextField(
+                Text(
+                  '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                      color: Color(0xff67727d)),
+                ),
+                /*TextField(
                   controller: _email,
                   cursorColor: black,
                   style: TextStyle(
                       fontSize: 17, fontWeight: FontWeight.bold, color: black),
-                ),
+                ),*/
                 SizedBox(
                   height: 20,
                 ),
@@ -180,24 +246,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 17, fontWeight: FontWeight.bold, color: black),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                Text(
+                ElevatedButton(
+                  onPressed: () {
+                    passwordDialog(context);
+                  },
+                  child: Text('Change Password'),
+                ),
+                /*Text(
                   "Change Password",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 17,
                       color: Color(0xff67727d)),
-                ),
+                ),*/
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Divider(
                   color: Colors.black,
                   thickness: 0.5,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text(
                   "Notification",
