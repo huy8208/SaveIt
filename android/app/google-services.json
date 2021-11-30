@@ -1,0 +1,46 @@
+{
+    "project_info": {
+      "project_number": "846795433880",
+      "project_id": "saveit-824fa",
+      "storage_bucket": "saveit-824fa.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:846795433880:android:56c88c271b73dcfc3feded",
+          "android_client_info": {
+            "package_name": "com.example.budget_tracker_ui"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "846795433880-5tlnp5vp54066b1f3uqe95oek85a8oes.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyA2ZnyWk22jGRwXQEpwkJ7zPi1W5-4-Nro"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "846795433880-5tlnp5vp54066b1f3uqe95oek85a8oes.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "846795433880-sq38o7cevtsmtf3iu54rpuutbfo1bdp9.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "com.example.budgetTrackerUi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
