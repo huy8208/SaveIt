@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:budget_tracker_ui/db/shared_preferences_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,7 @@ import 'env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
@@ -152,15 +154,20 @@ class PlaidRequestController extends GetxController {
     final oneMonthAgo =
         formatter.format(DateTime.now().subtract(const Duration(days: 31)));
     var currentDate = formatter.format(DateTime.now());
-
     //TO-DO: NEED TO HANDLE ERROR HERE IF CONNECTION TROUBLES
 
     try {
       var accessToken = await getAccessToken(publicToken);
       bankAccount = await getTransaction(accessToken, oneMonthAgo, currentDate);
       bankName.value = metadata.institution.name;
-      print(bankName.value);
       //TO-DO: SAVE TO LOCAL STORAGE
+      final storage = new FlutterSecureStorage();
+      List<dynamic>? localAccounts = await loadAllAccountsFromLocalStorage();
+      if (localAccounts != null) {
+        localAccounts.add(bankAccount);
+        storage.write(
+            key: "local_transactions_data", value: json.encode(localAccounts));
+      }
       listOfBankAccounts
           .add(TransactionsWithBankTitle(bankAccount: bankAccount));
     } catch (e) {

@@ -38,6 +38,8 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   get: ^4.3.8
   intl: ^0.17.0
+  shared_preferences: ^2.0.9
+  flutter_secure_storage: ^5.0.2
   flutter_local_notifications: ^9.1.4
   rxdart: ^0.27.3
   firebase_messaging: ^11.1.0
@@ -46,10 +48,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_name: "^0.0.1"
-  
+
 flutter_launcher_name:
   name: "SaveIt"
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
