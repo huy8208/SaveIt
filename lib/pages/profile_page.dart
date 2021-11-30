@@ -1,10 +1,11 @@
+import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
-import 'create_budget.dart';
+import 'package:budget_tracker_ui/models/notification.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,10 +13,25 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController _email = TextEditingController(text: "abbie_wilson@gmail.com");
+  TextEditingController _email =
+      TextEditingController(text: "abbie_wilson@gmail.com");
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
   TextEditingController password = TextEditingController(text: "123456");
   bool notiToggle = false;
+  int notifyOptions = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    Notifications.initizlize();
+    listenNotification();
+  }
+
+  void listenNotification() =>
+      Notifications.onNotification.stream.listen((clickedNotify));
+
+  void clickedNotify(String? payload) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => (ProfilePage())));
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +140,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       )
                     ],
                   ),
-
                 ],
               ),
             ),
           ),
-          SizedBox(
-            height: 25
-          ),
+          SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
@@ -176,17 +189,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 17,
                       color: Color(0xff67727d)),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-                 Divider(
-              color: Colors.black,
-              thickness: 0.5,
+                Divider(
+                  color: Colors.black,
+                  thickness: 0.5,
                 ),
-              SizedBox(
+                SizedBox(
                   height: 20,
                 ),
-
                 Text(
                   "Notification",
                   style: TextStyle(
@@ -194,22 +206,30 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 17,
                       color: Color(0xff67727d)),
                 ),
-           CupertinoSwitch(
-            value: this.notiToggle,
-            onChanged: (bool value) {
-              setState(() {
-                this.notiToggle = value;
-              });
-            },
-             ),
-            Divider(
-              color: Colors.black,
-              thickness: 0.5,
+                CupertinoSwitch(
+                  value: this.notiToggle,
+                  onChanged: (bool value) {
+                    setState(() {
+                      this.notiToggle = value;
+                      notifyOptions += 1;
+                    });
+                    if (notifyOptions % 2 == 0) {
+                      Notifications.instantNotify(
+                        title: 'Demo',
+                        body: 'body',
+                        payload: 'payload',
+                      );
+                    } else {
+                      Notifications.cancelNotification();
+                      print('cancel');
+                    }
+                  },
                 ),
-
+                Divider(
+                  color: Colors.black,
+                  thickness: 0.5,
+                ),
               ],
-              
-
             ),
           )
         ],
@@ -217,4 +237,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-

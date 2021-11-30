@@ -1,10 +1,10 @@
-
 import 'package:budget_tracker_ui/pages/budget_page.dart';
 import 'package:budget_tracker_ui/pages/add_bank_account.dart';
 import 'package:budget_tracker_ui/pages/create_budget.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:budget_tracker_ui/pages/profile_page.dart';
 import 'package:budget_tracker_ui/pages/home_page.dart';
+import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
