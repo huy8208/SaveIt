@@ -1,8 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.budget_tracker_ui">
+                <!-- Required to fetch data from the internet. -->
+     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
    <application
-        android:label="budget_tracker_ui"
+        android:label="SaveIt"
         android:icon="@mipmap/ic_launcher">
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+        <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+       </intent-filter>
+        </receiver>
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -37,7 +50,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-            <!-- Required to fetch data from the internet. -->
-        <uses-permission android:name="android.permission.INTERNET" />
+
     </application>
 </manifest>

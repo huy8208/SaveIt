@@ -3,6 +3,7 @@ import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:budget_tracker_ui/pages/create_budget.dart';
 
 class BudgetPage extends StatefulWidget {
   @override
@@ -11,12 +12,18 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
     );
+  }
+
+  String priceToString(int index1) {
+    var price = budget_json[index1]['price'].toString();
+    return price;
   }
 
   Widget getBody() {
@@ -51,46 +58,33 @@ class _BudgetPageState extends State<BudgetPage> {
                       ),
                       Row(
                         children: [
-                         /*  Icon(
-                            Icons.add,
-                            size: 25,
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          (CreateBudgetPage())));
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              size: 25,
+                            ),
                           ),
-                          SizedBox(
+                          /*SizedBox(
                             width: 20,
-                          ),
-                          Icon(FontAwesomeIcons.search) */
+                          ),*/
 
-                            IconButton(
-                              onPressed: () {
-                                print("press");
-                              },
-                              icon: Icon(
-                                Icons.add,
-                                size: 25,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                print("press");
-                              },
-                              icon: Icon(
-                                FontAwesomeIcons.search,
-                                size: 25,
-                              ),
-                            )
-                            
-            //params
-
+                          //params
                         ],
                       )
                     ],
                   ),
+                  /*
                   SizedBox(
                     height: 25,
                   ),
+
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: List.generate(months.length, (index) {
@@ -139,7 +133,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             ),
                           ),
                         );
-                      }))
+                      }))*/
                 ],
               ),
             ),
@@ -188,7 +182,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             Row(
                               children: [
                                 Text(
-                                  budget_json[index]['price'],
+                                  priceToString(index),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -213,7 +207,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text(
-                                "\$5000.00",
+                                "\$" + priceToString(index),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
