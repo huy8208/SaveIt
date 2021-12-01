@@ -1,7 +1,35 @@
+<!-- IOS REQUIRED KEYS FOR FIREBASE (SaveIt/ios/Runner/GoogleService-Info.plist) -->
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd%22%3E
 <plist version="1.0">
 <dict>
-<!-- ADD KEYS HERE -->
+ <key>CLIENT_ID</key>
+    <string>846795433880-sq38o7cevtsmtf3iu54rpuutbfo1bdp9.apps.googleusercontent.com</string>
+    <key>REVERSED_CLIENT_ID</key>
+    <string>com.googleusercontent.apps.846795433880-sq38o7cevtsmtf3iu54rpuutbfo1bdp9</string>
+    <key>API_KEY</key>
+    <string>AIzaSyA3fz1XN60WZSjga-w0Kdb2M5U_vvWURwg</string>
+    <key>GCM_SENDER_ID</key>
+    <string>846795433880</string>
+    <key>PLIST_VERSION</key>
+    <string>1</string>
+    <key>BUNDLE_ID</key>
+    <string>com.example.budgetTrackerUi</string>
+    <key>PROJECT_ID</key>
+    <string>saveit-824fa</string>
+    <key>STORAGE_BUCKET</key>
+    <string>saveit-824fa.appspot.com</string>
+    <key>IS_ADS_ENABLED</key>
+    <false/>
+    <key>IS_ANALYTICS_ENABLED</key>
+    <false/>
+    <key>IS_APPINVITE_ENABLED</key>
+    <true/>
+    <key>IS_GCM_ENABLED</key>
+    <true/>
+    <key>IS_SIGNIN_ENABLED</key>
+    <true/>
+    <key>GOOGLE_APP_ID</key>
+    <string>1:846795433880:ios:da30517a51f192b93feded</string>
 </dict>
 </plist>
