@@ -1,9 +1,11 @@
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
+import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'budget_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateBudgetPage extends StatefulWidget {
   @override
@@ -11,9 +13,19 @@ class CreateBudgetPage extends StatefulWidget {
 }
 
 class _CreateBudgetPageState extends State<CreateBudgetPage> {
+  final FirebaseFirestore _userData = FirebaseFirestore.instance;
+
   int activeCategory = 0;
   TextEditingController _budgetName = TextEditingController();
-  TextEditingController _budgetPrice = TextEditingController();
+  TextEditingController _budgetAmount = TextEditingController();
+  String uid = SignInPage.getCurrentUID();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +75,6 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-
                     ],
                   ),
                 ],
@@ -92,7 +103,8 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                   setState(() {
                     activeCategory = index;
                   });
-                  _budgetName = TextEditingController(text:categories[index]['name']);
+                  _budgetName =
+                      TextEditingController(text: categories[index]['name']);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -198,8 +210,9 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                                 color: Color(0xff67727d)),
                           ),
                           TextField(
-                            controller: _budgetPrice,
+                            controller: _budgetAmount,
                             cursorColor: black,
+                            keyboardType: TextInputType.number,
                             style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -221,11 +234,22 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                           color: primary,
                           borderRadius: BorderRadius.circular(15)),
                       child: IconButton(
-                        onPressed: () {
-                          print("press");
+                        onPressed: () async {
+                          await _userData
+                              .collection('user')
+                              .doc(uid)
+                              .collection('budgets')
+                              .add({
+                            'budget_Catagory': _budgetName.text,
+                            'budget_TotalAmount':
+                                double.parse(_budgetAmount.text),
+                            'current_Amount': 0.00
+                          });
+
+                          Navigator.of(context).pop();
                         },
                         icon: Icon(
-                           Icons.arrow_forward,
+                          Icons.arrow_forward,
                           color: white,
                         ),
                       ),

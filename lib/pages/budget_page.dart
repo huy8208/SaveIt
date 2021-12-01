@@ -1,9 +1,15 @@
+import 'dart:math';
+
 import 'package:budget_tracker_ui/json/budget_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
+import 'package:budget_tracker_ui/models/budgetDb.dart';
+import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/pages/create_budget.dart';
+import 'create_budget.dart';
 
 class BudgetPage extends StatefulWidget {
   @override
@@ -12,23 +18,70 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
+  List _budgetList = [];
+  final List color = [red, blue, green];
+
+  @override
+  void initState() {
+    super.initState();
+    budgetDBList();
+  }
+
+  budgetDBList() async {
+    dynamic budgetList = await BudgetDB().getBudgetsList();
+
+    if (budgetList == null) {
+      print('Loading');
+    } else {
+      setState(() {
+        _budgetList = budgetList;
+      });
+    }
+  }
+
+  String currentAmountToString(int index1) {
+    var price = _budgetList[index1]['current_Amount'].toString();
+    return price;
+  }
+
+  double percentageCalculation(int index1) {
+    var percentage = _budgetList[index1]['current_Amount'] /
+        _budgetList[index1]['budget_TotalAmount'];
+    return percentage;
+  }
+
+  String percentageLabel(int index1) {
+    var num1 = _budgetList[index1]['current_Amount'];
+    var num2 = _budgetList[index1]['budget_TotalAmount'];
+    num percentage = (num1 / num2) * 100;
+    var temp = percentage.toStringAsFixed(2);
+    var percentageLabel = '$temp' + '%';
+    return percentageLabel;
+  }
+
+  String budgetName(int index1) {
+    String budgetName = _budgetList[index1]['budget_Catagory'];
+    return budgetName;
+  }
+
+  String totalBudget(int index1) {
+    String totalBudget = _budgetList[index1]['budget_TotalAmount'].toString();
+    return totalBudget;
+  }
+
+  Color randomColor() {
+    var random = new Random();
+    var randomC = color[random.nextInt(color.length)];
+    return randomC;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: grey.withOpacity(0.05),
-      body: getBody(),
-    );
-  }
-
-  String priceToString(int index1) {
-    var price = budget_json[index1]['price'].toString();
-    return price;
+    return Scaffold(backgroundColor: grey.withOpacity(0.05), body: getBody());
   }
 
   Widget getBody() {
     var size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -71,69 +124,10 @@ class _BudgetPageState extends State<BudgetPage> {
                               size: 25,
                             ),
                           ),
-                          /*SizedBox(
-                            width: 20,
-                          ),*/
-
-                          //params
                         ],
                       )
                     ],
                   ),
-                  /*
-                  SizedBox(
-                    height: 25,
-                  ),
-
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(months.length, (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              activeDay = index;
-                            });
-                          },
-                          child: Container(
-                            width: (MediaQuery.of(context).size.width - 40) / 6,
-                            child: Column(
-                              children: [
-                                Text(
-                                  months[index]['label'],
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: activeDay == index
-                                          ? primary
-                                          : black.withOpacity(0.02),
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                          color: activeDay == index
-                                              ? primary
-                                              : black.withOpacity(0.1))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, right: 12, top: 7, bottom: 7),
-                                    child: Text(
-                                      months[index]['day'],
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: activeDay == index
-                                              ? white
-                                              : black),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }))*/
                 ],
               ),
             ),
@@ -144,7 +138,7 @@ class _BudgetPageState extends State<BudgetPage> {
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
-                children: List.generate(budget_json.length, (index) {
+                children: List.generate(_budgetList.length, (index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Container(
@@ -167,7 +161,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          budget_json[index]['name'],
+                          budgetName(index),
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13,
@@ -182,7 +176,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             Row(
                               children: [
                                 Text(
-                                  priceToString(index),
+                                  "\$" + currentAmountToString(index),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -194,7 +188,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 3),
                                   child: Text(
-                                    budget_json[index]['label_percentage'],
+                                    percentageLabel(index),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 13,
@@ -207,7 +201,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text(
-                                "\$" + priceToString(index),
+                                "\$" + totalBudget(index),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
@@ -230,11 +224,11 @@ class _BudgetPageState extends State<BudgetPage> {
                             ),
                             Container(
                               width: (size.width - 40) *
-                                  budget_json[index]['percentage'],
+                                  percentageCalculation(index),
                               height: 4,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: budget_json[index]['color']),
+                                  color: randomColor()),
                             ),
                           ],
                         )

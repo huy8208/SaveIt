@@ -1,5 +1,4 @@
 import 'package:budget_tracker_ui/models/notification.dart';
-import 'package:budget_tracker_ui/pages/root_app.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 
-import 'landing_page.dart';
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -17,9 +14,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
-  bool notiToggle = false;
-  bool passChangedBool = false;
-  int notifyOptions = 1;
+  bool _notiToggle = false;
+  int _notifyOptions = 1;
+  String email = SignInPage.getCurrentEmail();
 
   @override
   void initState() {
@@ -48,8 +45,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () async {
                     try {
                       await SignInPage.ChangePassword(password.text);
+                      SnackBar passChange =
+                          SnackBar(content: Text('Password Changed'));
+                      ScaffoldMessenger.of(context).showSnackBar(passChange);
                       Navigator.of(context).pop();
-                      passChangedBool = true;
                     } catch (e) {
                       print(e.toString());
                       showDialog(
@@ -67,11 +66,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             );
                           });
-                    }
-                    if (passChangedBool) {
-                      SnackBar passChange =
-                          SnackBar(content: Text('Password Changed'));
-                      ScaffoldMessenger.of(context).showSnackBar(passChange);
                     }
                   })
             ],
@@ -217,18 +211,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Color(0xff67727d)),
                 ),
                 Text(
-                  '',
+                  '$email',
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 13,
+                      fontSize: 17,
                       color: Color(0xff67727d)),
                 ),
-                /*TextField(
-                  controller: _email,
-                  cursorColor: black,
-                  style: TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold, color: black),
-                ),*/
+                Divider(
+                  color: Colors.black,
+                  thickness: 0.5,
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -279,13 +271,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Color(0xff67727d)),
                 ),
                 CupertinoSwitch(
-                  value: this.notiToggle,
+                  value: this._notiToggle,
                   onChanged: (bool value) {
                     setState(() {
-                      this.notiToggle = value;
-                      notifyOptions += 1;
+                      this._notiToggle = value;
+                      _notifyOptions += 1;
                     });
-                    if (notifyOptions % 2 == 0) {
+                    if (_notifyOptions % 2 == 0) {
                       Notifications.instantNotify(
                         title: 'Demo',
                         body: 'body',

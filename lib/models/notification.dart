@@ -37,7 +37,7 @@ class Notifications extends ChangeNotifier {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     NotificationDetails(iOS: IOSNotificationDetails());
     await _flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
+        0, 'SaveIt Notification!', 'Welcome!', platformChannelSpecifics,
         payload: 'item x');
   }
 

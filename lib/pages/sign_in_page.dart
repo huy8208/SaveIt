@@ -73,8 +73,12 @@ class SignInPage extends StatelessWidget {
     return await _userCredentials.signOut();
   }
 
-  Future<String> getCurrentUID() async {
-    return await (_userCredentials.currentUser)!.uid;
+  static String getCurrentUID() {
+    return (_userCredentials.currentUser)!.uid.toString();
+  }
+
+  static String getCurrentEmail() {
+    return (_userCredentials.currentUser!.email.toString());
   }
 
   static getCurrentUser() async {
