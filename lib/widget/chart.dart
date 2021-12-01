@@ -1,6 +1,9 @@
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+// For homepage bar chart
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 List<Color> gradientColors = [primary];
 
@@ -84,4 +87,69 @@ LineChartData mainData() {
       ),
     ],
   );
+}
+
+class SpendingBarChart extends StatefulWidget {
+  SpendingBarChart({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _SpendingBarChartState createState() => _SpendingBarChartState();
+}
+
+class _SpendingBarChartState extends State<SpendingBarChart> {
+  late List<BarChartData> _chartData;
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _chartData = getChartData();
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      body: SfCartesianChart(
+        title: ChartTitle(text: 'Continent wise GDP - 2021'),
+        legend: Legend(isVisible: true),
+        tooltipBehavior: _tooltipBehavior,
+        series: <ChartSeries>[
+          BarSeries<BarChartData, String>(
+              name: 'GDP',
+              dataSource: _chartData,
+              xValueMapper: (BarChartData gdp, _) => gdp.day,
+              yValueMapper: (BarChartData gdp, _) => gdp.amount,
+              dataLabelSettings: DataLabelSettings(isVisible: true),
+              enableTooltip: true)
+        ],
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+            numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0),
+            title: AxisTitle(text: 'GDP in billions of U.S. Dollars')),
+      ),
+    ));
+  }
+
+  List<BarChartData> getChartData() {
+    final List<BarChartData> chartData = [
+      BarChartData('Mon', 1600),
+      BarChartData('Tue', 2490),
+      BarChartData('Wed', 2900),
+      BarChartData('Thu', 23050),
+      BarChartData('Fri', 24880),
+      BarChartData('Sat', 34390),
+      BarChartData('Sun', 34390)
+    ];
+    return chartData;
+  }
+}
+
+class BarChartData {
+  BarChartData(this.day, this.amount);
+  final String day;
+  final double amount;
 }
