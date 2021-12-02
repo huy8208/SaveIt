@@ -7,7 +7,7 @@ void errorSnackBar(String textError) {
     textError,
     colorText: Colors.white,
     isDismissible: true,
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 3),
     maxWidth: 400,
     icon: const Icon(Icons.error_outline_outlined, size: 30),
     backgroundColor: Colors.red[800],

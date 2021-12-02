@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthController extends GetxController {
   static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
   RxBool isAuthenticated = false.obs;
-  late final currentUser;
+  late var currentUser;
 
   Future<void> signIn(String email, String password) async {
     try {
@@ -37,6 +37,7 @@ class AuthController extends GetxController {
 
   Future signOut() async {
     try {
+      print("chuoi");
       await _userCredentials.signOut();
       isAuthenticated.value = false;
     } catch (e) {}

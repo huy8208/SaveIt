@@ -7,7 +7,7 @@ void successSnackBar(String textSuccess) {
     textSuccess,
     colorText: Colors.white,
     isDismissible: true,
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 3),
     maxWidth: 400,
     icon: const Icon(Icons.done, size: 30),
     backgroundColor: Colors.green[800],
