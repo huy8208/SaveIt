@@ -56,4 +56,24 @@ class BudgetController extends GetxController {
     });
     update();
   }
+
+  Future<void> deleteBudet(String id) async {
+    await _userData
+        .collection('user')
+        .doc(uid)
+        .collection('budgets')
+        .doc(id)
+        .delete();
+    update();
+  }
+
+  Future<void> updateBudet(String id, double budget) async {
+    await _userData
+        .collection('user')
+        .doc(uid)
+        .collection('budgets')
+        .doc(id)
+        .update({'current_Amount': budget});
+    update();
+  }
 }

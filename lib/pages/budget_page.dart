@@ -1,11 +1,8 @@
 import 'dart:math';
-
-import 'package:budget_tracker_ui/json/budget_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/controller/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/pages/create_budget.dart';
@@ -21,6 +18,7 @@ class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
   final List color = [red, blue, green];
   final budgetController = Get.put(BudgetController());
+  TextEditingController currentBudget = TextEditingController();
 
   @override
   void initState() {
@@ -62,6 +60,16 @@ class _BudgetPageState extends State<BudgetPage> {
     var random = new Random();
     var randomC = color[random.nextInt(color.length)];
     return randomC;
+  }
+
+  removeBudget(int index1) {
+    String budgetId = budgetController.budgets[index1].docID.toString();
+    budgetController.deleteBudet(budgetId);
+  }
+
+  updateBudget(int index1, double budget) {
+    String budgetId = budgetController.budgets[index1].docID.toString();
+    budgetController.updateBudet(budgetId, budget);
   }
 
   @override
@@ -153,13 +161,100 @@ class _BudgetPageState extends State<BudgetPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            budgetName(index),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: Color(0xff67727d).withOpacity(0.6)),
-                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  budgetName(index),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      color:
+                                          Color(0xff67727d).withOpacity(0.6)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title:
+                                                  Text('Update Current Budget'),
+                                              content: TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: InputDecoration(
+                                                    hintText: "Current Budget",
+                                                    border: InputBorder.none),
+                                                controller: currentBudget,
+                                              ),
+                                              actions: <Widget>[
+                                                ElevatedButton(
+                                                    //elevation: 5.0,
+                                                    child: Text('Submit'),
+                                                    onPressed: () async {
+                                                      try {
+                                                        await updateBudget(
+                                                            index,
+                                                            double.parse(
+                                                                currentBudget
+                                                                    .text));
+                                                        SnackBar updated =
+                                                            SnackBar(
+                                                                content: Text(
+                                                                    'Updated'));
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                updated);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      } catch (e) {
+                                                        print(e.toString());
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                title: Text(
+                                                                    'Could not Update'),
+                                                                content: Text(e
+                                                                    .toString()),
+                                                                actions: [
+                                                                  TextButton(
+                                                                      child: Text(
+                                                                          'OK'),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      }),
+                                                                ],
+                                                              );
+                                                            });
+                                                      }
+                                                    })
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    child: Text('Edit'),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      removeBudget(index);
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.trashAlt,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                              ]),
                           SizedBox(
                             height: 10,
                           ),
