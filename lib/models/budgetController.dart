@@ -1,3 +1,4 @@
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/budget.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +7,7 @@ import 'package:get/get.dart';
 
 class BudgetDB {
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
-  static String uid = SignInPage.getCurrentUID();
+  static String uid = Get.find<AuthController>().getCurrentUID();
   final CollectionReference _collectionRef =
       _userData.collection('user').doc(uid).collection('budgets');
 
@@ -27,7 +28,7 @@ class BudgetController extends GetxController {
   }
 
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
-  static String uid = SignInPage.getCurrentUID();
+  static String uid = Get.find<AuthController>().getCurrentUID();
   final CollectionReference _collectionRef =
       _userData.collection('user').doc(uid).collection('budgets');
 
