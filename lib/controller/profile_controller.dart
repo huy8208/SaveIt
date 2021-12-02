@@ -5,7 +5,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileDB extends GetxController {
+class ProfileDB {
+  static final FirebaseFirestore _userData = FirebaseFirestore.instance;
+  static String uid = Get.find<AuthController>().getCurrentUID();
+
+//return profile list
+  Stream<List<Profile>> getAllProfile() {
+    return _userData.collection('user').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Profile.fromSnapshot(doc)).toList();
+    });
+  }
+
+  // retunr plaidAccessToken in list
+
+  Stream<List<Profile>> getAccessToken() {
+    return _userData
+        .collection('user')
+        .doc(uid)
+        .collection('plaid')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => Profile.fromSnapshot(doc)).toList();
+    });
+  }
+}
+
+class ProfileController extends GetxController {
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
   static String uid = Get.find<AuthController>().getCurrentUID();
 
