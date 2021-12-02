@@ -198,7 +198,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Enter Budget (\$)",
+                            "Enter Total Budget (\$)",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 13,

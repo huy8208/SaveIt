@@ -28,23 +28,6 @@ class BudgetController extends GetxController {
 
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
   static String uid = SignInPage.getCurrentUID();
-  final CollectionReference _collectionRef =
-      _userData.collection('user').doc(uid).collection('budgets');
-
-  Future getBudgetsList() async {
-    List budgetList = [];
-    try {
-      QuerySnapshot querySnapshot = await _collectionRef.get();
-      budgetList = querySnapshot.docs.map((doc) => doc.data()).toList();
-      update();
-      return budgetList;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-  RxList<Widget> listOfBudgets = <Widget>[].obs;
 
   Future createBudgets(
       String budget_Catagory, double budget_TotalAmount) async {
@@ -53,6 +36,26 @@ class BudgetController extends GetxController {
       'budget_TotalAmount': budget_TotalAmount,
       'current_Amount': 0.00
     });
+    update();
+  }
+
+  Future<void> deleteBudet(String id) async {
+    await _userData
+        .collection('user')
+        .doc(uid)
+        .collection('budgets')
+        .doc(id)
+        .delete();
+    update();
+  }
+
+  Future<void> updateBudet(String id, double budget) async {
+    await _userData
+        .collection('user')
+        .doc(uid)
+        .collection('budgets')
+        .doc(id)
+        .update({'current_Amount': budget});
     update();
   }
 }

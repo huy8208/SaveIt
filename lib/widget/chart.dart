@@ -1,4 +1,4 @@
-import 'package:budget_tracker_ui/theme/colors.dart';
+/*import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 // For homepage bar chart
@@ -153,3 +153,4 @@ class BarChartData {
   final String day;
   final double amount;
 }
+*/
