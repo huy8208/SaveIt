@@ -16,8 +16,7 @@ class ProfileDB {
     });
   }
 
-  // retunr plaidAccessToken in list
-
+  // return plaidAccessToken in list
   Stream<List<Profile>> getAccessToken() {
     return _userData
         .collection('user')
@@ -92,6 +91,21 @@ class ProfileController extends GetxController {
   }
 }
 
+//PlaidAccessToken object
+class PlaidAccessToken {
+  final String access_token;
+  final String docID;
+
+  const PlaidAccessToken({required this.access_token, required this.docID});
+
+  static PlaidAccessToken fromSnapshot(DocumentSnapshot snapshot) {
+    PlaidAccessToken accessToken = PlaidAccessToken(
+        access_token: snapshot['access_token'], docID: snapshot.id);
+    return accessToken;
+  }
+}
+
+//profile object
 class Profile {
   final String date_created;
   final String dob;
