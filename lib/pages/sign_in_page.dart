@@ -1,15 +1,18 @@
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 enum EmailSignInFormType { signIn, register }
 
 class SignInPage extends StatelessWidget {
-  SignInPage({Key? key, required this.onSignIn}) : super(key: key);
+  SignInPage({
+    Key? key,
+  }) : super(key: key);
 
-  final void Function(User) onSignIn;
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
+  static final FirebaseAuth testing = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -56,90 +59,18 @@ class SignInPage extends StatelessWidget {
       ElevatedButton(
         child: Text('Sign in'),
         onPressed: () {
-          signIn(_emailController.text, _passwordController.text, context);
+          Get.find<AuthController>()
+              .signIn(_emailController.text, _passwordController.text);
         },
       ),
       SizedBox(height: 10.0),
       ElevatedButton(
         child: Text('Register'),
         onPressed: () {
-          register(_emailController.text, _passwordController.text, context);
+          Get.find<AuthController>()
+              .register(_emailController.text, _passwordController.text);
         },
       )
     ];
-  }
-
-  static Future signOut() async {
-    return await _userCredentials.signOut();
-  }
-
-  static String getCurrentUID() {
-    return (_userCredentials.currentUser)!.uid.toString();
-  }
-
-  static String getCurrentEmail() {
-    return (_userCredentials.currentUser!.email.toString());
-  }
-
-  static getCurrentUser() async {
-    return await (_userCredentials.currentUser!);
-  }
-
-  static ChangePassword(newPassword) async {
-    return await (_userCredentials.currentUser!.updatePassword(newPassword));
-  }
-
-  Future<void> signIn(
-      String email, String password, BuildContext context) async {
-    try {
-      final userCredentials = await _userCredentials.signInWithCredential(
-          EmailAuthProvider.credential(email: email, password: password));
-      onSignIn(userCredentials.user!);
-    } catch (e) {
-      print(e.toString());
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Could not sign in'),
-            content: Text(e.toString()),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  Future<void> register(
-      String email, String password, BuildContext context) async {
-    try {
-      final userCredentials =
-          await _userCredentials.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      onSignIn(userCredentials.user!);
-    } catch (e) {
-      print(e.toString());
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Could not register account'),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            );
-          });
-    }
   }
 }

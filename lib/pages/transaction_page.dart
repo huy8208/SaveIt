@@ -5,9 +5,10 @@ import 'package:budget_tracker_ui/json/daily_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:budget_tracker_ui/plaid/request.dart';
+import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:budget_tracker_ui/db/shared_preferences_CRUD.dart';
@@ -26,6 +27,7 @@ class _TransactionPageState extends State<TransactionPage> {
   void initState() {
     // Initialize Plaid Controller.
     plaidrequestcontroller = Get.put(PlaidRequestController());
+
     // Load bank accounts from local to RxList;
     loadAllAccountsFromLocalStorage().then((BankAccountLocal) {
       if (BankAccountLocal != null) {

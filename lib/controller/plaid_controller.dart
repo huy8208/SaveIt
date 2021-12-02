@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart';
-import 'env.dart';
+import '../plaid/env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';

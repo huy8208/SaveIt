@@ -126,10 +126,10 @@ class _SpendingBarChartState extends State<SpendingBarChart> {
               enableTooltip: true)
         ],
         primaryXAxis: CategoryAxis(),
-        primaryYAxis: NumericAxis(
-            edgeLabelPlacement: EdgeLabelPlacement.shift,
-            numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0),
-            title: AxisTitle(text: 'GDP in billions of U.S. Dollars')),
+        // primaryYAxis: NumericAxis(
+        //     edgeLabelPlacement: EdgeLabelPlacement.shift,
+        //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0),
+        //     title: AxisTitle(text: 'GDP in billions of U.S. Dollars')),
       ),
     ));
   }

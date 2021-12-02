@@ -1,3 +1,4 @@
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/models/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
@@ -16,7 +17,6 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
   int activeCategory = 0;
   TextEditingController _budgetName = TextEditingController();
   TextEditingController _budgetAmount = TextEditingController();
-  String uid = SignInPage.getCurrentUID();
 
   @override
   void initState() {
