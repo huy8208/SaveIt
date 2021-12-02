@@ -25,7 +25,11 @@ class Notifications extends ChangeNotifier {
     );
   }
 
-  static _notificationDetails() async {
+  static _notificationDetails(
+    String title,
+    String body,
+    String payload,
+  ) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'id',
@@ -37,8 +41,8 @@ class Notifications extends ChangeNotifier {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     NotificationDetails(iOS: IOSNotificationDetails());
     await _flutterLocalNotificationsPlugin.show(
-        0, 'SaveIt Notification!', 'Welcome!', platformChannelSpecifics,
-        payload: 'item x');
+        0, '$title', '$body', platformChannelSpecifics,
+        payload: '$payload');
   }
 
   static Future instantNotify({
@@ -51,7 +55,7 @@ class Notifications extends ChangeNotifier {
         id,
         title,
         body,
-        await _notificationDetails(),
+        await _notificationDetails('$title', '$body', '$payload'),
         payload: payload,
       );
 

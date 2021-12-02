@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/controller/budgetController.dart';
+import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,14 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   void initState() {
     super.initState();
+    listenNotification();
   }
+
+  void listenNotification() =>
+      Notifications.onNotification.stream.listen((clickedNotify));
+
+  void clickedNotify(String? payload) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => (BudgetPage())));
 
   String currentAmountToString(int index1) {
     var price = budgetController.budgets[index1].current_Amount.toString();
@@ -69,9 +77,24 @@ class _BudgetPageState extends State<BudgetPage> {
     budgetController.deleteBudet(budgetId);
   }
 
-  updateBudget(int index1, double budget) {
+  updateBudget(int index1, double budget) async {
     String budgetId = budgetController.budgets[index1].docID.toString();
-    budgetController.updateBudet(budgetId, budget);
+    await budgetController.updateBudet(budgetId, budget);
+    budgetCheck(index1);
+  }
+
+  budgetCheck(index1) {
+    String budgetName = budgetController.budgets[index1].budget_Catagory;
+    if (budgetController.budgets[index1].current_Amount >=
+        budgetController.budgets[index1].budget_TotalAmount) {
+      Notifications.instantNotify(
+        title: 'Budget Limit Reach!',
+        body: 'Budget: ' + '$budgetName' + ' Limit Reach!',
+        payload: 'payload',
+      );
+    } else {
+      Notifications.cancelNotification();
+    }
   }
 
   @override
