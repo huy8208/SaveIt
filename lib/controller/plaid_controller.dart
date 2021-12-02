@@ -2,9 +2,11 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:budget_tracker_ui/db/shared_preferences_CRUD.dart';
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,16 @@ final body = jsonEncode(<String, dynamic>{
   "products": ["auth", "transactions"],
   "redirect_uri": REDIRECT_URL
 });
+
+class TransactionDB {
+  static final FirebaseFirestore _userData = FirebaseFirestore.instance;
+  final CollectionReference _collectionRef = _userData
+      .collection('user')
+      .doc(Get.find<AuthController>().getCurrentUID())
+      .collection('budgets');
+
+  // writeToFireStore
+}
 
 class LinkToken {
   final String expiration;

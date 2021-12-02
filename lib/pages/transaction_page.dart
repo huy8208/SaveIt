@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:budget_tracker_ui/db/shared_preferences_CRUD.dart';
+import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/json/daily_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:budget_tracker_ui/db/shared_preferences_CRUD.dart';
+import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 
 class TransactionPage extends StatefulWidget {
   @override

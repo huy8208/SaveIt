@@ -1,6 +1,6 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
-import 'package:budget_tracker_ui/models/budgetController.dart';
+import 'package:budget_tracker_ui/controller/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';

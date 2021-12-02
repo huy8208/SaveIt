@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:budget_tracker_ui/json/budget_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
-import 'package:budget_tracker_ui/models/budgetController.dart';
+import 'package:budget_tracker_ui/controller/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

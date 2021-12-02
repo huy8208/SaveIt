@@ -1,5 +1,5 @@
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
-import 'package:budget_tracker_ui/utility/snackBarSuggest.dart';
+import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +37,6 @@ class AuthController extends GetxController {
 
   Future signOut() async {
     try {
-      print("chuoi");
       await _userCredentials.signOut();
       isAuthenticated.value = false;
     } catch (e) {}
