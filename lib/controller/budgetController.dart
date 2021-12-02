@@ -29,8 +29,6 @@ class BudgetController extends GetxController {
 
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
   static String uid = Get.find<AuthController>().getCurrentUID();
-  final CollectionReference _collectionRef =
-      _userData.collection('user').doc(uid).collection('budgets');
 
   RxList<Widget> listOfBudgets = <Widget>[].obs;
 
