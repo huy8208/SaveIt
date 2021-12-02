@@ -2,7 +2,7 @@ import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:budget_tracker_ui/plaid/request.dart';
+import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
 
 class AddBankAccountPage extends StatefulWidget {

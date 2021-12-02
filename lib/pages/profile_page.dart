@@ -1,8 +1,10 @@
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -16,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
   bool _notiToggle = false;
   int _notifyOptions = 1;
-  String email = SignInPage.getCurrentEmail();
+  final authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text('Submit'),
                   onPressed: () async {
                     try {
-                      await SignInPage.ChangePassword(password.text);
+                      await authController.ChangePassword(password.text);
                       SnackBar passChange =
                           SnackBar(content: Text('Password Changed'));
                       ScaffoldMessenger.of(context).showSnackBar(passChange);
@@ -119,12 +121,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          await SignInPage.signOut();
+                          await authController.signOut();
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (BuildContext context) => SignInPage(
-                                      onSignIn: (User) {},
-                                    )),
+                                builder: (BuildContext context) =>
+                                    SignInPage()),
                             (Route route) => false,
                           );
                         },
@@ -211,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Color(0xff67727d)),
                 ),
                 Text(
-                  '$email',
+                  '${authController.getCurrentEmail()}',
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 17,
