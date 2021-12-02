@@ -123,10 +123,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       IconButton(
                         onPressed: () async {
                           await authController.signOut();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => (LandingPage())));
                         },
                         icon: Icon(
                           FontAwesomeIcons.signOutAlt,

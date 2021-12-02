@@ -1,3 +1,5 @@
+import 'package:budget_tracker_ui/utility/snackBarError.dart';
+import 'package:budget_tracker_ui/utility/snackBarSuggest.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,8 +13,10 @@ class AuthController extends GetxController {
     try {
       currentUser = await _userCredentials.signInWithCredential(
           EmailAuthProvider.credential(email: email, password: password));
+      successSnackBar("Sign-in success!");
       isAuthenticated.value = true;
     } catch (e) {
+      errorSnackBar(e.toString());
       print(e.toString());
     }
   }
@@ -23,14 +27,19 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
+      successSnackBar("Register-in success!");
       isAuthenticated.value = true;
     } catch (e) {
+      errorSnackBar(e.toString());
       print(e.toString());
     }
   }
 
   Future signOut() async {
-    return await _userCredentials.signOut();
+    try {
+      await _userCredentials.signOut();
+      isAuthenticated.value = false;
+    } catch (e) {}
   }
 
   String getCurrentUID() {
