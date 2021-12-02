@@ -24,7 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Notifications.initizlize();
     listenNotification();
   }
 
