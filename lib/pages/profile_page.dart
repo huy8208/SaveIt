@@ -1,4 +1,5 @@
 import 'package:budget_tracker_ui/models/notification.dart';
+import 'package:budget_tracker_ui/pages/landing_page.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -120,13 +121,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       IconButton(
                         onPressed: () async {
                           await SignInPage.signOut();
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => SignInPage(
-                                      onSignIn: (User) {},
-                                    )),
-                            (Route route) => false,
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (LandingPage())));
                         },
                         icon: Icon(
                           FontAwesomeIcons.signOutAlt,

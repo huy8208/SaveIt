@@ -1,11 +1,9 @@
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
+import 'package:budget_tracker_ui/models/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'budget_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateBudgetPage extends StatefulWidget {
   @override
@@ -13,7 +11,7 @@ class CreateBudgetPage extends StatefulWidget {
 }
 
 class _CreateBudgetPageState extends State<CreateBudgetPage> {
-  final FirebaseFirestore _userData = FirebaseFirestore.instance;
+  final BudgetController budgetDBController = Get.put(BudgetController());
 
   int activeCategory = 0;
   TextEditingController _budgetName = TextEditingController();
@@ -59,10 +57,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => (BudgetPage())));
+                          Navigator.of(context).pop();
                         },
                         icon: Icon(Icons.arrow_back_ios_new
                             // size: 25,
@@ -235,17 +230,9 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                           borderRadius: BorderRadius.circular(15)),
                       child: IconButton(
                         onPressed: () async {
-                          await _userData
-                              .collection('user')
-                              .doc(uid)
-                              .collection('budgets')
-                              .add({
-                            'budget_Catagory': _budgetName.text,
-                            'budget_TotalAmount':
-                                double.parse(_budgetAmount.text),
-                            'current_Amount': 0.00
-                          });
-
+                          await budgetDBController.createBudgets(
+                              _budgetName.text,
+                              double.parse(_budgetAmount.text));
                           Navigator.of(context).pop();
                         },
                         icon: Icon(
