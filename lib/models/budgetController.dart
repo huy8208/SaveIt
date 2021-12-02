@@ -28,9 +28,6 @@ class BudgetController extends GetxController {
   }
 
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
-<<<<<<< HEAD
-  static String uid = SignInPage.getCurrentUID();
-=======
   static String uid = Get.find<AuthController>().getCurrentUID();
   final CollectionReference _collectionRef =
       _userData.collection('user').doc(uid).collection('budgets');
@@ -49,7 +46,6 @@ class BudgetController extends GetxController {
   }
 
   RxList<Widget> listOfBudgets = <Widget>[].obs;
->>>>>>> ff6d28a8c8a2be1bd63e78422a83763965c7bf5c
 
   Future createBudgets(
       String budget_Catagory, double budget_TotalAmount) async {
