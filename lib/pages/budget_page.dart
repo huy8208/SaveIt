@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/pages/create_budget.dart';
 import 'package:get/get.dart';
 import 'create_budget.dart';
+import 'package:budget_tracker_ui/utility/snackBarError.dart';
+import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 
 class BudgetPage extends StatefulWidget {
   @override
@@ -201,38 +203,13 @@ class _BudgetPageState extends State<BudgetPage> {
                                                             double.parse(
                                                                 currentBudget
                                                                     .text));
-                                                        SnackBar updated =
-                                                            SnackBar(
-                                                                content: Text(
-                                                                    'Updated'));
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                updated);
+                                                        successSnackBar(
+                                                            'Updated');
                                                         Navigator.of(context)
                                                             .pop();
                                                       } catch (e) {
-                                                        print(e.toString());
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    'Could not Update'),
-                                                                content: Text(e
-                                                                    .toString()),
-                                                                actions: [
-                                                                  TextButton(
-                                                                      child: Text(
-                                                                          'OK'),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      }),
-                                                                ],
-                                                              );
-                                                            });
+                                                        errorSnackBar(
+                                                            e.toString());
                                                       }
                                                     })
                                               ],

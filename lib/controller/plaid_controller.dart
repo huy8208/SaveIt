@@ -34,7 +34,7 @@ class TransactionDB {
   final CollectionReference _collectionRef = _userData
       .collection('user')
       .doc(Get.find<AuthController>().getCurrentUID())
-      .collection('budgets');
+      .collection('plaid');
 
   // writeToFireStore
 }

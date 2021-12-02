@@ -1,7 +1,5 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/notification.dart';
-import 'package:budget_tracker_ui/pages/landing_page.dart';
-import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:budget_tracker_ui/utility/snackBarError.dart';
+import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -48,27 +48,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () async {
                     try {
                       await authController.ChangePassword(password.text);
-                      SnackBar passChange =
-                          SnackBar(content: Text('Password Changed'));
-                      ScaffoldMessenger.of(context).showSnackBar(passChange);
+                      successSnackBar('Password Changed');
                       Navigator.of(context).pop();
                     } catch (e) {
-                      print(e.toString());
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Could not Change Password'),
-                              content: Text(e.toString()),
-                              actions: [
-                                TextButton(
-                                    child: Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    }),
-                              ],
-                            );
-                          });
+                      errorSnackBar(
+                          'Could not Change Password: ' + e.toString());
                     }
                   })
             ],
@@ -242,13 +226,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: Text('Change Password'),
                 ),
-                /*Text(
-                  "Change Password",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                      color: Color(0xff67727d)),
-                ),*/
                 SizedBox(
                   height: 10,
                 ),

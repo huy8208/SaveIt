@@ -32,19 +32,6 @@ class BudgetController extends GetxController {
   final CollectionReference _collectionRef =
       _userData.collection('user').doc(uid).collection('budgets');
 
-  Future getBudgetsList() async {
-    List budgetList = [];
-    try {
-      QuerySnapshot querySnapshot = await _collectionRef.get();
-      budgetList = querySnapshot.docs.map((doc) => doc.data()).toList();
-      update();
-      return budgetList;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
   RxList<Widget> listOfBudgets = <Widget>[].obs;
 
   Future createBudgets(
