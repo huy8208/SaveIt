@@ -181,9 +181,9 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         width: (size.width - 20),
                         height: 150,
-                        /* child: LineChart(
+                        child: LineChart(
                           mainData(),
-                        ),*/
+                        ),
                       ),
                     )
                   ],
