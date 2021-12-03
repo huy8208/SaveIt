@@ -1,7 +1,7 @@
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-// For homepage bar chart
+// For homepage bar
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
@@ -23,8 +23,6 @@ LineChartData mainData() {
       bottomTitles: SideTitles(
         showTitles: true,
         reservedSize: 22,
-        // getTextStyles: (value) =>
-        //     const TextStyle(color: Color(0xff68737d), fontSize: 12),
         getTitles: (value) {
           switch (value.toInt()) {
             case 2:
@@ -40,10 +38,6 @@ LineChartData mainData() {
       ),
       leftTitles: SideTitles(
         showTitles: true,
-        // getTextStyles: (value) => const TextStyle(
-        //   color: Color(0xff67727d),
-        //   fontSize: 12,
-        // ),
         getTitles: (value) {
           switch (value.toInt()) {
             case 1:
@@ -89,21 +83,21 @@ LineChartData mainData() {
   );
 }
 
-class SpendingBarChart extends StatefulWidget {
-  SpendingBarChart({Key? key, required this.title}) : super(key: key);
+class SpendingBar extends StatefulWidget {
+  SpendingBar({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  _SpendingBarChartState createState() => _SpendingBarChartState();
+  _SpendingBarState createState() => _SpendingBarState();
 }
 
-class _SpendingBarChartState extends State<SpendingBarChart> {
-  late List<BarChartData> _chartData;
+class _SpendingBarState extends State<SpendingBar> {
+  late List<BarData> _Data;
   late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    _chartData = getChartData();
+    _Data = getData();
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -113,15 +107,15 @@ class _SpendingBarChartState extends State<SpendingBarChart> {
     return SafeArea(
         child: Scaffold(
       body: SfCartesianChart(
-        title: ChartTitle(text: 'Continent wise GDP - 2021'),
+        title: ChartTitle(text: "yes"),
         legend: Legend(isVisible: true),
         tooltipBehavior: _tooltipBehavior,
         series: <ChartSeries>[
-          BarSeries<BarChartData, String>(
+          BarSeries<BarData, String>(
               name: 'GDP',
-              dataSource: _chartData,
-              xValueMapper: (BarChartData gdp, _) => gdp.day,
-              yValueMapper: (BarChartData gdp, _) => gdp.amount,
+              dataSource: _Data,
+              xValueMapper: (BarData gdp, _) => gdp.day,
+              yValueMapper: (BarData gdp, _) => gdp.amount,
               dataLabelSettings: DataLabelSettings(isVisible: true),
               enableTooltip: true)
         ],
@@ -134,22 +128,22 @@ class _SpendingBarChartState extends State<SpendingBarChart> {
     ));
   }
 
-  List<BarChartData> getChartData() {
-    final List<BarChartData> chartData = [
-      BarChartData('Mon', 1600),
-      BarChartData('Tue', 2490),
-      BarChartData('Wed', 2900),
-      BarChartData('Thu', 23050),
-      BarChartData('Fri', 24880),
-      BarChartData('Sat', 34390),
-      BarChartData('Sun', 34390)
+  List<BarData> getData() {
+    final List<BarData> Data = [
+      BarData('Mon', 1600),
+      BarData('Tue', 2490),
+      BarData('Wed', 2900),
+      BarData('Thu', 23050),
+      BarData('Fri', 24880),
+      BarData('Sat', 34390),
+      BarData('Sun', 34390)
     ];
-    return chartData;
+    return Data;
   }
 }
 
-class BarChartData {
-  BarChartData(this.day, this.amount);
+class BarData {
+  BarData(this.day, this.amount);
   final String day;
   final double amount;
 }
