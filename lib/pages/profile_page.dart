@@ -1,4 +1,5 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/controller/profile_controller.dart';
 import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -232,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.black,
                   thickness: 0.5,
                 ),
-                SizedBox(
+                /*SizedBox(
                   height: 10,
                 ),
                 Text(
@@ -264,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Divider(
                   color: Colors.black,
                   thickness: 0.5,
-                ),
+                ),*/
               ],
             ),
           )
