@@ -5,33 +5,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileDB {
+class PlaidAccessTokenDB {
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
   static String uid = Get.find<AuthController>().getCurrentUID();
 
-//return profile list
-  Stream<List<Profile>> getAllProfile() {
-    return _userData.collection('user').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Profile.fromSnapshot(doc)).toList();
-    });
-  }
-
   // return plaidAccessToken in list
-  Stream<List<Profile>> getAccessToken() {
+  Stream<List<PlaidAccessToken>> getAccessToken() {
     return _userData
         .collection('user')
         .doc(uid)
         .collection('plaid')
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => Profile.fromSnapshot(doc)).toList();
+      return snapshot.docs
+          .map((doc) => PlaidAccessToken.fromSnapshot(doc))
+          .toList();
     });
   }
 }
 
-class ProfileController extends GetxController {
+class PlaidAccessTokenController extends GetxController {
+  final plaidAccessToken = <PlaidAccessToken>[].obs;
+
+  @override
+  void onInit() {
+    plaidAccessToken.bindStream(PlaidAccessTokenDB().getAccessToken());
+    super.onInit();
+  }
+
   static final FirebaseFirestore _userData = FirebaseFirestore.instance;
   static String uid = Get.find<AuthController>().getCurrentUID();
+
+  RxList<Widget> listOfPlaidAccessToken = <Widget>[].obs;
 
   Future createPlaidAccessToken(String access_token) async {
     _userData.collection('user').doc(uid).collection('plaid').add({
@@ -59,6 +64,45 @@ class ProfileController extends GetxController {
         .update({'current_Amount': access_token});
     update();
   }
+}
+
+//PlaidAccessToken object
+class PlaidAccessToken {
+  final String access_token;
+  final String docID;
+
+  const PlaidAccessToken({required this.access_token, required this.docID});
+
+  static PlaidAccessToken fromSnapshot(DocumentSnapshot snapshot) {
+    PlaidAccessToken accessToken = PlaidAccessToken(
+        access_token: snapshot['access_token'], docID: snapshot.id);
+    return accessToken;
+  }
+}
+
+class ProfileDB {
+  static final FirebaseFirestore _userData = FirebaseFirestore.instance;
+  static String uid = Get.find<AuthController>().getCurrentUID();
+
+//return profile list
+  Stream<List<Profile>> getAllProfile() {
+    return _userData.collection('user').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Profile.fromSnapshot(doc)).toList();
+    });
+  }
+}
+
+class ProfileController extends GetxController {
+  static final FirebaseFirestore _userData = FirebaseFirestore.instance;
+  static String uid = Get.find<AuthController>().getCurrentUID();
+
+  final profiles = <Profile>[].obs;
+
+  @override
+  void onInit() {
+    profiles.bindStream(ProfileDB().getAllProfile());
+    super.onInit();
+  }
 
   Future createProfile(
       String date_created, String dob, String email, String name) async {
@@ -69,7 +113,7 @@ class ProfileController extends GetxController {
     update();
   }
 
-  Future<void> deleteProfile(String id) async {
+  Future<void> deleteProfile() async {
     await _userData.collection('user').doc(uid).update({
       'date_created': FieldValue.delete(),
       'dob': FieldValue.delete(),
@@ -88,20 +132,6 @@ class ProfileController extends GetxController {
       'name': name,
     });
     update();
-  }
-}
-
-//PlaidAccessToken object
-class PlaidAccessToken {
-  final String access_token;
-  final String docID;
-
-  const PlaidAccessToken({required this.access_token, required this.docID});
-
-  static PlaidAccessToken fromSnapshot(DocumentSnapshot snapshot) {
-    PlaidAccessToken accessToken = PlaidAccessToken(
-        access_token: snapshot['access_token'], docID: snapshot.id);
-    return accessToken;
   }
 }
 
