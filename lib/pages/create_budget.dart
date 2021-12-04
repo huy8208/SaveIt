@@ -3,6 +3,8 @@ import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/controller/budgetController.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
+import 'package:budget_tracker_ui/utility/snackBarError.dart';
+import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -230,10 +232,17 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                           borderRadius: BorderRadius.circular(15)),
                       child: IconButton(
                         onPressed: () async {
-                          await budgetDBController.createBudgets(
-                              _budgetName.text,
-                              double.parse(_budgetAmount.text));
-                          Navigator.of(context).pop();
+                          if (_budgetName.text != '' &&
+                              _budgetAmount.text != '' &&
+                              (double.parse(_budgetAmount.text)) > 0) {
+                            await budgetDBController.createBudgets(
+                                _budgetName.text,
+                                double.parse(_budgetAmount.text));
+                            Navigator.of(context).pop();
+                          } else {
+                            errorSnackBar(
+                                'Budget name can not be empty and budget ammount can not be zero or negative');
+                          }
                         },
                         icon: Icon(
                           Icons.arrow_forward,

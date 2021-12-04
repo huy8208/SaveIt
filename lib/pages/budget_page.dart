@@ -221,15 +221,23 @@ class _BudgetPageState extends State<BudgetPage> {
                                                     child: Text('Submit'),
                                                     onPressed: () async {
                                                       try {
-                                                        await updateBudget(
-                                                            index,
-                                                            double.parse(
+                                                        if (double.parse(
                                                                 currentBudget
-                                                                    .text));
-                                                        successSnackBar(
-                                                            'Updated');
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                                    .text) >
+                                                            0) {
+                                                          await updateBudget(
+                                                              index,
+                                                              double.parse(
+                                                                  currentBudget
+                                                                      .text));
+                                                          successSnackBar(
+                                                              'Updated');
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        } else {
+                                                          errorSnackBar(
+                                                              'Current budget ammount can not be set zero or negative');
+                                                        }
                                                       } catch (e) {
                                                         errorSnackBar(
                                                             e.toString());

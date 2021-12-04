@@ -18,8 +18,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController dateOfBirth = TextEditingController(text: "04-19-1992");
-  bool _notiToggle = false;
-  int _notifyOptions = 1;
+  final profileController = Get.put(ProfileController());
+  //bool _notiToggle = false;
+  //int _notifyOptions = 1;
   final authController = Get.find<AuthController>();
 
   @override
@@ -222,7 +223,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    passwordDialog(context);
+                    // passwordDialog(context);
+                    profileController.createProfile('', '', '', '');
                   },
                   child: Text('Change Password'),
                 ),
