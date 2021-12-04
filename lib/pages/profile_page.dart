@@ -223,8 +223,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // passwordDialog(context);
-                    profileController.createProfile('', '', '', '');
+                    passwordDialog(context);
+                    //profileController.createProfile('', '', '', '');  test db
                   },
                   child: Text('Change Password'),
                 ),
