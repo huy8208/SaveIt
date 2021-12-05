@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
@@ -28,16 +29,6 @@ final body = jsonEncode(<String, dynamic>{
   "products": ["auth", "transactions"],
   "redirect_uri": REDIRECT_URL
 });
-
-class TransactionDB {
-  static final FirebaseFirestore _userData = FirebaseFirestore.instance;
-  final CollectionReference _collectionRef = _userData
-      .collection('user')
-      .doc(Get.find<AuthController>().getCurrentUID())
-      .collection('plaid');
-
-  // writeToFireStore
-}
 
 class LinkToken {
   final String expiration;
@@ -111,8 +102,9 @@ class PlaidRequestController extends GetxController {
           "public_token": accessToken
         }));
     if (response.statusCode == 200) {
-      // isLoading(false);
-      return jsonDecode(response.body)["access_token"];
+      String accessToken = jsonDecode(response.body)["access_token"];
+      FireStoreController.createPlaidAccessToken(accessToken);
+      return accessToken;
     } else {
       throw Exception('Failed to exchange Access Token');
     }

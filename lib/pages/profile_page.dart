@@ -1,5 +1,5 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
-import 'package:budget_tracker_ui/controller/profile_controller.dart';
+import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';

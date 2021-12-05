@@ -1,8 +1,6 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
-import 'package:budget_tracker_ui/globals/userDetails.dart';
 import 'package:budget_tracker_ui/pages/root_app.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
