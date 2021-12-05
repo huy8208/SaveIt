@@ -1,6 +1,7 @@
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // For homepage bar
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
@@ -120,10 +121,10 @@ class _SpendingBarState extends State<SpendingBar> {
               enableTooltip: true)
         ],
         primaryXAxis: CategoryAxis(),
-        // primaryYAxis: NumericAxis(
-        //     edgeLabelPlacement: EdgeLabelPlacement.shift,
-        //     numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0),
-        //     title: AxisTitle(text: 'GDP in billions of U.S. Dollars')),
+        primaryYAxis: NumericAxis(
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0),
+        ),
       ),
     ));
   }

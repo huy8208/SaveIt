@@ -6,6 +6,7 @@ import 'package:budget_tracker_ui/pages/profile_page.dart';
 import 'package:budget_tracker_ui/pages/home_page.dart';
 import 'package:budget_tracker_ui/models/notification.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
+import 'package:budget_tracker_ui/widget/spendingChart.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
