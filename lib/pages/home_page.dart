@@ -1,6 +1,5 @@
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
-import 'package:budget_tracker_ui/widget/chart.dart';
 import 'package:budget_tracker_ui/widget/spendingChart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -148,12 +147,9 @@ class _HomePageState extends State<HomePage> {
                   ]),
               child: Padding(
                 padding: EdgeInsets.all(10),
-                child: Positioned(
-                  bottom: 0,
-                  child: Container(
-                    width: 320,
-                    child: BarChartSample1(),
-                  ),
+                child: Container(
+                  width: 320,
+                  child: SpendingChart(),
                 ),
               ),
             ),

@@ -4,7 +4,7 @@ import 'package:budget_tracker_ui/widget/colorExtension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample1 extends StatefulWidget {
+class SpendingChart extends StatefulWidget {
   final List<Color> availableColors = const [
     Colors.purpleAccent,
     Colors.yellow,
@@ -14,13 +14,13 @@ class BarChartSample1 extends StatefulWidget {
     Colors.redAccent,
   ];
 
-  const BarChartSample1({Key? key}) : super(key: key);
+  const SpendingChart({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => BarChartSample1State();
+  State<StatefulWidget> createState() => SpendingChartState();
 }
 
-class BarChartSample1State extends State<BarChartSample1> {
+class SpendingChartState extends State<SpendingChart> {
   final Color barBackgroundColor = Colors.white24;
   final Duration animDuration = const Duration(milliseconds: 250);
 
