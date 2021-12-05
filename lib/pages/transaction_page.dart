@@ -119,9 +119,7 @@ class TransactionsWithBankTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx(
-          () => BankTitle(nameOfBank: bankName),
-        ),
+        BankTitle(nameOfBank: bankName),
         ...(bankAccount.transactions!
             .map((items) => TransactionItem(
                 icon: FontAwesomeIcons.addressBook,
