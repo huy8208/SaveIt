@@ -1,5 +1,6 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/firestore_user_model.dart';
+import 'package:budget_tracker_ui/models/plaid_access_token_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,13 @@ final String uid = Get.find<AuthController>().getCurrentUID();
 // get access token => no realtime update
 
 class FireStoreController extends GetxController {
+  final accessTokenLists = <PlaidAccessToken>[].obs;
+  @override
+  void onInit() {
+    accessTokenLists.bindStream(getAllAccessTokens());
+    super.onInit();
+  }
+
   // ACCESS TOKEN
   Stream<List<PlaidAccessToken>> getAllAccessTokens() {
     return _db
@@ -117,18 +125,5 @@ class FireStoreController extends GetxController {
       print(e);
       rethrow;
     }
-  }
-}
-
-class PlaidAccessToken {
-  final String access_token;
-  final String docID;
-
-  const PlaidAccessToken({required this.access_token, required this.docID});
-
-  static PlaidAccessToken fromSnapshot(DocumentSnapshot snapshot) {
-    PlaidAccessToken accessToken = PlaidAccessToken(
-        access_token: snapshot['access_token'], docID: snapshot.id);
-    return accessToken;
   }
 }

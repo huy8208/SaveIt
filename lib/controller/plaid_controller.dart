@@ -19,6 +19,8 @@ import 'package:intl/intl.dart';
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+final storage = new FlutterSecureStorage();
+
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
   "secret": SECRET_KEY,
@@ -57,7 +59,6 @@ class PlaidRequestController extends GetxController {
   late String accessToken;
   late Account bankAccount;
   RxList<Widget> listOfBankAccounts = <Widget>[].obs;
-  var bankName = "".obs;
 
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
@@ -129,8 +130,13 @@ class PlaidRequestController extends GetxController {
     }
   }
 
-  Future<Account> getTransaction(
-      String accessToken, String startDate, String endDate) async {
+  Future<Account> getTransaction(String accessToken) async {
+    // Initialize DateTime variables
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final oneMonthAgo =
+        formatter.format(DateTime.now().subtract(const Duration(days: 31)));
+    var currentDate = formatter.format(DateTime.now());
+
     final response = await post(Uri.parse(RETRIEVE_TRANSACTIONS_URL),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -139,8 +145,8 @@ class PlaidRequestController extends GetxController {
           "client_id": CLIENT_ID,
           "secret": SECRET_KEY,
           "access_token": accessToken,
-          "start_date": startDate,
-          "end_date": endDate,
+          "start_date": oneMonthAgo,
+          "end_date": currentDate,
         }));
     if (response.statusCode == 200) {
       return accountFromJson(response.body);
@@ -153,27 +159,15 @@ class PlaidRequestController extends GetxController {
   void _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
-    // Initialize DateTime variables
-    DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final oneMonthAgo =
-        formatter.format(DateTime.now().subtract(const Duration(days: 31)));
-    var currentDate = formatter.format(DateTime.now());
+
     //TO-DO: NEED TO HANDLE ERROR HERE IF CONNECTION TROUBLES
 
     try {
       var accessToken = await getAccessToken(publicToken);
-      bankAccount = await getTransaction(accessToken, oneMonthAgo, currentDate);
-      bankName.value = metadata.institution.name;
-      //TO-DO: SAVE TO LOCAL STORAGE
-      final storage = new FlutterSecureStorage();
-      List<dynamic>? localAccounts = await loadAllAccountsFromLocalStorage();
-      if (localAccounts != null) {
-        localAccounts.add(bankAccount);
-        storage.write(
-            key: "local_transactions_data", value: json.encode(localAccounts));
-      }
-      listOfBankAccounts
-          .add(TransactionsWithBankTitle(bankAccount: bankAccount));
+      bankAccount = await getTransaction(accessToken);
+
+      listOfBankAccounts.add(TransactionsWithBankTitle(
+          bankName: metadata.institution.name, bankAccount: bankAccount));
     } catch (e) {
       print(e);
       Get.defaultDialog(title: "Error! Could not fetch transactions!");

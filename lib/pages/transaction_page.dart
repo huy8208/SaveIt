@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/json/daily_json.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,22 +25,39 @@ class _TransactionPageState extends State<TransactionPage> {
   int activeDay = 3;
   bool hasBankAccount = true;
   late PlaidRequestController plaidrequestcontroller;
-
+  late FireStoreController fireStoreController;
   @override
   void initState() {
     // Initialize Plaid Controller.
     plaidrequestcontroller = Get.put(PlaidRequestController());
-
+    fireStoreController = Get.put(FireStoreController());
     // Load bank accounts from local to RxList;
-    loadAllAccountsFromLocalStorage().then((BankAccountLocal) {
-      if (BankAccountLocal != null) {
-        Get.find<PlaidRequestController>()
-            .listOfBankAccounts
-            .assignAll(BankAccountLocal.map((accounts) {
-              return new TransactionsWithBankTitle(bankAccount: accounts);
-            }).toList());
+    final String uid = Get.find<AuthController>().getCurrentUID();
+
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(uid)
+        .collection("plaid")
+        .get()
+        .then((listOfAccessToken) {
+      //MUST CHECK IN THE listOfBankAccounts whether the accesstoken
+      // already exists, otherwise if first time login and add, there will be duplicates
+      if (!listOfAccessToken.docs.isEmpty) {
+        listOfAccessToken.docs.forEach((accessToken) async {
+          var bankAccount = await plaidrequestcontroller
+              .getTransaction(accessToken.data()['access_token']);
+          plaidrequestcontroller.listOfBankAccounts.addIf(
+              !plaidrequestcontroller.listOfBankAccounts.contains(bankAccount),
+              TransactionsWithBankTitle(
+                  bankName: "FIX", bankAccount: bankAccount));
+        });
+
+        // listOfAccessToken.docs.map((accessToken) => fireStoreController.accessTokenLists.add(plaidrequestcontroller.getTransaction(accessToken));
       }
+    }).catchError((onError) {
+      print(onError);
     });
+    // fireStoreController.accessTokenLists.add(item);
 
     super.initState();
   }
@@ -89,17 +109,18 @@ class _TransactionWidgetState extends State<TransactionWidget> {
 class TransactionsWithBankTitle extends StatelessWidget {
   const TransactionsWithBankTitle({
     Key? key,
+    required this.bankName,
     required this.bankAccount,
   }) : super(key: key);
 
+  final String bankName;
   final Account bankAccount;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Obx(
-          () => BankTitle(
-              nameOfBank: Get.find<PlaidRequestController>().bankName.value),
+          () => BankTitle(nameOfBank: bankName),
         ),
         ...(bankAccount.transactions!
             .map((items) => TransactionItem(
