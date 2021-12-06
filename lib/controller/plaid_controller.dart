@@ -17,9 +17,6 @@ import '../plaid/env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-final storage = new FlutterSecureStorage();
 
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
