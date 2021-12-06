@@ -1,4 +1,5 @@
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
+import 'package:budget_tracker_ui/models/plaid_access_token_model.dart';
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

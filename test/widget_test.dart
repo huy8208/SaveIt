@@ -17,7 +17,6 @@
 import 'dart:convert';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Future<void> main() async {
   var jsonob = jsonEncode({
@@ -537,6 +536,4 @@ Future<void> main() async {
   var testdata2 = accountFromJson(jsonob);
   List<dynamic> listOfData = [testdata, testdata2];
   var listOfDataEncoded = json.encode(listOfData);
-  final storage = new FlutterSecureStorage();
-  await storage.write(key: "local_transactions_data", value: listOfDataEncoded);
 }

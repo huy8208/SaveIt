@@ -13,10 +13,10 @@ final String uid = Get.find<AuthController>().getCurrentUID();
 // get access token => no realtime update
 
 class FireStoreController extends GetxController {
-  final accessTokenLists = <PlaidAccessToken>[].obs;
+  // final accessTokenLists = <PlaidAccessToken>[].obs;
   @override
   void onInit() {
-    accessTokenLists.bindStream(getAllAccessTokens());
+    // accessTokenLists.bindStream(getAllAccessTokens());
     super.onInit();
   }
 
@@ -34,10 +34,11 @@ class FireStoreController extends GetxController {
     });
   }
 
-  static Future createPlaidAccessToken(String access_token) async {
+  static Future createPlaidAccessToken(
+      String access_token, String bankName) async {
     try {
       await _db.collection('user').doc(uid).collection('plaid').add({
-        'access_token': access_token,
+        'access_token': {access_token: bankName},
       });
     } catch (e) {
       print(e);

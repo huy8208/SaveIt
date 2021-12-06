@@ -17,9 +17,6 @@ import '../plaid/env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-final storage = new FlutterSecureStorage();
 
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
@@ -104,7 +101,6 @@ class PlaidRequestController extends GetxController {
         }));
     if (response.statusCode == 200) {
       String accessToken = jsonDecode(response.body)["access_token"];
-      FireStoreController.createPlaidAccessToken(accessToken);
       return accessToken;
     } else {
       throw Exception('Failed to exchange Access Token');
@@ -165,6 +161,8 @@ class PlaidRequestController extends GetxController {
     try {
       var accessToken = await getAccessToken(publicToken);
       bankAccount = await getTransaction(accessToken);
+      FireStoreController.createPlaidAccessToken(
+          accessToken, metadata.institution.name);
 
       listOfBankAccounts.add(TransactionsWithBankTitle(
           bankName: metadata.institution.name, bankAccount: bankAccount));

@@ -31,7 +31,6 @@ class _TransactionPageState extends State<TransactionPage> {
     // Initialize Plaid Controller.
     plaidrequestcontroller = Get.put(PlaidRequestController());
     fireStoreController = Get.put(FireStoreController());
-    // Load bank accounts from local to RxList;
     final String uid = Get.find<AuthController>().getCurrentUID();
 
     FirebaseFirestore.instance
@@ -43,22 +42,20 @@ class _TransactionPageState extends State<TransactionPage> {
       //MUST CHECK IN THE listOfBankAccounts whether the accesstoken
       // already exists, otherwise if first time login and add, there will be duplicates
       if (!listOfAccessToken.docs.isEmpty) {
-        listOfAccessToken.docs.forEach((accessToken) async {
-          var bankAccount = await plaidrequestcontroller
-              .getTransaction(accessToken.data()['access_token']);
+        listOfAccessToken.docs.forEach((document) async {
+          var access_token = document.data()['access_token'].keys.first;
+          var bankName = document.data()['access_token'].values.first;
+          var bankAccount =
+              await plaidrequestcontroller.getTransaction(access_token);
           plaidrequestcontroller.listOfBankAccounts.addIf(
               !plaidrequestcontroller.listOfBankAccounts.contains(bankAccount),
               TransactionsWithBankTitle(
-                  bankName: "FIX", bankAccount: bankAccount));
+                  bankName: bankName, bankAccount: bankAccount));
         });
-
-        // listOfAccessToken.docs.map((accessToken) => fireStoreController.accessTokenLists.add(plaidrequestcontroller.getTransaction(accessToken));
       }
     }).catchError((onError) {
       print(onError);
     });
-    // fireStoreController.accessTokenLists.add(item);
-
     super.initState();
   }
 
