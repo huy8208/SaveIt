@@ -536,4 +536,6 @@ Future<void> main() async {
   var testdata2 = accountFromJson(jsonob);
   List<dynamic> listOfData = [testdata, testdata2];
   var listOfDataEncoded = json.encode(listOfData);
+  //final storage = new FlutterSecureStorage();
+  //await storage.write(key: "local_transactions_data", value: listOfDataEncoded);
 }
