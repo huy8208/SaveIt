@@ -244,7 +244,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                                               .pop();
                                                         } else {
                                                           errorSnackBar(
-                                                              'Current budget ammount can not be set to negative');
+                                                              'Used Budget can not be set to negative');
                                                         }
                                                       } catch (e) {
                                                         errorSnackBar(
