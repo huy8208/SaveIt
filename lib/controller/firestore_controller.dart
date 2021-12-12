@@ -2,7 +2,6 @@ import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/firestore_user_model.dart';
 import 'package:budget_tracker_ui/models/plaid_access_token_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -84,14 +83,15 @@ class FireStoreController extends GetxController {
     });
   }
 
-  static Future createFireStoreUser(
-      Timestamp date_created, String dob, String email, String name) async {
+  static Future createFireStoreUser(Timestamp date_created, String dob,
+      String email, String name, String savings_goal) async {
     try {
       await _db.collection('user').doc(uid).set({
         'date_created': date_created,
         'dob': dob,
         'email': email,
-        'name': name
+        'name': name,
+        'savings_goal': savings_goal
       });
     } catch (e) {
       print(e);
@@ -126,5 +126,24 @@ class FireStoreController extends GetxController {
       print(e);
       rethrow;
     }
+  }
+
+  static Future<void> updateUserGoal(String savings_goal) async {
+    try {
+      await _db
+          .collection('user')
+          .doc(uid)
+          .update({'savings_goal': savings_goal});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String> getUserGoal() async {
+    String user_goal = "0";
+    await _db.collection('user').doc(uid).get().then((snapshot) {
+      user_goal = snapshot.get('savings_goal');
+    });
+    return user_goal;
   }
 }

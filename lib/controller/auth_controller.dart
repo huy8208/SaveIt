@@ -37,7 +37,7 @@ class AuthController extends GetxController {
         isAuthenticated.value = true;
         print(getCurrentUID());
         FireStoreController.createFireStoreUser(Timestamp.now(), "",
-            currentUser.user!.email!, currentUser.user!.email!);
+            currentUser.user!.email!, currentUser.user!.email!, "0");
       });
     } catch (e) {
       errorSnackBar(e.toString());
