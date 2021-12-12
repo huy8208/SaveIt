@@ -45,26 +45,32 @@ class AuthController extends GetxController {
     }
   }
 
+//sign out current user
   Future signOut() async {
     try {
       await _userCredentials.signOut();
       isAuthenticated.value = false;
+      //restart the app
       Restart.restartApp();
     } catch (e) {}
   }
 
+//get current user id
   String getCurrentUID() {
     return (_userCredentials.currentUser)!.uid.toString();
   }
 
+//get current user email
   String getCurrentEmail() {
     return (_userCredentials.currentUser!.email.toString());
   }
 
+//get current user
   getCurrentUser() async {
     return await (_userCredentials.currentUser!);
   }
 
+//change password of current user
   ChangePassword(newPassword) async {
     return await (_userCredentials.currentUser!.updatePassword(newPassword));
   }

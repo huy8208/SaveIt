@@ -8,6 +8,7 @@ class Notifications extends ChangeNotifier {
 
   static final onNotification = BehaviorSubject<String?>();
 
+// initizlize notification component
   static Future initizlize({bool initSchedule = false}) async {
     AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -25,6 +26,7 @@ class Notifications extends ChangeNotifier {
     );
   }
 
+// method to display notification
   static _notificationDetails(
     String title,
     String body,
@@ -45,6 +47,7 @@ class Notifications extends ChangeNotifier {
         payload: '$payload');
   }
 
+//  display notification instantlly
   static Future instantNotify({
     int id = 0,
     String? title,
@@ -59,6 +62,7 @@ class Notifications extends ChangeNotifier {
         payload: payload,
       );
 
+//cancel all notification
   static Future cancelNotification() async {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }

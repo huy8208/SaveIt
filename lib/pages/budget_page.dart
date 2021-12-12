@@ -20,6 +20,7 @@ class BudgetPage extends StatefulWidget {
 class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
   final List color = [red, blue, green];
+  //initalize budget controller
   final budgetController = Get.put(BudgetController());
   TextEditingController currentBudget = TextEditingController();
 
@@ -29,17 +30,20 @@ class _BudgetPageState extends State<BudgetPage> {
     listenNotification();
   }
 
+//notification for budget limit reach
   void listenNotification() =>
       Notifications.onNotification.stream.listen((clickedNotify));
 
   void clickedNotify(String? payload) => Navigator.push(
       context, MaterialPageRoute(builder: (context) => (BudgetPage())));
 
+//convert the amount of budget used to string
   String currentAmountToString(int index1) {
     var price = budgetController.budgets[index1].current_Amount.toString();
     return price;
   }
 
+//calculate the amount of budget used in percentage
   double percentageCalculation(int index1) {
     var percentage = budgetController.budgets[index1].current_Amount /
         budgetController.budgets[index1].budget_TotalAmount;
@@ -55,11 +59,13 @@ class _BudgetPageState extends State<BudgetPage> {
     return percentageLabel;
   }
 
+//get name of the budget
   String budgetName(int index1) {
     String budgetName = budgetController.budgets[index1].budget_Catagory;
     return budgetName;
   }
 
+//get the amount of the budget
   String totalBudget(int index1) {
     String totalBudget =
         budgetController.budgets[index1].budget_TotalAmount.toString();
@@ -72,17 +78,20 @@ class _BudgetPageState extends State<BudgetPage> {
     return randomC;
   }
 
+//remove budget
   removeBudget(int index1) {
     String budgetId = budgetController.budgets[index1].docID.toString();
     budgetController.deleteBudet(budgetId);
   }
 
+//update the amount of budget used
   updateBudget(int index1, double budget) async {
     String budgetId = budgetController.budgets[index1].docID.toString();
     await budgetController.updateBudet(budgetId, budget);
     budgetCheck(index1);
   }
 
+//check if budget limit reach and send notification when the limit reach
   budgetCheck(index1) {
     String budgetName = budgetController.budgets[index1].budget_Catagory;
     if (budgetController.budgets[index1].current_Amount >=
@@ -93,6 +102,7 @@ class _BudgetPageState extends State<BudgetPage> {
         payload: 'payload',
       );
     } else {
+      successSnackBar('Updated');
       Notifications.cancelNotification();
     }
   }
@@ -217,19 +227,25 @@ class _BudgetPageState extends State<BudgetPage> {
                                               ),
                                               actions: <Widget>[
                                                 ElevatedButton(
-                                                    //elevation: 5.0,
                                                     child: Text('Submit'),
                                                     onPressed: () async {
                                                       try {
-                                                        await updateBudget(
-                                                            index,
-                                                            double.parse(
+                                                        if (double.parse(
                                                                 currentBudget
-                                                                    .text));
-                                                        successSnackBar(
-                                                            'Updated');
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                                    .text) >=
+                                                            0) {
+                                                          await updateBudget(
+                                                              index,
+                                                              double.parse(
+                                                                  currentBudget
+                                                                      .text));
+
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        } else {
+                                                          errorSnackBar(
+                                                              'Current budget ammount can not be set to negative');
+                                                        }
                                                       } catch (e) {
                                                         errorSnackBar(
                                                             e.toString());

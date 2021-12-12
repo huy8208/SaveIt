@@ -11,6 +11,7 @@ class BudgetDB {
   final CollectionReference _collectionRef =
       _userData.collection('user').doc(uid).collection('budgets');
 
+//get all the budegt of the current user from firebase and store into a list
   Stream<List<Budgets>> getAllBudgets() {
     return _collectionRef.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Budgets.fromSnapshot(doc)).toList();
@@ -32,6 +33,7 @@ class BudgetController extends GetxController {
 
   RxList<Widget> listOfBudgets = <Widget>[].obs;
 
+//create budget on firebase
   Future createBudgets(
       String budget_Catagory, double budget_TotalAmount) async {
     _userData.collection('user').doc(uid).collection('budgets').add({
@@ -42,6 +44,7 @@ class BudgetController extends GetxController {
     update();
   }
 
+//delete the budget on firebase
   Future<void> deleteBudet(String id) async {
     await _userData
         .collection('user')
@@ -52,6 +55,7 @@ class BudgetController extends GetxController {
     update();
   }
 
+//update the amount of budget used on firebase
   Future<void> updateBudet(String id, double budget) async {
     await _userData
         .collection('user')

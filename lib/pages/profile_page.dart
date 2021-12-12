@@ -104,6 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
+                      //sign out button
                       IconButton(
                         onPressed: () async {
                           await authController.signOut();
