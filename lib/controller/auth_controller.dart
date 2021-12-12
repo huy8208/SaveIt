@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restart_app/restart_app.dart';
 
 class AuthController extends GetxController {
   static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
@@ -48,6 +49,7 @@ class AuthController extends GetxController {
     try {
       await _userCredentials.signOut();
       isAuthenticated.value = false;
+      Restart.restartApp();
     } catch (e) {}
   }
 

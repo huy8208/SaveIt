@@ -205,13 +205,13 @@ class _BudgetPageState extends State<BudgetPage> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title:
-                                                  Text('Update Current Budget'),
+                                              title: Text('Update Used Budget'),
                                               content: TextField(
                                                 keyboardType:
                                                     TextInputType.number,
                                                 decoration: InputDecoration(
-                                                    hintText: "Current Budget",
+                                                    hintText:
+                                                        "Current Budget Used",
                                                     border: InputBorder.none),
                                                 controller: currentBudget,
                                               ),
