@@ -1,3 +1,4 @@
+import 'package:budget_tracker_ui/controller/data_controller.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:budget_tracker_ui/widget/spendingChart.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +18,12 @@ class _HomePageState extends State<HomePage> {
   int activeDay = 3;
 
   bool showAvg = false;
+
+  final NumberFormat formatter = NumberFormat('#,###.00');
+  // formatter.minimumFractionDigits = 2
+
+  DataController dataController = Get.find<DataController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,20 +35,20 @@ class _HomePageState extends State<HomePage> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
 
-    List expenses = [
+    RxList expenses = [
       {
         "icon": Icons.arrow_back,
         "color": blue,
         "label": "Income",
-        "cost": "\$6593.75"
+        "cost": formatter.format(dataController.total.value)
       },
       {
         "icon": Icons.arrow_forward,
         "color": red,
         "label": "Expense",
-        "cost": "\$2645.50"
+        "cost": "555555"
       }
-    ];
+    ].obs;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -206,11 +215,13 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: 8,
                             ),
-                            Text(
-                              expenses[index]['cost'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                            Obx(
+                              () => Text(
+                                expenses[index]['cost'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             )
                           ],

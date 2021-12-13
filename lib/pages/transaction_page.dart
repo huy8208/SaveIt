@@ -28,34 +28,6 @@ class _TransactionPageState extends State<TransactionPage> {
   late FireStoreController fireStoreController;
   @override
   void initState() {
-    // Initialize Plaid Controller.
-    plaidrequestcontroller = Get.put(PlaidRequestController());
-    fireStoreController = Get.put(FireStoreController());
-    final String uid = Get.find<AuthController>().getCurrentUID();
-
-    FirebaseFirestore.instance
-        .collection("user")
-        .doc(uid)
-        .collection("plaid")
-        .get()
-        .then((listOfAccessToken) {
-      //MUST CHECK IN THE listOfBankAccounts whether the accesstoken
-      // already exists, otherwise if first time login and add, there will be duplicates
-      if (!listOfAccessToken.docs.isEmpty) {
-        listOfAccessToken.docs.forEach((document) async {
-          var access_token = document.data()['access_token'].keys.first;
-          var bankName = document.data()['access_token'].values.first;
-          var bankAccount =
-              await plaidrequestcontroller.getTransaction(access_token);
-          plaidrequestcontroller.listOfBankAccounts.addIf(
-              !plaidrequestcontroller.listOfBankAccounts.contains(bankAccount),
-              TransactionsWithBankTitle(
-                  bankName: bankName, bankAccount: bankAccount));
-        });
-      }
-    }).catchError((onError) {
-      print(onError);
-    });
     super.initState();
   }
 
@@ -94,11 +66,12 @@ class _TransactionWidgetState extends State<TransactionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-        () => Get.find<PlaidRequestController>().listOfBankAccounts.isEmpty
+    return Obx(() =>
+        Get.find<PlaidRequestController>().listOfBankAccountWidgets.isEmpty
             ? Center(child: Text("Please add bank account"))
             : Column(
-                children: Get.find<PlaidRequestController>().listOfBankAccounts,
+                children:
+                    Get.find<PlaidRequestController>().listOfBankAccountWidgets,
               ));
   }
 }
@@ -124,7 +97,7 @@ class TransactionsWithBankTitle extends StatelessWidget {
                 category: items.category[0],
                 amount: items.amount,
                 date: items.authorizedDate == null
-                    ? ""
+                    ? "Undated"
                     : DateFormat('MM-dd-yyyy').format(items.authorizedDate!)))
             .toList())
       ],
@@ -198,7 +171,7 @@ class TransactionItem extends StatelessWidget {
             width: 10,
           ),
           Expanded(
-            flex: 6,
+            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -221,7 +194,8 @@ class TransactionItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("\$" + amount.toString()),
+                  Text("\$" + amount.toString(),
+                      style: TextStyle(fontSize: 12)),
                   Text(date),
                 ],
               ),

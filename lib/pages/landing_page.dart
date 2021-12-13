@@ -12,7 +12,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
