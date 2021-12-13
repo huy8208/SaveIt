@@ -6,46 +6,110 @@ import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+var dayToStr = <int, String>{
+  1: "Mon",
+  2: "Tue",
+  3: "Wed",
+  4: "Thur",
+  5: "Fri",
+  6: "Sat",
+  7: "Sun"
+};
+
 class DataController extends GetxController {
   RxBool isLoading = false.obs;
   var total = 0.0.obs;
   final plaidrequestcontroller = Get.find<PlaidRequestController>();
   final fireStoreController = Get.find<FireStoreController>();
   final String uid = Get.find<AuthController>().getCurrentUID();
+  RxList<double> listOfExpenseEachDay = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
 
-  @override
-  void onInit() {
-    getDataFirebase();
-    super.onInit();
+  void startDataFlow() async {
+    var listOfAccessToken = await getDataFirebase();
+    if (!listOfAccessToken.docs.isEmpty) {
+      plaidrequestcontroller.listOfBankAccounts.value =
+          await getListOfBankAccounts(listOfAccessToken);
+      populateTransList(plaidrequestcontroller.listOfBankAccounts);
+      getEachDayExpense(plaidrequestcontroller.listOfBankAccounts);
+    }
   }
 
-  void getDataFirebase() {
-    FirebaseFirestore.instance
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataFirebase() async {
+    var document = await FirebaseFirestore.instance
         .collection("user")
         .doc(uid)
         .collection("plaid")
-        .get()
-        .then((listOfAccessToken) {
-      //MUST CHECK IN THE listOfBankAccounts whether the accesstoken
-      // already exists, otherwise if first time login and add, there will be duplicates
-      if (!listOfAccessToken.docs.isEmpty) {
-        listOfAccessToken.docs.forEach((document) async {
-          var access_token = document.data()['access_token'].keys.first;
-          var bankName = document.data()['access_token'].values.first;
-          var bankAccount =
-              await plaidrequestcontroller.getTransaction(access_token);
-          if (!plaidrequestcontroller.listOfBankAccountWidgets
-              .contains(bankAccount)) {
-            plaidrequestcontroller.listOfBankAccountWidgets.add(
-                TransactionsWithBankTitle(
-                    bankName: bankName, bankAccount: bankAccount));
-            getTotalExpense(bankAccount);
-          }
-        });
+        .get();
+    return document;
+  }
+
+  Future<List<Account>> getListOfBankAccounts(
+      QuerySnapshot listOfAccessToken) async {
+    List<Account> listOfBankAccounts = [];
+    for (var document in listOfAccessToken.docs) {
+      var access_token = document['access_token'].keys.first;
+      var bankName = document['access_token'].values.first;
+      var bankAccount =
+          await plaidrequestcontroller.getTransaction(access_token);
+      bankAccount.bankName = bankName;
+      listOfBankAccounts.add(bankAccount);
+    }
+    return listOfBankAccounts;
+  }
+
+  void populateTransList(List<Account> listOfBankAccounts) {
+    for (var bankAccount in listOfBankAccounts) {
+      plaidrequestcontroller.listOfBankAccountWidgets.add(
+          TransactionsWithBankTitle(
+              bankName: bankAccount.bankName, bankAccount: bankAccount));
+      getTotalExpense(bankAccount);
+    }
+  }
+
+  void getEachDayExpense(List<Account> listBankAccount) {
+    //     DateFormat formatter = DateFormat('yyyy-MM-dd');
+    // final oneMonthAgo =
+    //     formatter.format(DateTime.now().subtract(const Duration(days: 31)));
+    double mon = 2.4;
+    double tue = 2.4;
+    double wed = 2.4;
+    double thu = 2.4;
+    double fri = 2.4;
+    double sat = 2.4;
+    double sun = 2.4;
+
+    for (var account in listBankAccount) {
+      for (var transaction in account.transactions!) {
+        if (dayToStr[transaction.date!.weekday] == 'Mon') {
+          mon += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Tue') {
+          tue += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Wed') {
+          wed += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Thu') {
+          thu += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Fri') {
+          fri += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Sat') {
+          sat += transaction.amount;
+        }
+        if (dayToStr[transaction.date!.weekday] == 'Sun') {
+          sun += transaction.amount;
+        }
       }
-    }).catchError((onError) {
-      print(onError);
-    });
+    }
+    listOfExpenseEachDay.value = [mon, tue, wed, thu, fri, sat, sun];
+    print(listOfExpenseEachDay);
   }
 
   void getTotalExpense(Account bankAccount) {

@@ -87,9 +87,9 @@ class TransactionsWithBankTitle extends StatelessWidget {
                 description: items.name!,
                 category: items.category[0],
                 amount: items.amount,
-                date: items.authorizedDate == null
+                date: items.date == null
                     ? "Undated"
-                    : DateFormat('MM-dd-yyyy').format(items.authorizedDate!)))
+                    : DateFormat('MM-dd-yyyy').format(items.date!)))
             .toList())
       ],
     );
