@@ -210,10 +210,6 @@ class _BudgetPageState extends State<BudgetPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 3),
                                   child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary:
-                                          const Color(0xff174f2a), // background
-                                    ),
                                     onPressed: () {
                                       showDialog(
                                           context: context,
@@ -231,11 +227,6 @@ class _BudgetPageState extends State<BudgetPage> {
                                               ),
                                               actions: <Widget>[
                                                 ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: const Color(
-                                                          0xff174f2a), // background
-                                                    ),
                                                     child: Text('Submit'),
                                                     onPressed: () async {
                                                       try {

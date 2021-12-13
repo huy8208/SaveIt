@@ -43,7 +43,6 @@ class _RootAppState extends State<RootApp> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        activeColor: const Color(0xff174f2a),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home)),
           BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.moneyBillAlt)),
