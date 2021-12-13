@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
             content: TextField(
               obscureText: true,
               decoration: InputDecoration(
-                  hintText: "Enter Password", border: InputBorder.none),
+                  hintText: "Enter New Password", border: InputBorder.none),
               controller: password,
             ),
             actions: <Widget>[
