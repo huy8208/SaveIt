@@ -1,4 +1,5 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

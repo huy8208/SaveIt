@@ -45,7 +45,7 @@ class SpendingChartState extends State<SpendingChart> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   const Text(
-                    'This month spend',
+                    'Last 7 days',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -54,19 +54,19 @@ class SpendingChartState extends State<SpendingChart> {
                   const SizedBox(
                     height: 2,
                   ),
-                  const Text(
+                  /*const Text(
                     '\$1200',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
-                  ),
+                  ),*/
                   const SizedBox(
                     height: 12,
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      padding: const EdgeInsets.only(left: 0, right: 0),
                       child: BarChart(
                         isPlaying ? randomData() : mainBarData(),
                         swapAnimationDuration: animDuration,
@@ -106,8 +106,8 @@ class SpendingChartState extends State<SpendingChart> {
     int x,
     double y, {
     bool isTouched = false,
-    Color barColor = Colors.amber,
-    double width = 22,
+    Color barColor = const Color(0xff30a156),
+    double width = 12,
     List<int> showTooltips = const [],
   }) {
     return BarChartGroupData(
@@ -122,7 +122,7 @@ class SpendingChartState extends State<SpendingChart> {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 20,
+            y: 18,
             colors: [Colors.white],
           ),
         ),
@@ -161,25 +161,25 @@ class SpendingChartState extends State<SpendingChart> {
               String weekDay;
               switch (group.x.toInt()) {
                 case 0:
-                  weekDay = 'Monday';
+                  weekDay = 'Sunday';
                   break;
                 case 1:
-                  weekDay = 'Tuesday';
+                  weekDay = 'Monday';
                   break;
                 case 2:
-                  weekDay = 'Wednesday';
+                  weekDay = 'Tuesday';
                   break;
                 case 3:
-                  weekDay = 'Thursday';
+                  weekDay = 'Wednesday';
                   break;
                 case 4:
-                  weekDay = 'Friday';
+                  weekDay = 'Thursday';
                   break;
                 case 5:
-                  weekDay = 'Saturday';
+                  weekDay = 'Friday';
                   break;
                 case 6:
-                  weekDay = 'Sunday';
+                  weekDay = 'Saturday';
                   break;
                 default:
                   throw Error();
@@ -227,19 +227,19 @@ class SpendingChartState extends State<SpendingChart> {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return 'M';
+                return 'Sun';
               case 1:
-                return 'T';
+                return 'Mon';
               case 2:
-                return 'W';
+                return 'Tue';
               case 3:
-                return 'T';
+                return 'Wed';
               case 4:
-                return 'F';
+                return 'Thu';
               case 5:
-                return 'S';
+                return 'Fri';
               case 6:
-                return 'S';
+                return 'Sat';
               default:
                 return '';
             }
@@ -272,17 +272,17 @@ class SpendingChartState extends State<SpendingChart> {
             getTitles: (double value) {
               switch (value.toInt()) {
                 case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
                   return 'S';
+                case 1:
+                  return 'M';
+                case 2:
+                  return 'T';
+                case 3:
+                  return 'W';
+                case 4:
+                  return 'T';
+                case 5:
+                  return 'F';
                 case 6:
                   return 'S';
                 default:

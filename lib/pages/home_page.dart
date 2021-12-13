@@ -2,6 +2,7 @@ import 'package:budget_tracker_ui/controller/data_controller.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:budget_tracker_ui/widget/spendingChart.dart';
+import 'package:budget_tracker_ui/widget/accountCards.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: grey.withOpacity(0.05),
+      //backgroundColor: grey.withOpacity(0.05),
       body: getBody(),
     );
   }
@@ -38,22 +39,23 @@ class _HomePageState extends State<HomePage> {
     RxList expenses = [
       {
         "icon": Icons.arrow_back,
-        "color": blue,
+        "color": const Color(0xff174f2a),
         "label": "Income",
         "cost": formatter.format(dataController.total.value)
       },
       {
         "icon": Icons.arrow_forward,
-        "color": red,
+        "color": const Color(0xff174f2a),
         "label": "Expense",
         "cost": "555555"
       }
     ].obs;
-    return SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color: white, boxShadow: [
+            decoration: BoxDecoration(color: Colors.transparent, boxShadow: [
               BoxShadow(
                 color: grey.withOpacity(0.01),
                 spreadRadius: 10,
@@ -76,84 +78,56 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             color: black),
                       ),
-                      Icon(FontAwesomeIcons.search) //need to recheck
+                      //Icon(FontAwesomeIcons.search) //need to recheck
                     ],
                   ),
                   SizedBox(
                     height: 25,
                   ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(months.length, (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              activeDay = index;
-                            });
-                          },
-                          child: Container(
-                            width: (MediaQuery.of(context).size.width - 40) / 6,
-                            child: Column(
-                              children: [
-                                Text(
-                                  months[index]['label'],
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: activeDay == index
-                                          ? primary
-                                          : black.withOpacity(0.02),
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                          color: activeDay == index
-                                              ? primary
-                                              : black.withOpacity(0.1))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12, right: 12, top: 7, bottom: 7),
-                                    child: Text(
-                                      months[index]['day'],
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: activeDay == index
-                                              ? white
-                                              : black),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }))
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "This month spend",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: grey),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "\$1200.11",
+                        style: TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.w500,
+                          color: black),
+                      )
+                    ]
+                  )
                 ],
               ),
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.all(0),
             child: Container(
               width: double.infinity,
               height: 250,
               decoration: BoxDecoration(
-                  color: white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  /*boxShadow: [
                     BoxShadow(
                       color: grey.withOpacity(0.01),
                       spreadRadius: 10,
                       blurRadius: 3,
                       // changes position of shadow
                     ),
-                  ]),
+                  ]*/),
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
@@ -177,9 +151,9 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: grey.withOpacity(0.01),
-                          spreadRadius: 10,
-                          blurRadius: 3,
+                          color: grey.withOpacity(0.3),
+                          //spreadRadius: 10,
+                          blurRadius: 10,
                           // changes position of shadow
                         ),
                       ]),
@@ -230,9 +204,33 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 );
-              }))
+              })),
+              SizedBox(
+                height: 25,
+              ),
+              Padding (
+            padding: const EdgeInsets.only(left: 10, right: 10),//all(0),
+            child: Container(
+              width: double.infinity, //400
+              //height: double.infinity, //175
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                  /*boxShadow: [
+                    BoxShadow(
+                      color: grey.withOpacity(0.5),
+                      //spreadRadius: 5,
+                      blurRadius: 20,
+                      // changes position of shadow
+                    ),
+                  ]*/),
+            //adds accounts
+              child: AccountCard(),
+            ),
+          ), 
         ],
       ),
+    ),
     );
   }
 }

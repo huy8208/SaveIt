@@ -10,6 +10,7 @@ import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
@@ -33,11 +34,51 @@ class _TransactionPageState extends State<TransactionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: grey.withOpacity(0.05),
-        body: SingleChildScrollView(child: TransactionWidget()),
+    return Scaffold(
+        //backgroundColor: grey.withOpacity(0.05),
+        //body: SingleChildScrollView(child: TransactionWidget()),
+        body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              /*decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background3.jpeg"),
+                  fit: BoxFit.cover,
+                ),
+              ),*/
+              child: Padding(
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 65, right: 20, left: 20, bottom: 20),
+                          child: Text(
+                            "Transactions",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: black),
+                          ),
+                        ),
+                      
+                      ],
+                    ),
+                    Container(
+                      child: TransactionWidget(),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+      //),
     );
   }
 
@@ -68,7 +109,25 @@ class _TransactionWidgetState extends State<TransactionWidget> {
   Widget build(BuildContext context) {
     return Obx(() =>
         Get.find<PlaidRequestController>().listOfBankAccountWidgets.isEmpty
-            ? Center(child: Text("Please add bank account"))
+            ? Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20
+                    ),
+                    Center(
+                      child: Text(
+                        "Connect your bank account to \n       see your transactions!",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                        textAlign: TextAlign.justify,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ),
+                  ]
+                )
+              )
             : Column(
                 children:
                     Get.find<PlaidRequestController>().listOfBankAccountWidgets,
@@ -115,7 +174,46 @@ class BankTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Slidable(
+      key: const ValueKey(0),
+
+      // The end action pane is the one at the right or the bottom side.
+      endActionPane: const ActionPane(
+        motion: DrawerMotion(),
+        children: [
+          SlidableAction(
+            // An action can be bigger than the others.
+            flex: 2,
+            onPressed: null,
+            backgroundColor: Color(0xff174f2a),
+            foregroundColor: white,
+            icon: Icons.delete,
+            label: 'Delete',
+          ),
+          /*SlidableAction(
+            onPressed: null,
+            backgroundColor: Color(0xFF0392CF),
+            foregroundColor: Colors.white,
+            icon: Icons.save,
+            label: 'Save',
+          ),*/
+        ],
+      ),
+
+      // The child of the Slidable is what the user sees when the
+      // component is not dragged.
+      child: Container(
+        color: Color(0xffdedede),
+        child: ListTile(
+          title: Text(
+            nameOfBank.toUpperCase(),
+            style: TextStyle(
+              color: black,
+            )),
+        ),
+      ),
+    );
+    /*return InkWell(
       onTap: () {},
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
@@ -132,7 +230,7 @@ class BankTitle extends StatelessWidget {
           ),
         ),
       ),
-    );
+    );*/
   }
 }
 
@@ -162,16 +260,24 @@ class TransactionItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: grey.withOpacity(0.1),
+            spreadRadius: 10,
+            blurRadius: 5,
+                // changes position of shadow
+          ),
+        ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(flex: 1, child: Icon(icon)),
           SizedBox(
             width: 10,
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

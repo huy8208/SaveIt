@@ -7,6 +7,7 @@ import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
+import 'package:budget_tracker_ui/widget/accountCards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,8 @@ class PlaidRequestController extends GetxController {
   late Account bankAccount;
   RxList<Widget> listOfBankAccountWidgets = <Widget>[].obs;
   RxList<Account> listOfBankAccounts = <Account>[].obs;
+  RxList<Widget> listOfAccountsWithinBank = <Widget>[].obs;
+
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
@@ -165,6 +168,9 @@ class PlaidRequestController extends GetxController {
           accessToken, metadata.institution.name);
 
       listOfBankAccountWidgets.add(TransactionsWithBankTitle(
+          bankName: metadata.institution.name, bankAccount: bankAccount));
+
+      listOfAccountsWithinBank.add(FinalAccountCards(
           bankName: metadata.institution.name, bankAccount: bankAccount));
     } catch (e) {
       print(e);

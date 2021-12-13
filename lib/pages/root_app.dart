@@ -50,6 +50,8 @@ class _RootAppState extends State<RootApp> {
           BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.wallet)),
           BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt)),
         ],
+        activeColor: const Color(0xff174f2a),
+        backgroundColor: white,
       ),
       tabBuilder: (context, index) {
         switch (index) {

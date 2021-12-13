@@ -51,7 +51,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
             ]),
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 60, right: 20, left: 20, bottom: 25),
+                  top: 60, right: 20, left: 2, bottom: 25),
               child: Column(
                 children: [
                   Row(
@@ -118,7 +118,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                         border: Border.all(
                             width: 2,
                             color: activeCategory == index
-                                ? primary
+                                ? const Color(0xff174f2a)
                                 : Colors.transparent),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
@@ -227,7 +227,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                          color: primary,
+                          color: const Color(0xff174f2a),
                           borderRadius: BorderRadius.circular(15)),
                       child: IconButton(
                         onPressed: () async {

@@ -2,6 +2,8 @@ import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
+import 'package:budget_tracker_ui/models/account.dart';
+import 'package:budget_tracker_ui/widget/accountCards.dart';
 import 'package:get/get.dart';
 
 class AddBankAccountPage extends StatefulWidget {
@@ -32,17 +34,17 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(color: white, boxShadow: [
+            decoration: BoxDecoration(color: Colors.transparent/*, boxShadow: [
               BoxShadow(
                 color: grey.withOpacity(0.01),
                 spreadRadius: 10,
                 blurRadius: 3,
                 // changes position of shadow
               ),
-            ]),
+            ]*/),
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 60, right: 20, left: 20, bottom: 25),
+                  top: 55, right: 20, left: 20, bottom: 25),
               child: Column(
                 children: [
                   Row(
@@ -59,7 +61,18 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         children: [
                           ElevatedButton(
                             onPressed: plaidrequestcontroller.openPlaidOAth,
-                            child: Text('Add Bank'),
+                            child: Text(
+                              '+',
+                              style: TextStyle(
+                                fontSize: 25
+                              )
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff174f2a),
+                              fixedSize: const Size(20, 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50))
+                            ),
                           ),
                         ], //Need to re-check
                       )
@@ -68,6 +81,12 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                 ],
               ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 20, bottom: 15, left: 5, right: 5
+            ),
+            child: AccountCard()
           ),
         ],
       ),

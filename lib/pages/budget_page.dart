@@ -19,7 +19,7 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
-  final List color = [red, blue, green];
+  //final List color = [red, blue, green];
   //initalize budget controller
   final budgetController = Get.put(BudgetController());
   TextEditingController currentBudget = TextEditingController();
@@ -72,11 +72,11 @@ class _BudgetPageState extends State<BudgetPage> {
     return totalBudget;
   }
 
-  Color randomColor() {
+  /*Color randomColor() {
     var random = new Random();
     var randomC = color[random.nextInt(color.length)];
     return randomC;
-  }
+  }*/
 
 //remove budget
   removeBudget(int index1) {
@@ -121,7 +121,7 @@ class _BudgetPageState extends State<BudgetPage> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(color: white, boxShadow: [
+              decoration: BoxDecoration(color: Colors.transparent, boxShadow: [
                 BoxShadow(
                   color: grey.withOpacity(0.01),
                   spreadRadius: 10,
@@ -131,7 +131,7 @@ class _BudgetPageState extends State<BudgetPage> {
               ]),
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 60, right: 20, left: 20, bottom: 25),
+                    top: 9, right: 20, left: 20, bottom: 25),
                 child: Column(
                   children: [
                     Row(
@@ -146,7 +146,7 @@ class _BudgetPageState extends State<BudgetPage> {
                         ),
                         Row(
                           children: [
-                            IconButton(
+                            /*IconButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -158,7 +158,28 @@ class _BudgetPageState extends State<BudgetPage> {
                                 Icons.add,
                                 size: 25,
                               ),
+                            ),*/
+                            ElevatedButton(
+                            onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            (CreateBudgetPage())));
+                              },
+                            child: Text(
+                              '+',
+                              style: TextStyle(
+                                fontSize: 25
+                              )
                             ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff174f2a),
+                              fixedSize: const Size(20, 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50))
+                            ),
+                          ),
                           ],
                         )
                       ],
@@ -207,7 +228,83 @@ class _BudgetPageState extends State<BudgetPage> {
                                       color:
                                           Color(0xff67727d).withOpacity(0.6)),
                                 ),
+                                Container(
+                                  child: Row(
+                                    children: [Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title:
+                                                  Text('Update Current Budget'),
+                                              content: TextField(
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: InputDecoration(
+                                                    hintText: "Current Budget",
+                                                    border: InputBorder.none),
+                                                controller: currentBudget,
+                                                cursorColor: const Color(0xff174f2a)
+                                              ),
+                                              actions: <Widget>[
+                                                ElevatedButton(
+                                                    //elevation: 5.0,
+                                                    child: Text('Submit'),
+                                                    onPressed: () async {
+                                                      try {
+                                                        await updateBudget(
+                                                            index,
+                                                            double.parse(
+                                                                currentBudget
+                                                                    .text));
+                                                        successSnackBar(
+                                                            'Updated');
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      } catch (e) {
+                                                        errorSnackBar(
+                                                            e.toString());
+                                                      }
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      primary: Color(0xff174f2a),
+                                                      fixedSize: const Size(80,15),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(50))
+                                                    )
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    child: Text('Edit'),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xff174f2a),
+                                      fixedSize: const Size(40, 15),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50))
+                                    )
+                                  ),
+                                ),
                                 Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      removeBudget(index);
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.trashAlt,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                                  ),
+                                ),
+                                /*Padding(
                                   padding: const EdgeInsets.only(top: 3),
                                   child: ElevatedButton(
                                     onPressed: () {
@@ -269,7 +366,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                       size: 15,
                                     ),
                                   ),
-                                ),
+                                ),*/
                               ]),
                           SizedBox(
                             height: 10,
@@ -333,7 +430,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                 height: 4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: randomColor()),
+                                    color: const Color(0xff30a156)),
                               ),
                             ],
                           )
