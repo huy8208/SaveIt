@@ -55,8 +55,8 @@ class PlaidRequestController extends GetxController {
   late LinkToken linkToken;
   late String accessToken;
   late Account bankAccount;
-  RxList<Widget> listOfBankAccounts = <Widget>[].obs;
-
+  RxList<Widget> listOfBankAccountWidgets = <Widget>[].obs;
+  RxList<Account> listOfBankAccounts = <Account>[].obs;
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
@@ -164,7 +164,7 @@ class PlaidRequestController extends GetxController {
       FireStoreController.createPlaidAccessToken(
           accessToken, metadata.institution.name);
 
-      listOfBankAccounts.add(TransactionsWithBankTitle(
+      listOfBankAccountWidgets.add(TransactionsWithBankTitle(
           bankName: metadata.institution.name, bankAccount: bankAccount));
     } catch (e) {
       print(e);

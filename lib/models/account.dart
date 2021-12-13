@@ -11,15 +11,16 @@ Account accountFromJson(String str) => Account.fromJson(json.decode(str));
 String accountToJson(Account data) => json.encode(data.toJson());
 
 class Account {
-  Account({
-    required this.accounts,
-    required this.item,
-    required this.numbers,
-    required this.requestId,
-    required this.totalTransactions,
-    required this.transactions,
-  });
+  Account(
+      {required this.accounts,
+      required this.item,
+      required this.numbers,
+      required this.requestId,
+      required this.totalTransactions,
+      required this.transactions,
+      this.bankName = ""});
 
+  String bankName;
   List<AccountElement> accounts;
   Item item;
   Numbers? numbers;

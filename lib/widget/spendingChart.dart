@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:budget_tracker_ui/controller/dataflow_controller.dart';
 import 'package:budget_tracker_ui/widget/colorExtension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SpendingChart extends StatefulWidget {
   final List<Color> availableColors = const [
@@ -28,6 +30,8 @@ class SpendingChartState extends State<SpendingChart> {
 
   bool isPlaying = false;
 
+  var listOfExpenseEachDay = Get.find<DataController>().listOfExpenseEachDay;
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -45,7 +49,7 @@ class SpendingChartState extends State<SpendingChart> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   const Text(
-                    'This month spend',
+                    'This week spends',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -67,9 +71,14 @@ class SpendingChartState extends State<SpendingChart> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: BarChart(
-                        isPlaying ? randomData() : mainBarData(),
-                        swapAnimationDuration: animDuration,
+                      child: Obx(
+                        () => BarChart(
+                          isPlaying
+                              ? randomData()
+                              : mainBarData(Get.find<DataController>()
+                                  .listOfExpenseEachDay),
+                          swapAnimationDuration: animDuration,
+                        ),
                       ),
                     ),
                   ),
@@ -131,28 +140,28 @@ class SpendingChartState extends State<SpendingChart> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+  List<BarChartGroupData> showingGroups(everyDay) => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+            return makeGroupData(0, everyDay[0], isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(1, everyDay[1], isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
+            return makeGroupData(2, everyDay[2], isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+            return makeGroupData(3, everyDay[3], isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
+            return makeGroupData(4, everyDay[4], isTouched: i == touchedIndex);
           case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
+            return makeGroupData(5, everyDay[5], isTouched: i == touchedIndex);
           case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(6, everyDay[6], isTouched: i == touchedIndex);
           default:
             return throw Error();
         }
       });
 
-  BarChartData mainBarData() {
+  BarChartData mainBarData(listOfExpenseEachDay) {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
@@ -252,7 +261,7 @@ class SpendingChartState extends State<SpendingChart> {
       borderData: FlBorderData(
         show: false,
       ),
-      barGroups: showingGroups(),
+      barGroups: showingGroups(listOfExpenseEachDay),
       gridData: FlGridData(show: false),
     );
   }

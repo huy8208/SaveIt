@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restart_app/restart_app.dart';
 
+import 'dataflow_controller.dart';
+
 class AuthController extends GetxController {
   static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
   RxBool isAuthenticated = false.obs;
@@ -19,6 +21,7 @@ class AuthController extends GetxController {
           EmailAuthProvider.credential(email: email, password: password));
       successSnackBar("Sign-in success!");
       isAuthenticated.value = true;
+      Get.find<DataController>().startDataFlow();
     } catch (e) {
       errorSnackBar(e.toString());
       print(e.toString());
