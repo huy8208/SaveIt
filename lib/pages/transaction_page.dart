@@ -1,20 +1,11 @@
-import 'dart:convert';
-
-import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
-import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
-import 'package:budget_tracker_ui/json/daily_json.dart';
-import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 
 class TransactionPage extends StatefulWidget {
   @override

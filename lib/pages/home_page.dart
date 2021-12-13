@@ -1,4 +1,4 @@
-import 'package:budget_tracker_ui/controller/data_controller.dart';
+import 'package:budget_tracker_ui/controller/dataflow_controller.dart';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:budget_tracker_ui/widget/spendingChart.dart';
@@ -40,13 +40,13 @@ class _HomePageState extends State<HomePage> {
         "icon": Icons.arrow_back,
         "color": blue,
         "label": "Income",
-        "cost": formatter.format(dataController.total.value)
+        "cost": "555"
       },
       {
         "icon": Icons.arrow_forward,
         "color": red,
         "label": "Expense",
-        "cost": "555555"
+        "cost": formatter.format(dataController.total.value)
       }
     ].obs;
     return SingleChildScrollView(
