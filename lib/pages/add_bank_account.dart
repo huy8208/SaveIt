@@ -58,6 +58,9 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                       Row(
                         children: [
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color(0xff174f2a), // background
+                            ),
                             onPressed: plaidrequestcontroller.openPlaidOAth,
                             child: Text('Add Bank'),
                           ),

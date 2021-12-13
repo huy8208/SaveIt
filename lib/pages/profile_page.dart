@@ -47,6 +47,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff174f2a), // background
+                  ),
                   child: Text('Submit'),
                   onPressed: () async {
                     try {
@@ -82,7 +85,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                  //elevation: 5.0,
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff174f2a), // background
+                  ),
                   child: Text('Submit'),
                   onPressed: () async {
                     try {
@@ -230,6 +235,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 10,
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff174f2a), // background
+                  ),
                   onPressed: () {
                     goalDialog(context);
                   },
@@ -246,6 +254,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 10,
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff174f2a), // background
+                  ),
                   onPressed: () {
                     passwordDialog(context);
                   },

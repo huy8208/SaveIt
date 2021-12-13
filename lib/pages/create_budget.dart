@@ -246,7 +246,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                         },
                         icon: Icon(
                           Icons.arrow_forward,
-                          color: white,
+                          color: Color(0xff174f2a),
                         ),
                       ),
                     ),
