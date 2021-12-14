@@ -52,7 +52,7 @@ class SpendingChartState extends State<SpendingChart> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   const Text(
-                    'Past Week',
+                    'Last 7 days',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -61,7 +61,7 @@ class SpendingChartState extends State<SpendingChart> {
                   const SizedBox(
                     height: 2,
                   ),
-                  Obx(
+                  /*Obx(
                     () => Text(
                       "\$${formatter.format(Get.find<DataController>().pastWeekExpense.value)}",
                       style: TextStyle(
@@ -69,7 +69,7 @@ class SpendingChartState extends State<SpendingChart> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
-                  ),
+                  ),*/
                   const SizedBox(
                     height: 12,
                   ),
@@ -120,8 +120,8 @@ class SpendingChartState extends State<SpendingChart> {
     int x,
     double y, {
     bool isTouched = false,
-    Color barColor = Colors.amber,
-    double width = 22,
+    Color barColor = const Color(0xff30a156),
+    double width = 12,
     List<int> showTooltips = const [],
   }) {
     if (y <= 0) {
@@ -132,15 +132,15 @@ class SpendingChartState extends State<SpendingChart> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colors.yellow] : [barColor],
+          colors: isTouched ? [Colors.green] : [barColor],
           width: width,
           borderSide: isTouched
-              ? BorderSide(color: Colors.yellow.darken(), width: 1)
+              ? BorderSide(color: Colors.green.darken(), width: 1)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 20,
-            colors: y <= 0.0 ? [Colors.green] : [Colors.white],
+            y: 18,
+            colors: y >= 0.0 ? [Colors.green] : [Colors.white],
           ),
         ),
       ],

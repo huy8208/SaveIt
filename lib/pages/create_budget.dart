@@ -33,7 +33,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
       body: getBody(),
     );
   }
-
+  
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -51,7 +51,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
             ]),
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 60, right: 20, left: 20, bottom: 25),
+                  top: 60, right: 20, left: 2, bottom: 25),
               child: Column(
                 children: [
                   Row(
@@ -118,7 +118,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                         border: Border.all(
                             width: 2,
                             color: activeCategory == index
-                                ? primary
+                                ? const Color(0xff174f2a)
                                 : Colors.transparent),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
@@ -227,21 +227,21 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                          color: primary,
+                          color: const Color(0xff174f2a),
                           borderRadius: BorderRadius.circular(15)),
                       child: IconButton(
                         onPressed: () async {
                           //create budget
                           if (_budgetName.text != '' &&
                               _budgetAmount.text != '' &&
-                              (double.parse(_budgetAmount.text)) >= 0) {
+                              (double.parse(_budgetAmount.text)) > 0) {
                             await budgetDBController.createBudgets(
                                 _budgetName.text,
                                 double.parse(_budgetAmount.text));
                             Navigator.of(context).pop();
                           } else {
                             errorSnackBar(
-                                'Budget name can not be empty and budget ammount can not be negative');
+                                'Budget name can not be empty and budget ammount can not be zero or negative');
                           }
                         },
                         icon: Icon(

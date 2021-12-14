@@ -47,6 +47,7 @@ dependencies:
   cloud_firestore_web: ^2.5.0
   syncfusion_flutter_charts: ^19.3.56
   restart_app: ^1.1.0
+  flutter_slidable: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +68,12 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/bank.png
+    - assets/images/cash.png
+    - assets/images/charity.png
+    - assets/images/eating.png
+    - assets/images/gift.png
+    - assets/images/auto.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -78,6 +84,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
+  fonts:
+    - family: Cinzel
+      fonts:
+        - asset: assets/fonts/Cinzel-VariableFont_wght.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoMono-VariableFont_wght.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

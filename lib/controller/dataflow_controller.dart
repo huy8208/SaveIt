@@ -20,6 +20,8 @@ var dayToStr = <int, String>{
 class DataController extends GetxController {
   RxBool isLoading = false.obs;
   var total = 0.0.obs;
+  var savings = 0.0.obs;
+  var spend = 0.0.obs;
   final plaidrequestcontroller = Get.find<PlaidRequestController>();
   final fireStoreController = Get.find<FireStoreController>();
   // final String uid = Get.find<AuthController>().getCurrentUID();
@@ -51,7 +53,7 @@ class DataController extends GetxController {
   }
 
   Future<List<Account>> getListOfBankAccounts(
-      QuerySnapshot listOfAccessToken) async {
+    QuerySnapshot listOfAccessToken) async {
     List<Account> listOfBankAccounts = [];
     for (var document in listOfAccessToken.docs) {
       var access_token = document['access_token'].keys.first;
@@ -68,8 +70,10 @@ class DataController extends GetxController {
     for (var bankAccount in listOfBankAccounts) {
       plaidrequestcontroller.listOfBankAccountWidgets.add(
           TransactionsWithBankTitle(
-              bankName: bankAccount.bankName, bankAccount: bankAccount));
+              bankName: bankAccount.bankName, bankAccount: bankAccount));//, fireStoreController: fireStoreController);
       getTotalExpense(bankAccount);
+      getSavings(bankAccount);
+      getThisMonthSpend(bankAccount);
     }
   }
 
@@ -123,5 +127,28 @@ class DataController extends GetxController {
     for (var expense in bankAccount.transactions!) {
       total.value += expense.amount;
     }
+    print(total.value);
+  }
+
+  void getSavings(Account bankAccount) {
+    for (var account in bankAccount.accounts) {
+      if (account.name!.contains("Saving") || account.name!.contains("CD"))
+      {
+        savings.value += account.balances.current!;
+      }
+    }
+    print(savings.value);
+  }
+
+  void getThisMonthSpend(Account bankAccount) {
+    var today = DateTime.now().month.toString();
+    print(today);
+    for (var expense in bankAccount.transactions!) {
+      if (expense.date.toString().split("-")[1] == today)
+      {
+        spend.value += expense.amount;
+      }
+    }
+    print(spend.value);
   }
 }

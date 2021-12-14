@@ -115,21 +115,21 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget getBody() {
+   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(color: white, boxShadow: [
+            decoration: BoxDecoration(color: Colors.transparent/*, boxShadow: [
               BoxShadow(
                 color: grey.withOpacity(0.01),
                 spreadRadius: 10,
                 blurRadius: 3,
                 // changes position of shadow
               ),
-            ]),
+            ]*/),
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 60, right: 20, left: 20, bottom: 25),
@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Row(
                     children: [
-                      Container(
+                      /*Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -169,6 +169,23 @@ class _ProfilePageState extends State<ProfilePage> {
                               "Overall Savings Goal: ",
                               style: TextStyle(
                                   fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: black),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),*/
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "My Savings Goal: ",
+                              style: TextStyle(
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: black),
                             ),
@@ -185,7 +202,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               "\$" + goalText,
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: black),
                             ),
@@ -233,6 +250,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     goalDialog(context);
                   },
                   child: Text('Update Goal Amount'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(200, 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50))
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -249,6 +272,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     passwordDialog(context);
                   },
                   child: Text('Change Password'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(200, 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50))
+                  ),
                 ),
                 SizedBox(
                   height: 10,
