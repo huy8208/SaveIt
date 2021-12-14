@@ -60,7 +60,7 @@ class PlaidRequestController extends GetxController {
   RxList<Widget> listOfBankAccountWidgets = <Widget>[].obs;
   RxList<Account> listOfBankAccounts = <Account>[].obs;
   RxList<Widget> listOfAccountsWithinBank = <Widget>[].obs;
-  final fireStoreController = Get.find<FireStoreController>();
+  //final fireStoreController = Get.find<FireStoreController>();
 
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
