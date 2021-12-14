@@ -60,7 +60,7 @@ class AuthController extends GetxController {
 
 //get current user id
   String getCurrentUID() {
-    return (_userCredentials.currentUser)!.uid.toString();
+    return _userCredentials.currentUser!.uid.toString();
   }
 
 //get current user email
