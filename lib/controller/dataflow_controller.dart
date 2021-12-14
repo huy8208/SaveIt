@@ -22,7 +22,7 @@ class DataController extends GetxController {
   var total = 0.0.obs;
   final plaidrequestcontroller = Get.find<PlaidRequestController>();
   final fireStoreController = Get.find<FireStoreController>();
-  final String uid = Get.find<AuthController>().getCurrentUID();
+  // final String uid = Get.find<AuthController>().getCurrentUID();
   RxList<double> listOfExpenseEachDay = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
   RxDouble pastWeekExpense = 0.0.obs;
 
@@ -44,7 +44,7 @@ class DataController extends GetxController {
   Future<QuerySnapshot<Map<String, dynamic>>> getDataFirebase() async {
     var document = await FirebaseFirestore.instance
         .collection("user")
-        .doc(uid)
+        .doc(Get.find<AuthController>().getCurrentUID())
         .collection("plaid")
         .get();
     return document;
