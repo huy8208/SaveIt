@@ -39,13 +39,13 @@ class _HomePageState extends State<HomePage> {
       {
         "icon": Icons.arrow_back,
         "color": blue,
-        "label": "Income",
+        "label": "Total Income",
         "cost": "Coming Soon!"
       },
       {
         "icon": Icons.arrow_forward,
         "color": red,
-        "label": "Expense",
+        "label": "Total Expense",
         "cost": '\$${formatter.format(dataController.total.value)}'
       }
     ].obs;

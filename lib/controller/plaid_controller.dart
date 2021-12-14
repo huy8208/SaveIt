@@ -171,12 +171,13 @@ class PlaidRequestController extends GetxController {
       Get.find<DataController>().getEachDayExpense(listBankAccount);
       var oneWeekSum = 0.0;
       for (var account in listBankAccount) {
+        Get.find<DataController>().getTotalExpense(bankAccount);
         for (var transaction in account.transactions!) {
           oneWeekSum += transaction.amount;
         }
       }
-      Get.find<DataController>().pastWeekExpense.value =
-          Get.find<DataController>().pastWeekExpense.value + oneWeekSum;
+      // Get.find<DataController>().pastWeekExpense.value =
+      //     Get.find<DataController>().pastWeekExpense.value + oneWeekSum;
     } catch (e) {
       print(e);
       Get.defaultDialog(title: "Error! Could not fetch transactions!");
