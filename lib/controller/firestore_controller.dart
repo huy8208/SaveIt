@@ -11,11 +11,10 @@ final String uid = Get.find<AuthController>().getCurrentUID();
 // save access token => no realtime update
 // get access token => no realtime update
 
+// Controller for FireStore operations on a user document
 class FireStoreController extends GetxController {
-  // final accessTokenLists = <PlaidAccessToken>[].obs;
   @override
   void onInit() {
-    // accessTokenLists.bindStream(getAllAccessTokens());
     super.onInit();
   }
 
@@ -33,6 +32,7 @@ class FireStoreController extends GetxController {
     });
   }
 
+  // Creating storing Plaid access token in Firebase
   static Future createPlaidAccessToken(
       String access_token, String bankName) async {
     try {
@@ -45,6 +45,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Deleting token from Firebase of specified user
   static Future<void> deletePlaidAccessToken(String id) async {
     try {
       await _db
@@ -59,6 +60,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Changing access token of specified user
   static Future<void> updatePlaidAccessToken(
       String id, String access_token) async {
     try {
@@ -83,6 +85,7 @@ class FireStoreController extends GetxController {
     });
   }
 
+  // Storing Firebase user with given properties
   static Future createFireStoreUser(Timestamp date_created, String dob,
       String email, String name, String savings_goal) async {
     try {
@@ -99,6 +102,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Deleting user from Firebase given their user ID
   static Future<void> deleteFireStoreUser(String userID) async {
     try {
       await _db.collection('user').doc(userID).update({
@@ -113,6 +117,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Updating user properties given their user ID
   static Future<void> updateFireStoreUser(
       Timestamp date_created, String dob, String email, String name) async {
     try {
@@ -128,6 +133,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Updating their goal amount stored in Firebase
   static Future<void> updateUserGoal(String savings_goal) async {
     try {
       await _db
@@ -139,6 +145,7 @@ class FireStoreController extends GetxController {
     }
   }
 
+  // Accessing their goal amount stored in Firebase
   Future<String> getUserGoal() async {
     String user_goal = "0";
     await _db.collection('user').doc(uid).get().then((snapshot) {

@@ -5,21 +5,18 @@ import 'dart:convert';
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/dataflow_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
-import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:budget_tracker_ui/widget/accountCards.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart';
 import '../plaid/env.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:intl/intl.dart';
-import 'dart:io';
 
+// Encoding Plaid parameters
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
   "secret": SECRET_KEY,
@@ -31,6 +28,7 @@ final body = jsonEncode(<String, dynamic>{
   "redirect_uri": REDIRECT_URL
 });
 
+// Class representing Plaid link token
 class LinkToken {
   final String expiration;
   final String tokenURL;
@@ -50,6 +48,7 @@ class LinkToken {
   }
 }
 
+// Controller for accessing Plaid API with link and access token
 class PlaidRequestController extends GetxController {
   // RxBool isLoading = false.obs;
   // RxBool hasError = false.obs;
@@ -62,6 +61,7 @@ class PlaidRequestController extends GetxController {
   RxList<Widget> listOfAccountsWithinBank = <Widget>[].obs;
   //final fireStoreController = Get.find<FireStoreController>();
 
+  // Opening Plaid authentication
   void openPlaidOAth() async {
     linkToken = await createLinkToken();
     LinkTokenConfiguration linkTokenConfiguration = LinkTokenConfiguration(
@@ -77,6 +77,7 @@ class PlaidRequestController extends GetxController {
     plaidLinkToken.open();
   }
 
+  // Creating link token
   Future<LinkToken> createLinkToken() async {
     // isLoading(true);
     final response = await post(
@@ -94,6 +95,7 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  // Getting access token
   Future<String> getAccessToken(String accessToken) async {
     final response = await post(Uri.parse(EXCHANGE_TOKEN_URL),
         headers: <String, String>{
@@ -112,6 +114,7 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  // Getting bank account with access token
   Future<Account> getBankAccount(String accessToken) async {
     final response = await post(Uri.parse(RETRIEVE_AUTH_URL),
         headers: <String, String>{
@@ -131,6 +134,7 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  // Getting transactions with access token
   Future<Account> getTransaction(String accessToken) async {
     // Initialize DateTime variables
     DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -157,6 +161,7 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  // Updating data controller with transactions and bank accounts from Plaid
   void _onSuccessCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
@@ -171,7 +176,9 @@ class PlaidRequestController extends GetxController {
       List<Account> listBankAccount = [];
       listBankAccount.add(bankAccount);
       listOfBankAccountWidgets.add(TransactionsWithBankTitle(
-          bankName: metadata.institution.name, bankAccount: bankAccount));//, fireStoreController: fireStoreController, accessToken: accessToken));
+          bankName: metadata.institution.name,
+          bankAccount:
+              bankAccount)); //, fireStoreController: fireStoreController, accessToken: accessToken));
       listOfAccountsWithinBank.add(FinalAccountCards(
           bankName: metadata.institution.name, bankAccount: bankAccount));
       Get.find<DataController>().getEachDayExpense(listBankAccount);
@@ -190,16 +197,19 @@ class PlaidRequestController extends GetxController {
     }
   }
 
+  // Adding transaction list to bank account
   void addBankAccount(RxList<Widget> list, Account bankAccount) {
     if (list.isEmpty) {
       Get.defaultDialog(title: "You have 0 transaction for this bank account.");
     }
   }
 
+  // Returning message on linking event
   void _onEventCallback(String event, LinkEventMetadata metadata) {
     print("onEvent: $event, metadata: ${metadata.description()}");
   }
 
+  // Returning message on linking exit
   void _onExitCallback(LinkError? error, LinkExitMetadata metadata) {
     print("onExit metadata: ${metadata.description()}");
 

@@ -1,16 +1,16 @@
 import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
-import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/widget/accountCards.dart';
 import 'package:get/get.dart';
 
+// Page for adding a bank account
 class AddBankAccountPage extends StatefulWidget {
   @override
   _AddBankAccountPageState createState() => _AddBankAccountPageState();
 }
 
+// Page is stateful and accesses a PlaidRequestController
 class _AddBankAccountPageState extends State<AddBankAccountPage> {
   late PlaidRequestController plaidrequestcontroller;
   @override
@@ -27,21 +27,14 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
     );
   }
 
+  // Page body consits of a button to start Plaid bank linking process
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(color: Colors.transparent/*, boxShadow: [
-              BoxShadow(
-                color: grey.withOpacity(0.01),
-                spreadRadius: 10,
-                blurRadius: 3,
-                // changes position of shadow
-              ),
-            ]*/),
+            decoration: BoxDecoration(color: Colors.transparent),
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 55, right: 20, left: 20, bottom: 25),
@@ -61,18 +54,12 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         children: [
                           ElevatedButton(
                             onPressed: plaidrequestcontroller.openPlaidOAth,
-                            child: Text(
-                              '+',
-                              style: TextStyle(
-                                fontSize: 25
-                              )
-                            ),
+                            child: Text('+', style: TextStyle(fontSize: 25)),
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xff174f2a),
-                              fixedSize: const Size(20, 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50))
-                            ),
+                                primary: Color(0xff174f2a),
+                                fixedSize: const Size(20, 15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50))),
                           ),
                         ], //Need to re-check
                       )
@@ -83,11 +70,9 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              top: 20, bottom: 15, left: 5, right: 5
-            ),
-            child: AccountCard()
-          ),
+              padding:
+                  const EdgeInsets.only(top: 20, bottom: 15, left: 5, right: 5),
+              child: AccountCard()),
         ],
       ),
     );

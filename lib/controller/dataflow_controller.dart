@@ -1,7 +1,6 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
-import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,7 +52,7 @@ class DataController extends GetxController {
   }
 
   Future<List<Account>> getListOfBankAccounts(
-    QuerySnapshot listOfAccessToken) async {
+      QuerySnapshot listOfAccessToken) async {
     List<Account> listOfBankAccounts = [];
     for (var document in listOfAccessToken.docs) {
       var access_token = document['access_token'].keys.first;
@@ -70,7 +69,9 @@ class DataController extends GetxController {
     for (var bankAccount in listOfBankAccounts) {
       plaidrequestcontroller.listOfBankAccountWidgets.add(
           TransactionsWithBankTitle(
-              bankName: bankAccount.bankName, bankAccount: bankAccount));//, fireStoreController: fireStoreController);
+              bankName: bankAccount.bankName,
+              bankAccount:
+                  bankAccount)); //, fireStoreController: fireStoreController);
       getTotalExpense(bankAccount);
       getSavings(bankAccount);
       getThisMonthSpend(bankAccount);
@@ -132,8 +133,7 @@ class DataController extends GetxController {
 
   void getSavings(Account bankAccount) {
     for (var account in bankAccount.accounts) {
-      if (account.name!.contains("Saving") || account.name!.contains("CD"))
-      {
+      if (account.name!.contains("Saving") || account.name!.contains("CD")) {
         savings.value += account.balances.current!;
       }
     }
@@ -144,8 +144,7 @@ class DataController extends GetxController {
     var today = DateTime.now().month.toString();
     print(today);
     for (var expense in bankAccount.transactions!) {
-      if (expense.date.toString().split("-")[1] == today)
-      {
+      if (expense.date.toString().split("-")[1] == today) {
         spend.value += expense.amount;
       }
     }

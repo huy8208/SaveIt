@@ -1,20 +1,20 @@
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
-import 'package:budget_tracker_ui/models/plaid_access_token_model.dart';
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restart_app/restart_app.dart';
-
 import 'dataflow_controller.dart';
 
+// Controller for authentication. Stores current user from Firebase
 class AuthController extends GetxController {
   static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
   RxBool isAuthenticated = false.obs;
   late var currentUser;
 
+//sign in user to Firebase with email and password
+//Shows success snackbar if successful, otherwise shows error message
   Future<void> signIn(String email, String password) async {
     try {
       currentUser = await _userCredentials.signInWithCredential(
@@ -28,6 +28,7 @@ class AuthController extends GetxController {
     }
   }
 
+//register user to Firebase with email and password
   Future<void> register(String email, String password) async {
     try {
       currentUser = await _userCredentials
