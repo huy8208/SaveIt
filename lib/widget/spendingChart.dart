@@ -49,7 +49,7 @@ class SpendingChartState extends State<SpendingChart> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   const Text(
-                    'This week spends',
+                    'Past Week',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
