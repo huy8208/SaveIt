@@ -12,70 +12,63 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AccountCard extends StatefulWidget {
-    const AccountCard({Key ? key}) : super(key : key);
-    
-    @override
-    State<StatefulWidget> createState() => AccountCardState();
+  const AccountCard({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => AccountCardState();
 }
 
 class AccountCardState extends State<AccountCard> {
-    late PlaidRequestController plaidRequestController;
-    late FireStoreController fireStoreController;
-    var access_token;
-    var bankName;
-    var transactions;
-    var bankAccount;
+  late PlaidRequestController plaidRequestController;
+  late FireStoreController fireStoreController;
+  var access_token;
+  var bankName;
+  var transactions;
+  var bankAccount;
 
-    void initState() {
-      // Initialize Plaid Controller.
-      plaidRequestController = Get.put(PlaidRequestController());
-      fireStoreController = Get.put(FireStoreController());
-      final String uid = Get.find<AuthController>().getCurrentUID();
+  void initState() {
+    // Initialize Plaid Controller.
+    plaidRequestController = Get.put(PlaidRequestController());
+    fireStoreController = Get.put(FireStoreController());
+    final String uid = Get.find<AuthController>().getCurrentUID();
 
-      FirebaseFirestore.instance
-          .collection("user")
-          .doc(uid)
-          .collection("plaid")
-          .get()
-          .then((listOfAccessToken) {
-        //MUST CHECK IN THE listOfAccountsWithinBank whether the accesstoken
-        // already exists, otherwise if first time login and add, there will be duplicates
-        if (!listOfAccessToken.docs.isEmpty) {
-          listOfAccessToken.docs.forEach((document) async {
-            access_token = document.data()['access_token'].keys.first;
-            bankName = document.data()['access_token'].values.first;
-            bankAccount = 
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(uid)
+        .collection("plaid")
+        .get()
+        .then((listOfAccessToken) {
+      //MUST CHECK IN THE listOfAccountsWithinBank whether the accesstoken
+      // already exists, otherwise if first time login and add, there will be duplicates
+      if (!listOfAccessToken.docs.isEmpty) {
+        listOfAccessToken.docs.forEach((document) async {
+          access_token = document.data()['access_token'].keys.first;
+          bankName = document.data()['access_token'].values.first;
+          bankAccount =
               await plaidRequestController.getBankAccount(access_token);
-            print(bankAccount.accounts[0].name);
-            plaidRequestController.listOfAccountsWithinBank.addIf(
-              !plaidRequestController.listOfAccountsWithinBank.contains(bankAccount),
-              FinalAccountCards(
-                bankName: bankName,
-                bankAccount: bankAccount
-                ));
-          });
-        }
-      }).catchError((onError) {
-        print(onError);
-      });
-      super.initState();
-    }
+          print(bankAccount.accounts[0].name);
+          plaidRequestController.listOfAccountsWithinBank.addIf(
+              !plaidRequestController.listOfAccountsWithinBank
+                  .contains(bankAccount),
+              FinalAccountCards(bankName: bankName, bankAccount: bankAccount));
+        });
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
+    super.initState();
+  }
 
-    @override
-    Widget build(BuildContext context) {
-      return Obx(
-        () => Get.find<PlaidRequestController>().listOfAccountsWithinBank.isEmpty
-            ? Center(
-                child: Text(
-                  ""
-                  )
-              )
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() =>
+        Get.find<PlaidRequestController>().listOfAccountsWithinBank.isEmpty
+            ? Center(child: Text(""))
             : Column(
-                children: Get.find<PlaidRequestController>().listOfAccountsWithinBank,
-              )
-      );
-    }
-
+                children:
+                    Get.find<PlaidRequestController>().listOfAccountsWithinBank,
+              ));
+  }
 }
 
 class FinalAccountCards extends StatelessWidget {
@@ -83,27 +76,22 @@ class FinalAccountCards extends StatelessWidget {
     Key? key,
     required this.bankAccount,
     required this.bankName,
-  }) : super(key : key);
+  }) : super(key: key);
 
   final Account bankAccount;
   final String bankName;
 
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        ...(bankAccount.accounts.sublist(0,4)
-          .map((items) => AccountNameAndBalance(
-            icon: items.name?.contains("Card") ?? false
-              ? Icons.credit_card_rounded : Icons.account_balance_rounded,
-            nameOfAccount: items.name?.replaceAll("Plaid", bankName) ?? "",
-            balance: items.balances.current ?? 0)
-          )
-        )
-      ]
-    );
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      ...(bankAccount.accounts.sublist(0, 4).map((items) =>
+          AccountNameAndBalance(
+              icon: items.name?.contains("Card") ?? false
+                  ? Icons.credit_card_rounded
+                  : Icons.account_balance_rounded,
+              nameOfAccount: items.name?.replaceAll("Plaid", bankName) ?? "",
+              balance: items.balances.current ?? 0)))
+    ]);
   }
-  
 }
 
 class AccountNameAndBalance extends StatelessWidget {
@@ -112,25 +100,27 @@ class AccountNameAndBalance extends StatelessWidget {
     required this.icon,
     required this.nameOfAccount,
     required this.balance,
-  }) : super(key : key);
+  }) : super(key: key);
 
   final IconData icon;
   final String nameOfAccount;
   final double balance;
 
   Widget build(BuildContext context) {
-    return Column( 
+    return Column(
       children: [
         Container(
           decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: grey.withOpacity(0.3),
-              blurRadius: 10,
-            )],
+            boxShadow: [
+              BoxShadow(
+                color: grey.withOpacity(0.3),
+                blurRadius: 10,
+              )
+            ],
           ),
           child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             color: white,
             child: Stack(
               children: [
@@ -146,9 +136,9 @@ class AccountNameAndBalance extends StatelessWidget {
                       Text(
                         nameOfAccount,
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                          color: Color(0xff67727d)),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                            color: Color(0xff67727d)),
                       ),
                       SizedBox(
                         height: 59,
@@ -165,13 +155,15 @@ class AccountNameAndBalance extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 190),
+                              padding: const EdgeInsets.only(left: 150),
                               child: Text(
                                 "\$" + balance.toString() + "0",
+                                maxLines: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25,
+                                  overflow: TextOverflow.clip,
                                 ),
                               ),
                             ),
