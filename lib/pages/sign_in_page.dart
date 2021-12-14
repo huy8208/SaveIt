@@ -3,16 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum EmailSignInFormType { signIn, register }
-
+// Page for user sign in and registration
 class SignInPage extends StatelessWidget {
   SignInPage({
     Key? key,
   }) : super(key: key);
 
+  // Text controllers for email and password
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  static final FirebaseAuth testing = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class SignInPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 40,
               fontFamily: 'Roboto',
-              //fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -40,6 +38,7 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  // Widget list consisting of username and password field and login/register buttons
   List<Widget> _buildChildren(BuildContext context) {
     return [
       Container(

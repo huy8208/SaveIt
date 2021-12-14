@@ -5,16 +5,17 @@ import 'package:budget_tracker_ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 import 'package:flutter/services.dart';
 
+// Class for Profile Page
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
+// Profile Page is stateful: goal amount can be changed by user
 class _ProfilePageState extends State<ProfilePage> {
   final authController = Get.find<AuthController>();
   String goalText = "...";
@@ -47,17 +48,22 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                  child: Text('Submit'),
-                  onPressed: () async {
-                    try {
-                      await authController.ChangePassword(password.text);
-                      successSnackBar('Password Changed');
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      errorSnackBar(
-                          'Could not Change Password: ' + e.toString());
-                    }
-                  })
+                child: Text('Submit'),
+                onPressed: () async {
+                  try {
+                    await authController.ChangePassword(password.text);
+                    successSnackBar('Password Changed');
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    errorSnackBar('Could not Change Password: ' + e.toString());
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(80, 15),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
             ],
           );
         });
@@ -82,28 +88,36 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                  child: Text('Submit'),
-                  onPressed: () async {
-                    try {
-                      await FireStoreController.updateUserGoal(
-                          newGoalAmount.text);
-                      setState(() {
-                        goalText = newGoalAmount.text;
-                      });
-                      successSnackBar('Goal Updated');
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      errorSnackBar('Could not Change Goal: ' + e.toString());
-                    }
-                  })
+                child: Text('Submit'),
+                onPressed: () async {
+                  try {
+                    await FireStoreController.updateUserGoal(
+                        newGoalAmount.text);
+                    setState(() {
+                      goalText = newGoalAmount.text;
+                    });
+                    successSnackBar('Goal Updated');
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    errorSnackBar('Could not Change Goal: ' + e.toString());
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(80, 15),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
             ],
           );
         });
   }
 
+  // Method to enable notification listener
   void listenNotification() =>
       Notifications.onNotification.stream.listen((clickedNotify));
 
+  // New context shown when notified
   void clickedNotify(String? payload) => Navigator.push(
       context, MaterialPageRoute(builder: (context) => (ProfilePage())));
 
@@ -115,24 +129,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  // Body of Profile Page: consits of Savings Goal text and buttons for changing goal/password
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: Colors
-                    .transparent /*, boxShadow: [
-              BoxShadow(
-                color: grey.withOpacity(0.01),
-                spreadRadius: 10,
-                blurRadius: 3,
-                // changes position of shadow
-              ),
-            ]*/
-                ),
+            decoration: BoxDecoration(color: Colors.transparent),
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 60, right: 20, left: 20, bottom: 25),
@@ -164,23 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Row(
                     children: [
-                      /*Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Overall Savings Goal: ",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: black),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      ),*/
                       Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text('Update Goal Amount'),
                   style: ElevatedButton.styleFrom(
                       primary: Color(0xff174f2a),
-                      fixedSize: const Size(80, 15),
+                      fixedSize: const Size(200, 15),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50))),
                 ),
@@ -276,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text('Change Password'),
                   style: ElevatedButton.styleFrom(
                       primary: Color(0xff174f2a),
-                      fixedSize: const Size(80, 15),
+                      fixedSize: const Size(200, 15),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50))),
                 ),

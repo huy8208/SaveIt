@@ -148,24 +148,18 @@ class _BudgetPageState extends State<BudgetPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              (CreateBudgetPage())));
-                                },
-                              child: Text(
-                                '+',
-                                style: TextStyle(
-                                  fontSize: 25
-                                )
-                              ),
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            (CreateBudgetPage())));
+                              },
+                              child: Text('+', style: TextStyle(fontSize: 25)),
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xff174f2a),
-                                fixedSize: const Size(20, 15),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50))
-                              ),
+                                  primary: Color(0xff174f2a),
+                                  fixedSize: const Size(20, 15),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50))),
                             ),
                           ],
                         )
@@ -181,8 +175,8 @@ class _BudgetPageState extends State<BudgetPage> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
-                children:
-                  List.generate(budgetController.budgets.length, (index) {
+                  children:
+                      List.generate(budgetController.budgets.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Container(
@@ -217,78 +211,91 @@ class _BudgetPageState extends State<BudgetPage> {
                                 ),
                                 Container(
                                   child: Row(
-                                    children: [Padding(
-                                  padding: const EdgeInsets.only(top: 3),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title:
-                                                  Text('Update Current Budget'),
-                                              content: TextField(
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                decoration: InputDecoration(
-                                                    hintText: "Current Budget",
-                                                    border: InputBorder.none),
-                                                controller: currentBudget,
-                                                cursorColor: const Color(0xff174f2a)
-                                              ),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                    //elevation: 5.0,
-                                                    child: Text('Submit'),
-                                                    onPressed: () async {
-                                                      try {
-                                                        await updateBudget(
-                                                            index,
-                                                            double.parse(
-                                                                currentBudget
-                                                                    .text));
-                                                        successSnackBar(
-                                                            'Updated');
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      } catch (e) {
-                                                        errorSnackBar(
-                                                            e.toString());
-                                                      }
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                      primary: Color(0xff174f2a),
-                                                      fixedSize: const Size(80,15),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(50))
-                                                    )
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    child: Text('Edit'),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xff174f2a),
-                                      fixedSize: const Size(40, 15),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50))
-                                    )
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 3),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      removeBudget(index);
-                                    },
-                                    icon: Icon(
-                                      FontAwesomeIcons.trashAlt,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 3),
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Update Budget Spent'),
+                                                      content: TextField(
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          decoration: InputDecoration(
+                                                              hintText:
+                                                                  "Current Budget",
+                                                              border:
+                                                                  InputBorder
+                                                                      .none),
+                                                          controller:
+                                                              currentBudget,
+                                                          cursorColor:
+                                                              const Color(
+                                                                  0xff174f2a)),
+                                                      actions: <Widget>[
+                                                        ElevatedButton(
+                                                            //elevation: 5.0,
+                                                            child:
+                                                                Text('Submit'),
+                                                            onPressed:
+                                                                () async {
+                                                              try {
+                                                                await updateBudget(
+                                                                    index,
+                                                                    double.parse(
+                                                                        currentBudget
+                                                                            .text));
+                                                                successSnackBar(
+                                                                    'Updated');
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              } catch (e) {
+                                                                errorSnackBar(e
+                                                                    .toString());
+                                                              }
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                                primary: Color(
+                                                                    0xff174f2a),
+                                                                fixedSize:
+                                                                    const Size(
+                                                                        80, 15),
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            50))))
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                            child: Text('Edit'),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Color(0xff174f2a),
+                                                fixedSize: const Size(40, 15),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 3),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            removeBudget(index);
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.trashAlt,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ]),
