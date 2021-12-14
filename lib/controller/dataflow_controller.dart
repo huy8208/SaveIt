@@ -1,6 +1,7 @@
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
+import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +24,7 @@ class DataController extends GetxController {
   final fireStoreController = Get.find<FireStoreController>();
   final String uid = Get.find<AuthController>().getCurrentUID();
   RxList<double> listOfExpenseEachDay = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
+  RxDouble pastWeekExpense = 0.0.obs;
 
   void startDataFlow() async {
     var listOfAccessToken = await getDataFirebase();
@@ -75,13 +77,14 @@ class DataController extends GetxController {
     //     DateFormat formatter = DateFormat('yyyy-MM-dd');
     // final oneMonthAgo =
     //     formatter.format(DateTime.now().subtract(const Duration(days: 31)));
-    double mon = 2.4;
-    double tue = 2.4;
-    double wed = 2.4;
-    double thu = 2.4;
-    double fri = 2.4;
-    double sat = 2.4;
-    double sun = 2.4;
+    double mon = 0.0;
+    double tue = 0.0;
+    double wed = 0.0;
+    double thu = 0.0;
+    double fri = 0.0;
+    double sat = 0.0;
+    double sun = 0.0;
+    var oneWeekAgo = DateTime.now().subtract(const Duration(days: 7));
 
     for (var account in listBankAccount) {
       for (var transaction in account.transactions!) {
@@ -108,8 +111,12 @@ class DataController extends GetxController {
         }
       }
     }
-    listOfExpenseEachDay.value = [mon, tue, wed, thu, fri, sat, sun];
-    print(listOfExpenseEachDay);
+    List<double> temp = [mon, tue, wed, thu, fri, sat, sun];
+    for (int i = 0; i < listOfExpenseEachDay.length; i++) {
+      listOfExpenseEachDay[i] = listOfExpenseEachDay[i] + temp[i];
+    }
+    pastWeekExpense.value =
+        pastWeekExpense.value + listOfExpenseEachDay.reduce((a, b) => a + b);
   }
 
   void getTotalExpense(Account bankAccount) {

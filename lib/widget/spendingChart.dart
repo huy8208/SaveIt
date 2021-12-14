@@ -5,6 +5,9 @@ import 'package:budget_tracker_ui/widget/colorExtension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+final NumberFormat formatter = NumberFormat('#,###.00');
 
 class SpendingChart extends StatefulWidget {
   final List<Color> availableColors = const [
@@ -58,12 +61,14 @@ class SpendingChartState extends State<SpendingChart> {
                   const SizedBox(
                     height: 2,
                   ),
-                  const Text(
-                    '\$1200',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                  Obx(
+                    () => Text(
+                      "\$${formatter.format(Get.find<DataController>().pastWeekExpense.value)}",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(
                     height: 12,
@@ -119,6 +124,9 @@ class SpendingChartState extends State<SpendingChart> {
     double width = 22,
     List<int> showTooltips = const [],
   }) {
+    if (y <= 0) {
+      y = 0;
+    }
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -132,7 +140,7 @@ class SpendingChartState extends State<SpendingChart> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 20,
-            colors: [Colors.white],
+            colors: y <= 0.0 ? [Colors.green] : [Colors.white],
           ),
         ),
       ],
@@ -202,7 +210,7 @@ class SpendingChartState extends State<SpendingChart> {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: (rod.y - 1).toString(),
+                    text: '\$${formatter.format((rod.y - 1))}',
                     style: const TextStyle(
                       color: Colors.yellow,
                       fontSize: 16,

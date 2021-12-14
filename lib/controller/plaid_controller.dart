@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
+import 'package:budget_tracker_ui/controller/dataflow_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/db/secure_storage_CRUD.dart';
 import 'package:budget_tracker_ui/models/account.dart';
@@ -21,7 +22,7 @@ import 'dart:io';
 final body = jsonEncode(<String, dynamic>{
   "client_id": CLIENT_ID,
   "secret": SECRET_KEY,
-  "client_name": "HUY HELLO",
+  "client_name": Get.find<AuthController>().getCurrentEmail(),
   "country_codes": ["US"],
   "language": "en",
   "user": {"client_user_id": "test_123"},
@@ -163,9 +164,19 @@ class PlaidRequestController extends GetxController {
       bankAccount = await getTransaction(accessToken);
       FireStoreController.createPlaidAccessToken(
           accessToken, metadata.institution.name);
-
+      List<Account> listBankAccount = [];
+      listBankAccount.add(bankAccount);
       listOfBankAccountWidgets.add(TransactionsWithBankTitle(
           bankName: metadata.institution.name, bankAccount: bankAccount));
+      Get.find<DataController>().getEachDayExpense(listBankAccount);
+      var oneWeekSum = 0.0;
+      for (var account in listBankAccount) {
+        for (var transaction in account.transactions!) {
+          oneWeekSum += transaction.amount;
+        }
+      }
+      Get.find<DataController>().pastWeekExpense.value =
+          Get.find<DataController>().pastWeekExpense.value + oneWeekSum;
     } catch (e) {
       print(e);
       Get.defaultDialog(title: "Error! Could not fetch transactions!");

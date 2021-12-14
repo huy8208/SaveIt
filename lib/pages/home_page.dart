@@ -40,13 +40,13 @@ class _HomePageState extends State<HomePage> {
         "icon": Icons.arrow_back,
         "color": blue,
         "label": "Income",
-        "cost": "555"
+        "cost": "Coming Soon!"
       },
       {
         "icon": Icons.arrow_forward,
         "color": red,
         "label": "Expense",
-        "cost": formatter.format(dataController.total.value)
+        "cost": '\$${formatter.format(dataController.total.value)}'
       }
     ].obs;
     return SingleChildScrollView(
@@ -218,9 +218,11 @@ class _HomePageState extends State<HomePage> {
                             Obx(
                               () => Text(
                                 expenses[index]['cost'],
+                                maxLines: 1,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
+                                  overflow: TextOverflow.clip,
                                 ),
                               ),
                             )
