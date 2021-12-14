@@ -8,7 +8,10 @@ import 'package:get/get.dart';
 
 class DataController extends GetxController {
   RxBool isLoading = false.obs;
-  var total = 0.0.obs;
+  var today = DateTime.now();
+  var expense = 0.0.obs;
+  var savings = 0.0.obs;
+  var thisMonth = 0.0.obs;
   final plaidrequestcontroller = Get.find<PlaidRequestController>();
   final fireStoreController = Get.find<FireStoreController>();
   final String uid = Get.find<AuthController>().getCurrentUID();
@@ -40,6 +43,7 @@ class DataController extends GetxController {
                 TransactionsWithBankTitle(
                     bankName: bankName, bankAccount: bankAccount));
             getTotalExpense(bankAccount);
+            getSavings(bankAccount);
           }
         });
       }
@@ -49,8 +53,24 @@ class DataController extends GetxController {
   }
 
   void getTotalExpense(Account bankAccount) {
-    for (var expense in bankAccount.transactions!) {
-      total.value += expense.amount;
+    for (var expenses in bankAccount.transactions!) {
+      expense.value += expenses.amount;
+      var month = expenses.date.toString().split("-");
+      if (month[1] == today.month.toString())
+      {
+        thisMonth.value += expenses.amount;
+      }
     }
   }
+
+  void getSavings(Account bankAccount) {
+    for (var account in bankAccount.accounts) {
+      if (account.name!.contains("Saving") || account.name!.contains("CD"))
+      {
+        savings.value += account.balances.current!;
+        print(savings.value);
+      }
+    }
+  }
+
 }

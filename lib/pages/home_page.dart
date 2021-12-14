@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   final NumberFormat formatter = NumberFormat('#,###.00');
   // formatter.minimumFractionDigits = 2
-
   DataController dataController = Get.find<DataController>();
 
   @override
@@ -36,18 +35,21 @@ class _HomePageState extends State<HomePage> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
 
+    //dataController.getTotalExpense(dataController.bankAccount);
+    //dataController.getSavings(dataController.bankAccount);
+
     RxList expenses = [
       {
         "icon": Icons.arrow_back,
         "color": const Color(0xff174f2a),
-        "label": "Income",
-        "cost": formatter.format(dataController.total.value)
+        "label": "Savings",
+        "cost": "21",//formatter.format(dataController.savings.value)
       },
       {
         "icon": Icons.arrow_forward,
         "color": const Color(0xff174f2a),
         "label": "Expense",
-        "cost": "555555"
+        "cost": "21",//formatter.format(dataController.expense.value),
       }
     ].obs;
     return Scaffold(
@@ -97,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         height: 15,
                       ),
                       Text(
-                        "\$1200.11",
+                        "\$" + formatter.format(dataController.thisMonth.value),
                         style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.w500,
