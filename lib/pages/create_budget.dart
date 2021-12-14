@@ -33,7 +33,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
       body: getBody(),
     );
   }
-  
+
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -241,7 +241,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                             Navigator.of(context).pop();
                           } else {
                             errorSnackBar(
-                                'Budget name can not be empty and budget ammount can not be zero or negative');
+                                'Budget name can not be empty and budget amount can not be zero or negative');
                           }
                         },
                         icon: Icon(

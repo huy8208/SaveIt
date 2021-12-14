@@ -47,17 +47,22 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                  child: Text('Submit'),
-                  onPressed: () async {
-                    try {
-                      await authController.ChangePassword(password.text);
-                      successSnackBar('Password Changed');
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      errorSnackBar(
-                          'Could not Change Password: ' + e.toString());
-                    }
-                  })
+                child: Text('Submit'),
+                onPressed: () async {
+                  try {
+                    await authController.ChangePassword(password.text);
+                    successSnackBar('Password Changed');
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    errorSnackBar('Could not Change Password: ' + e.toString());
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(80, 15),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
             ],
           );
         });
@@ -82,20 +87,26 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                  child: Text('Submit'),
-                  onPressed: () async {
-                    try {
-                      await FireStoreController.updateUserGoal(
-                          newGoalAmount.text);
-                      setState(() {
-                        goalText = newGoalAmount.text;
-                      });
-                      successSnackBar('Goal Updated');
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      errorSnackBar('Could not Change Goal: ' + e.toString());
-                    }
-                  })
+                child: Text('Submit'),
+                onPressed: () async {
+                  try {
+                    await FireStoreController.updateUserGoal(
+                        newGoalAmount.text);
+                    setState(() {
+                      goalText = newGoalAmount.text;
+                    });
+                    successSnackBar('Goal Updated');
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    errorSnackBar('Could not Change Goal: ' + e.toString());
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xff174f2a),
+                    fixedSize: const Size(80, 15),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+              ),
             ],
           );
         });
@@ -115,21 +126,24 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-   Widget getBody() {
+  Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: BoxDecoration(color: Colors.transparent/*, boxShadow: [
+            decoration: BoxDecoration(
+                color: Colors
+                    .transparent /*, boxShadow: [
               BoxShadow(
                 color: grey.withOpacity(0.01),
                 spreadRadius: 10,
                 blurRadius: 3,
                 // changes position of shadow
               ),
-            ]*/),
+            ]*/
+                ),
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 60, right: 20, left: 20, bottom: 25),
@@ -251,11 +265,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: Text('Update Goal Amount'),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff174f2a),
-                    fixedSize: const Size(200, 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50))
-                  ),
+                      primary: Color(0xff174f2a),
+                      fixedSize: const Size(200, 15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50))),
                 ),
                 SizedBox(
                   height: 10,
@@ -273,11 +286,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: Text('Change Password'),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff174f2a),
-                    fixedSize: const Size(200, 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50))
-                  ),
+                      primary: Color(0xff174f2a),
+                      fixedSize: const Size(200, 15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50))),
                 ),
                 SizedBox(
                   height: 10,
