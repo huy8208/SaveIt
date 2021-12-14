@@ -234,14 +234,14 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                           //create budget
                           if (_budgetName.text != '' &&
                               _budgetAmount.text != '' &&
-                              (double.parse(_budgetAmount.text)) > 0) {
+                              (double.parse(_budgetAmount.text)) >= 0) {
                             await budgetDBController.createBudgets(
                                 _budgetName.text,
                                 double.parse(_budgetAmount.text));
                             Navigator.of(context).pop();
                           } else {
                             errorSnackBar(
-                                'Budget name can not be empty and budget ammount can not be zero or negative');
+                                'Budget name can not be empty and budget ammount can not be negative');
                           }
                         },
                         icon: Icon(
