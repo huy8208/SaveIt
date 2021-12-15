@@ -26,7 +26,7 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -39,16 +39,15 @@ class _TransactionPageState extends State<TransactionPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                            top: 65, right: 20, left: 20, bottom: 20),
+                              top: 65, right: 20, left: 20, bottom: 20),
                           child: Text(
                             "Transactions",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: black),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: black),
                           ),
                         ),
-                      
                       ],
                     ),
                     Container(
@@ -78,33 +77,23 @@ class _TransactionWidgetState extends State<TransactionWidget> {
   late Account bankAccount;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print(Get.find<PlaidRequestController>().listOfBankAccounts);
     return Obx(() =>
         Get.find<PlaidRequestController>().listOfBankAccountWidgets.isEmpty
             ? Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20
-                    ),
-                    Center(
-                      child: Text(
-                        "Connect your bank account to \n       see your transactions!",
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                        textAlign: TextAlign.justify,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ),
-                  ]
-                )
-              )
+                child: Column(children: [
+                SizedBox(height: 20),
+                Center(
+                    child: Text(
+                  "Connect your bank account to \n       see your transactions!",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.justify,
+                  overflow: TextOverflow.ellipsis,
+                )),
+              ]))
             : Column(
                 children:
                     Get.find<PlaidRequestController>().listOfBankAccountWidgets,
@@ -128,7 +117,7 @@ class TransactionsWithBankTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BankTitle(nameOfBank: bankName),//, accessToken: accessToken),
+        BankTitle(nameOfBank: bankName), //, accessToken: accessToken),
         ...(bankAccount.transactions!
             .map((items) => TransactionItem(
                 icon: FontAwesomeIcons.addressBook,
@@ -170,7 +159,8 @@ class BankTitle extends StatelessWidget {
           SlidableAction(
             // An action can be bigger than the others.
             flex: 2,
-            onPressed: null,//FireStoreController.deletePlaidAccessToken(accessToken),
+            onPressed:
+                removeSelectedBank, //FireStoreController.deletePlaidAccessToken(accessToken),
             backgroundColor: Color(0xff174f2a),
             foregroundColor: white,
             icon: Icons.delete,
@@ -184,14 +174,19 @@ class BankTitle extends StatelessWidget {
       child: Container(
         color: Color(0xffdedede),
         child: ListTile(
-          title: Text(
-            nameOfBank.toUpperCase(),
-            style: TextStyle(
-              color: black,
-            )),
+          title: Text(nameOfBank.toUpperCase(),
+              style: TextStyle(
+                color: black,
+              )),
         ),
       ),
     );
+  }
+
+  void removeSelectedBank(BuildContext buildContext) {
+    Get.find<PlaidRequestController>()
+        .listOfBankAccountWidgets
+        .removeWhere((element) => element.key == ObjectKey(nameOfBank));
   }
 }
 
@@ -226,7 +221,7 @@ class TransactionItem extends StatelessWidget {
             color: grey.withOpacity(0.1),
             spreadRadius: 10,
             blurRadius: 5,
-                // changes position of shadow
+            // changes position of shadow
           ),
         ],
       ),

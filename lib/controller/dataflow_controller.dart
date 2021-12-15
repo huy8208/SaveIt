@@ -4,6 +4,7 @@ import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 var dayToStr = <int, String>{
@@ -69,6 +70,7 @@ class DataController extends GetxController {
     for (var bankAccount in listOfBankAccounts) {
       plaidrequestcontroller.listOfBankAccountWidgets.add(
           TransactionsWithBankTitle(
+              key: ObjectKey(bankAccount.bankName),
               bankName: bankAccount.bankName,
               bankAccount:
                   bankAccount)); //, fireStoreController: fireStoreController);
