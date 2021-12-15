@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// PlaidAccessToken Object to store PlaidAccessToken information from FireBase
 class PlaidAccessToken {
   final String access_token;
   final String bank_name;
