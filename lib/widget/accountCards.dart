@@ -27,35 +27,6 @@ class AccountCardState extends State<AccountCard> {
   var bankAccount;
 
   void initState() {
-    // Initialize Plaid Controller.
-    plaidRequestController = Get.put(PlaidRequestController());
-    fireStoreController = Get.put(FireStoreController());
-    final String uid = Get.find<AuthController>().getCurrentUID();
-
-    FirebaseFirestore.instance
-        .collection("user")
-        .doc(uid)
-        .collection("plaid")
-        .get()
-        .then((listOfAccessToken) {
-      //MUST CHECK IN THE listOfAccountsWithinBank whether the accesstoken
-      // already exists, otherwise if first time login and add, there will be duplicates
-      if (!listOfAccessToken.docs.isEmpty) {
-        listOfAccessToken.docs.forEach((document) async {
-          access_token = document.data()['access_token'].keys.first;
-          bankName = document.data()['access_token'].values.first;
-          bankAccount =
-              await plaidRequestController.getBankAccount(access_token);
-          print(bankAccount.accounts[0].name);
-          plaidRequestController.listOfAccountsWithinBank.addIf(
-              !plaidRequestController.listOfAccountsWithinBank
-                  .contains(bankAccount),
-              FinalAccountCards(bankName: bankName, bankAccount: bankAccount));
-        });
-      }
-    }).catchError((onError) {
-      print(onError);
-    });
     super.initState();
   }
 
@@ -64,9 +35,11 @@ class AccountCardState extends State<AccountCard> {
     return Obx(() =>
         Get.find<PlaidRequestController>().listOfAccountsWithinBank.isEmpty
             ? Center(child: Text(""))
-            : Column(
-                children:
-                    Get.find<PlaidRequestController>().listOfAccountsWithinBank,
+            : Obx(
+                () => Column(
+                  children: Get.find<PlaidRequestController>()
+                      .listOfAccountsWithinBank,
+                ),
               ));
   }
 }

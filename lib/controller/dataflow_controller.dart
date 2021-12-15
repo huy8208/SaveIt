@@ -3,6 +3,7 @@ import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/pages/transaction_page.dart';
+import 'package:budget_tracker_ui/widget/accountCards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,7 +78,40 @@ class DataController extends GetxController {
       getTotalExpense(bankAccount);
       getSavings(bankAccount);
       getThisMonthSpend(bankAccount);
+      populateAccountCard();
     }
+  }
+
+  void populateAccountCard() {
+    // Initialize Plaid Controller.
+    var plaidRequestController = Get.find<PlaidRequestController>();
+    var fireStoreController = Get.find<FireStoreController>();
+    final String uid = Get.find<AuthController>().getCurrentUID();
+
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(uid)
+        .collection("plaid")
+        .get()
+        .then((listOfAccessToken) {
+      //MUST CHECK IN THE listOfAccountsWithinBank whether the accesstoken
+      // already exists, otherwise if first time login and add, there will be duplicates
+      if (!listOfAccessToken.docs.isEmpty) {
+        listOfAccessToken.docs.forEach((document) async {
+          var access_token = document.data()['access_token'].keys.first;
+          var bankName = document.data()['access_token'].values.first;
+          var bankAccount =
+              await plaidRequestController.getBankAccount(access_token);
+          print(bankAccount.accounts[0].name);
+          plaidRequestController.listOfAccountsWithinBank.addIf(
+              !plaidRequestController.listOfAccountsWithinBank
+                  .contains(bankAccount),
+              FinalAccountCards(bankName: bankName, bankAccount: bankAccount));
+        });
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 
   void getEachDayExpense(List<Account> listBankAccount) {
