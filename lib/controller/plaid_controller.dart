@@ -185,6 +185,8 @@ class PlaidRequestController extends GetxController {
       var oneWeekSum = 0.0;
       for (var account in listBankAccount) {
         Get.find<DataController>().getTotalExpense(bankAccount);
+        Get.find<DataController>().getSavings(bankAccount);
+        Get.find<DataController>().getThisMonthSpend(bankAccount);
         for (var transaction in account.transactions!) {
           oneWeekSum += transaction.amount;
         }
