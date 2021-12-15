@@ -1,3 +1,5 @@
+// This controller file contains instructions for Budget page.
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/budget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

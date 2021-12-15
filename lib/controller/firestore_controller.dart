@@ -1,3 +1,5 @@
+//This controller file deads with Firestore database.
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/models/firestore_user_model.dart';
 import 'package:budget_tracker_ui/models/plaid_access_token_model.dart';
@@ -7,11 +9,6 @@ import 'package:get/get.dart';
 final FirebaseFirestore _db = FirebaseFirestore.instance;
 final String uid = Get.find<AuthController>().getCurrentUID();
 
-// create an empty user => no realtime update
-// save access token => no realtime update
-// get access token => no realtime update
-
-// Controller for FireStore operations on a user document
 class FireStoreController extends GetxController {
   @override
   void onInit() {

@@ -1,3 +1,5 @@
+//Budget page UI
+
 import 'dart:math';
 import 'package:budget_tracker_ui/json/day_month.dart';
 import 'package:budget_tracker_ui/controller/budgetController.dart';

@@ -1,3 +1,7 @@
+//This landing page is first routed when the app start.
+//It checks if user is logged in or not and redirects user to either login page or root page.
+//Contains no UI
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/pages/root_app.dart';
 import 'package:budget_tracker_ui/pages/sign_in_page.dart';

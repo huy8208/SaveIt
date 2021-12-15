@@ -1,3 +1,5 @@
+//Profile page UI
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/models/notification.dart';

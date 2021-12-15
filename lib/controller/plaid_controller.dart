@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// This controller file contain instructions that deal with Plaid's Apis.
 
 import 'dart:async';
 import 'dart:convert';
@@ -185,6 +185,8 @@ class PlaidRequestController extends GetxController {
       var oneWeekSum = 0.0;
       for (var account in listBankAccount) {
         Get.find<DataController>().getTotalExpense(bankAccount);
+        Get.find<DataController>().getSavings(bankAccount);
+        Get.find<DataController>().getThisMonthSpend(bankAccount);
         for (var transaction in account.transactions!) {
           oneWeekSum += transaction.amount;
         }

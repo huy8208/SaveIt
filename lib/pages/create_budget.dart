@@ -1,3 +1,5 @@
+//Create budget page UI
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/json/create_budget_json.dart';
 import 'package:budget_tracker_ui/controller/budgetController.dart';

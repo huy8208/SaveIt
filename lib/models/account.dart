@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final account = accountFromJson(jsonString);
+// We can use this model to store user bank account after we pull data from Plaid Api.
 
 import 'dart:convert';
 import 'dart:core';

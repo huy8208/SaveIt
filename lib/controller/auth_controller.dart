@@ -1,3 +1,5 @@
+//This controller file deals with Firebase authorization.
+
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
@@ -7,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restart_app/restart_app.dart';
 import 'dataflow_controller.dart';
 
-// Controller for authentication. Stores current user from Firebase
 class AuthController extends GetxController {
   static final FirebaseAuth _userCredentials = FirebaseAuth.instance;
   RxBool isAuthenticated = false.obs;

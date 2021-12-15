@@ -1,3 +1,5 @@
+//Transaction page UI
+
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/models/account.dart';
 import 'package:budget_tracker_ui/theme/colors.dart';

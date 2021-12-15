@@ -1,3 +1,5 @@
+// This controller file deals with the flow of data for the whole app.
+
 import 'package:budget_tracker_ui/controller/auth_controller.dart';
 import 'package:budget_tracker_ui/controller/firestore_controller.dart';
 import 'package:budget_tracker_ui/controller/plaid_controller.dart';

@@ -1,3 +1,5 @@
+//Root app. It contains all directories for other pages.
+
 import 'package:budget_tracker_ui/pages/budget_page.dart';
 import 'package:budget_tracker_ui/pages/add_bank_account.dart';
 import 'package:budget_tracker_ui/pages/create_budget.dart';
