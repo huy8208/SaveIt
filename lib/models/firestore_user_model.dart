@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// FireStoreUser Object to store User information from FireBase
 class FireStoreUser {
   final String date_created;
   final String dob;

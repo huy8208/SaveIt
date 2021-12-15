@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
+//Implementation of Notifiacaion function of the app
 class Notifications extends ChangeNotifier {
   static final _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();

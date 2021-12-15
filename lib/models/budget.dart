@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-//budget object
+// Budget Object to store User's budget information from FireBase
 class Budgets {
   final String budget_Catagory;
   final double budget_TotalAmount;

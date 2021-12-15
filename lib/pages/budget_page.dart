@@ -12,6 +12,7 @@ import 'create_budget.dart';
 import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:budget_tracker_ui/utility/snackBarSuccess.dart';
 
+// Page for showing the budget list
 class BudgetPage extends StatefulWidget {
   @override
   _BudgetPageState createState() => _BudgetPageState();
@@ -19,7 +20,7 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   int activeDay = 3;
-  //final List color = [red, blue, green];
+
   //initalize budget controller
   final budgetController = Get.put(BudgetController());
   TextEditingController currentBudget = TextEditingController();
@@ -71,12 +72,6 @@ class _BudgetPageState extends State<BudgetPage> {
         budgetController.budgets[index1].budget_TotalAmount.toString();
     return totalBudget;
   }
-
-  /*Color randomColor() {
-    var random = new Random();
-    var randomC = color[random.nextInt(color.length)];
-    return randomC;
-  }*/
 
 //remove budget
   removeBudget(int index1) {

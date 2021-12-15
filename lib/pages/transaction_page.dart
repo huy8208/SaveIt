@@ -8,6 +8,7 @@ import 'package:budget_tracker_ui/controller/plaid_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+// Page for showing all the transactions
 class TransactionPage extends StatefulWidget {
   @override
   _TransactionPageState createState() => _TransactionPageState();

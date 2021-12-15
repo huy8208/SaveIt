@@ -7,6 +7,7 @@ import 'package:budget_tracker_ui/utility/snackBarError.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// Page for creating the budget
 class CreateBudgetPage extends StatefulWidget {
   @override
   _CreateBudgetPageState createState() => _CreateBudgetPageState();
