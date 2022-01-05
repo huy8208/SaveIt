@@ -1,24 +1,17 @@
-# Budget Tracker App UI
+# SaveIt
 
-## [Download App Demo APK ⬇️📱](https://drive.google.com/file/d/1-X2KSlcNgh4Cf9YMcfMX7dxB5E0dokFW/view)
+SaveIt is a money management app that help you efficiently manage multiple bank transactions, incomes and expense.
+## Installation
 
-- [Support me on Patreon](https://www.patreon.com/sopheamenvan?fan_landing=true)
-- [Watch on youtube Part I](https://youtu.be/whDdLQIUnHA)
-- [Watch on youtube Part II](https://youtu.be/VGj4ayNAm6Q)
+```
+git clone https://github.com/huy8208/SaveIt.git
+flutter run
+```
 
-![App UI](https://user-images.githubusercontent.com/16510597/106842001-c4c14600-66d5-11eb-9616-bad26bee688a.jpg)
+## Images
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="399" alt="Screen Shot 2022-01-04 at 9 28 42 PM" src="https://user-images.githubusercontent.com/43127420/148165185-84d98c7c-4c54-422c-8edc-c41f6e98d9ea.png">
+<img width="435" alt="Screen Shot 2022-01-04 at 9 29 29 PM" src="https://user-images.githubusercontent.com/43127420/148165236-b54eb956-c482-4479-bff1-31eee9cf2e8c.png">
+<img width="443" alt="Screen Shot 2022-01-04 at 9 29 44 PM" src="https://user-images.githubusercontent.com/43127420/148165246-11a67089-9298-4c0a-882b-858cced62582.png">
+<img width="440" alt="Screen Shot 2022-01-04 at 9 29 52 PM" src="https://user-images.githubusercontent.com/43127420/148165259-87f93081-9f05-4387-9b84-0c08d0e4b73c.png">
+<img width="442" alt="Screen Shot 2022-01-04 at 9 30 22 PM" src="https://user-images.githubusercontent.com/43127420/148165306-046ae097-14b0-429c-922f-65a2f17dc79e.png">
