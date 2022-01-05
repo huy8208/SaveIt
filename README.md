@@ -15,3 +15,6 @@ flutter run
 <img width="443" alt="Screen Shot 2022-01-04 at 9 29 44 PM" src="https://user-images.githubusercontent.com/43127420/148165246-11a67089-9298-4c0a-882b-858cced62582.png">
 <img width="440" alt="Screen Shot 2022-01-04 at 9 29 52 PM" src="https://user-images.githubusercontent.com/43127420/148165259-87f93081-9f05-4387-9b84-0c08d0e4b73c.png">
 <img width="442" alt="Screen Shot 2022-01-04 at 9 30 22 PM" src="https://user-images.githubusercontent.com/43127420/148165306-046ae097-14b0-429c-922f-65a2f17dc79e.png">
+
+# Notes
+This app is still in the process of development.
