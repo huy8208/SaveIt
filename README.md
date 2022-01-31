@@ -1,6 +1,6 @@
 # SaveIt
 
-SaveIt is a money management app that help you efficiently manage multiple bank transactions, incomes and expense.
+SaveIt is a money management app that helps you achieve your financial goal.
 ## Installation
 
 ```
